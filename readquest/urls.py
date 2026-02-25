@@ -5,4 +5,5 @@ app_name = 'readquest'
 
 urlpatterns = [
     path('register/', views.land_register, name='register'),
+    path('login/', views.user_login, name='login'),
 ]
