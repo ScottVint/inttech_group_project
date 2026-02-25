@@ -48,6 +48,12 @@
                         <h2 class="brand-title">Join ReadQuest</h2>
                     </div>
 
+                    {% if error %}
+                    <div class="alert alert-danger text-center py-2 mb-3" style="font-size: 0.9rem;" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
                     <form id="user_form" method="post" action="" enctype="multipart/form-data">
                         {% csrf_token %}
 
@@ -82,7 +88,7 @@
                         </button>
 
                         <div class="mt-4 text-center">
-                            <small class="text-muted">Already have an account? <a href="#" style="color: #F98410; font-weight: 500;" class="text-decoration-none">Log in here</a></small>
+                            <small class="text-muted">Already have an account? <a href="{% url 'readquest:login' %}" style="color: #F98410; font-weight: 500;" class="text-decoration-none">Log in here</a></small>
                         </div>
                     </form>
 
