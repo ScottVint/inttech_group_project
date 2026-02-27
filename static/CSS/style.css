@@ -20,6 +20,10 @@
     color: white !important;
 }
 
+.button:active{
+     background-color: #af671f !important; 
+}
+
 h1{
     font-family: "Fraunces", sans-serif;
 }
@@ -29,6 +33,8 @@ h1{
 
 #front_image{
     max-width: 100%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
 }
 
 /* Login & Register Classes */
