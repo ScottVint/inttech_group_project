@@ -1,30 +1,38 @@
+
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to ReadQuest</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{% static 'CSS/style.css' %}" rel="stylesheet" > 
+    <link href="{% static 'CSS/style.css' %}" rel="stylesheet">
 
     <title>ReadQuest</title>
 
 
-    </head>
+</head>
 
-<body class="body-background">
-    
-    <div class="container justify-content-center">
-        <h1>ReadQuest</h1>
-        Log your books <br />
-   
-        <img src="{%static 'images/front_page_library.jpg'%}" id="front_image">
+<body class="body-background vh-100 vw-100 d-flex align-items-center justify-content-center">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <img src="{%static 'images/front_page_library.jpg'%}" class="col-md-12 rounded-3" id="front_image">
+            </div>
+            <div class="col-md-4 card-custom card-body p-2 text-center  ">
+                <h1>ReadQuest</h1>
+                Log your books <br />
+                <div> 
+                    <button class="button btn w-30 py-2 fs-6 mt-3" type="button"> Register for ReadQuest</button>
+                    <button class="button btn w-30 py-2 fs-6 mt-3" type="button">Log in</button>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div> <button> Register for ReadQuest</button>
-    <button type="button" data-toggle="collapse">Log in</button></div>
-
 </body>
 
 </html>

@@ -1,3 +1,4 @@
+
 /* Global classes */
 .body-background {
     background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
@@ -16,15 +17,16 @@
     opacity: 0.9;
     transform: scale(0.99);
     background-color: #F98410; 
+    color: white !important;
 }
+
 
 
 
 /* Front page */
 
 #front_image{
-    height: 200px;
-    max-width: 50%;
+    max-width: 100%;
 }
 
 /* Login & Register Classes */
