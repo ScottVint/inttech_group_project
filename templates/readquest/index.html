@@ -11,7 +11,7 @@ Welcome
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <img src="{%static 'images/front_page_library.jpg'%}" class="col-md-12 rounded-3" id="front_image">
+            <img src="{%static 'images/front_page_library.jpg'%}" class="col-md-12" id="front_image">
         </div>
         <div class="col-md-4 card-custom card-body p-4 text-center align-items-center justify-content-center ">
             <div class="d-flex align-items-center justify-content-center p-4">
@@ -24,14 +24,16 @@ Welcome
                 <p class="text-center">ReadQuest will help you keep track of your reading progress.</p>
                 </div>
 
-            <div class="align-items-center justify-content-center col-md-10">
-                <button class="button btn py-2 fs-6 mt-3 col-md-10" type="button"> Register for
-                    ReadQuest</button>
-                <button class="button btn py-2 fs-6 mt-3 col-md-10" type="button">Log in</button>
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="col-md-12">
+                    <button class="button btn py-2 fs-6 mt-3 col-md-12" type="button"> Register for
+                        ReadQuest</button>
+                    <button class="button btn py-2 fs-6 mt-3 col-md-10" type="button">Log in</button>
             </div>
-            </div>
-            
         </div>
+            
+    </div>
+</div>
 </div>
 
 {% endblock %}
