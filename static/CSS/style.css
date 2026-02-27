@@ -1,0 +1,31 @@
+.body-background {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+}
+
+.card-custom {
+    background-color: #FFEBD7;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border: none;
+}
+
+.header-container {
+    margin-bottom: 30px;
+}
+
+.logo-img {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+}
+
+.brand-title {
+    color: #6a2c28;
+    font-weight: 600;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.form-floating>label {
+    color: #6c757d;
+}

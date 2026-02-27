@@ -54,3 +54,7 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'readquest/login.html')
+
+def index(request):
+
+    return render(request,'readquest/index.html')
