@@ -3,14 +3,22 @@
     background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
 }
 
-button {
-    transition: all 0.1s ease-in-out !important;
-
+.button {
+    transition: all 0.1s ease-in-out;
+    background-color: #F98410; 
+    color: white;
+    font-weight: 500 ;
+    text-decoration: none;
+    border: none;
 }
-button:hover{
+
+.button:hover{
     opacity: 0.9;
     transform: scale(0.99);
+    background-color: #F98410; 
 }
+
+
 
 /* Front page */
 
