@@ -1,6 +1,25 @@
+/* Global classes */
 .body-background {
     background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
 }
+
+button {
+    transition: all 0.1s ease-in-out !important;
+
+}
+button:hover{
+    opacity: 0.9;
+    transform: scale(0.99);
+}
+
+/* Front page */
+
+#front_image{
+    height: 200px;
+    max-width: 50%;
+}
+
+/* Login & Register Classes */
 
 .card-custom {
     background-color: #FFEBD7;
