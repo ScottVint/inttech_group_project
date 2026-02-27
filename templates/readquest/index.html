@@ -13,19 +13,27 @@ Welcome
         <div class="col-md-8">
             <img src="{%static 'images/front_page_library.jpg'%}" class="col-md-12 rounded-3" id="front_image">
         </div>
-        <div class="col-md-4 card-custom card-body p-2 text-center  ">
-            <div class="d-flex align-items-center justify-content-center header-container p-4">
+        <div class="col-md-4 card-custom card-body p-4 text-center align-items-center justify-content-center ">
+            <div class="d-flex align-items-center justify-content-center p-4">
+
                 <img src="{% static 'images/logo.jpg' %}" alt="ReadQuest Logo" class="logo-img me-3">
+
                 <h1 class="brand-title">Welcome Back</h1>
             </div>
-            <div>
-                <button class="button btn w-30 py-2 fs-6 mt-3" type="button"> Register for ReadQuest</button>
-                <button class="button btn w-30 py-2 fs-6 mt-3" type="button">Log in</button>
+            <div class="align-items-center justify-content-center p-4">
+                <p class="text-center">ReadQuest will help you keep track of your reading progress.</p>
+                </div>
+
+            <div class="align-items-center justify-content-center col-md-10">
+                <button class="button btn py-2 fs-6 mt-3 col-md-10" type="button"> Register for
+                    ReadQuest</button>
+                <button class="button btn py-2 fs-6 mt-3 col-md-10" type="button">Log in</button>
             </div>
+            </div>
+            
         </div>
     </div>
-</div>
 
-{% endblock %}
+    {% endblock %}
 
-</html>
+    </html>
