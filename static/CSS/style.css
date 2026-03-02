@@ -27,10 +27,22 @@ h1 {
     font-family: "Fraunces", sans-serif;
 }
 
-#profile_img {
-    height: 45px !important;
-    padding-left: 10px;
+p{
+      font-family: "Inter", sans-serif;
 
+}
+
+/* Navigation */
+#profile_img {
+    height: 50px !important;
+}
+
+#logo_auth_page{
+        height: 75px !important;
+}
+
+.nav-item{
+  font-family: "Inter", sans-serif;
 
 }
 
@@ -72,3 +84,4 @@ h1 {
 .form-floating>label {
     color: #6c757d;
 }
+
