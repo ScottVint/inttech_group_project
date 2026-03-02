@@ -35,6 +35,7 @@ p{
 /* Navigation */
 #profile_img {
     height: 40px !important;
+    padding-left: 10px;
 }
 
 #logo_auth_page{
@@ -46,6 +47,15 @@ p{
 
 }
 
+#search_btn{
+    color: #771F28;
+    border-color: #771F28;
+}
+
+#search_btn:hover{
+    background-color: #771F28;
+    color: white;
+}
 
 /* Front page */
 
