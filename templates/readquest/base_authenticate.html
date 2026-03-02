@@ -21,14 +21,14 @@
 </head>
 
 
-<body class="body-background">
+<body class="body-background d-flex flex-column min-vh-100">
 
     <header>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container align-items-center">
 
-                <div class="container d-flex">
+                <div class="container d-flex float-bottom">
 
                     <div class="d-flex align-items-center">
                         <img src="{% static 'images/logo.jpg' %}" alt="ReadQuest Logo" id="logo_auth_page"
@@ -72,6 +72,13 @@
 
     {% endblock %}
     </div>
+
+    <footer class="bg-dark mt-auto">
+        <div class="container d-flex">
+            <p> testing the footer</p>
+        </div>
+
+    </footer>
 </body>
 
 </html>
