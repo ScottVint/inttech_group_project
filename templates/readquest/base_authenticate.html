@@ -26,35 +26,38 @@
     <header>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container d-flex align-items-center">
+            <div class="container align-items-center">
 
-                <div class="row col-12">
-                    <div class="col">
+                <div class="container d-flex">
+
+                    <div class="d-flex align-items-center">
                         <img src="{% static 'images/logo.jpg' %}" alt="ReadQuest Logo" id="logo_auth_page"
                             class="p-2 navbar-brand">
                     </div>
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                        aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    
-                    <div class="col-7 navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item p-4 ">Home</li>
-                            <li class="nav-item p-4">Profile</li>
-                            <li class="nav-item p-4">Goals</li>
-                            <li class="nav-item p-4">Catalogue</li>
-                        </ul>
-                    </div>
 
-                    <div class="col-3 container d-flex justify-content-between align-items-center">
-                        <form class="d-flex align-items-center">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
+                    <div class="navbar-collapse collapse justify-content-between">
+                        
+                            <ul class="nav navbar-nav">
+                                <li class="nav-item p-4 ">Home</li>
+                                <li class="nav-item p-4">Profile</li>
+                                <li class="nav-item p-4">Goals</li>
+                                <li class="nav-item p-4">Catalogue</li>
+                            </ul>
+                        
+                            <form class="d-flex align-items-center me-2">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
+
                     </div>
-                    <div class="col container d-flex justify-content-between align-items-center collapse">
-                        <img src="{% static 'images/profile.png' %}" alt="Profile icon" id="profile_img">
+                    <div class="d-flex justify-content-between align-items-center ml-4">
+                        <img src="{% static 'images/profile.png' %}" alt="Profile icon" id="profile_img" class="ml-4">
                     </div>
 
                 </div>
