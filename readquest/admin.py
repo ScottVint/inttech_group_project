@@ -1,5 +1,5 @@
 from django.contrib import admin
-from readquest.models import Achievement, Userpage, Book, Details
+from readquest.models import *
 
 class AchievementAdmin(admin.ModelAdmin):
     list_display = ('name', 'icon', 'earners')
@@ -14,5 +14,6 @@ class DetailsAdmin(admin.ModelAdmin):
 admin.site.register(Userpage)
 admin.site.register(Achievement)# AchievementAdmin)
 admin.site.register(Book)# BookAdmin)
+admin.site.register(ProgressRecord)
 admin.site.register(Details)#, DetailsAdmin)
 
