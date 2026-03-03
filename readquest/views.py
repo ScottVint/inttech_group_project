@@ -58,3 +58,8 @@ def user_login(request):
 def index(request):
 
     return render(request,'readquest/index.html')
+
+
+def home(request):
+
+    return render(request,'readquest/home.html')
