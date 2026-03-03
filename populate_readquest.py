@@ -7,8 +7,10 @@ import django
 django.setup()
 
 from django.contrib.auth.models import User
+from django.core.files.base import ContentFile
 from readquest.models import Userpage, Book, Details, ProgressRecord, Achievement
 import random
+import requests
 
 random.seed(67)
 
@@ -32,17 +34,17 @@ def populate():
     # --- Books (5) ---
     # NOTE: cover_image left blank — please upload images manually via the admin panel.
     books = [
-        add_book(isbn=9780747532699,
-                 title="Harry Potter and the Philosopher's Stone",
-                 author='J.K. Rowling',
-                 pages=223,
-                 blurb='A young boy discovers he is a wizard and is invited to study at Hogwarts.'),
+        add_book(isbn=9780439023481,
+                 title='The Hunger Games',
+                 author='Suzanne Collins',
+                 pages=374,
+                 blurb='In a dystopian future, a teenage girl volunteers to take her sister\'s place in a televised death tournament.'),
 
-        add_book(isbn=9780261102217,
-                 title='The Lord of the Rings',
-                 author='J.R.R. Tolkien',
-                 pages=1178,
-                 blurb='An epic quest to destroy the One Ring and defeat the Dark Lord Sauron.'),
+        add_book(isbn=9780446310789,
+                 title='To Kill a Mockingbird',
+                 author='Harper Lee',
+                 pages=281,
+                 blurb='A lawyer in the American South defends a Black man falsely accused of a serious crime, seen through his young daughter\'s eyes.'),
 
         add_book(isbn=9780451524935,
                  title='1984',
@@ -71,8 +73,8 @@ def populate():
     add_details(books[4], favourites=390, reads=1300)
 
     # --- ProgressRecords (5) ---
-    add_progress(owner=users[0], name='alice-hp',      book=books[0], stage_current=5,  stage_final=17)
-    add_progress(owner=users[1], name='bob-lotr',      book=books[1], stage_current=12, stage_final=62)
+    add_progress(owner=users[0], name='alice-hungergames', book=books[0], stage_current=5, stage_final=27)
+    add_progress(owner=users[1], name='bob-mockingbird', book=books[1], stage_current=8, stage_final=31)
     add_progress(owner=users[2], name='charlie-1984',  book=books[2], stage_current=8,  stage_final=23)
     add_progress(owner=users[3], name='deborah-gatsby', book=books[3], stage_current=9, stage_final=9)
     add_progress(owner=users[4], name='ethan-alchemist', book=books[4], stage_current=3, stage_final=15)
@@ -119,7 +121,6 @@ def add_userpage(user, views=0, likes=0):
 
 
 def add_book(isbn, title, author, pages, blurb):
-    # cover_image is left blank — upload manually via the admin panel
     b, created = Book.objects.get_or_create(isbn=isbn, defaults={
         'title': title,
         'author': author,
@@ -132,6 +133,18 @@ def add_book(isbn, title, author, pages, blurb):
         b.pages = pages
         b.blurb = blurb
         b.save()
+    # Download cover image from Open Library if not already set
+    if not b.cover_image:
+        url = f'https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg'
+        try:
+            response = requests.get(url, timeout=10)
+            if response.status_code == 200 and len(response.content) > 1000:
+                b.cover_image.save(f'{isbn}.jpg', ContentFile(response.content), save=True)
+                print(f'  Cover downloaded for: {title}')
+            else:
+                print(f'  No cover found for: {title}')
+        except requests.RequestException:
+            print(f'  Could not download cover for: {title}')
     return b
 
 
