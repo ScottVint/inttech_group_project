@@ -73,4 +73,4 @@ class Details(models.Model):
         super(Details, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.book
+        return str(self.book)
