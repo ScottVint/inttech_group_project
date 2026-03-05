@@ -42,9 +42,14 @@ Log in
 
                 </div>
             </div>
-            <button class="btn w-100 py-2 fs-6 text-white button mt-3" type="submit">
-                            Back to Homepage
+            <button id="btn-back-home-login" class="btn w-100 py-2 fs-6 text-white button mt-3" type="button">
+                Back to Homepage
             </button>
+            <script>
+                $("#btn-back-home-login").click(function () {
+                    window.location.href = "{% url 'readquest:index' %}";
+                });
+            </script>
         </div>
     </div>
 </div>

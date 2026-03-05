@@ -71,9 +71,14 @@ Join ReadQuest
 
                 </div>
             </div>
-            <button class="btn w-100 py-2 fs-6 button mt-3" type="submit">
+            <button id="btn-back-home-register" class="btn w-100 py-2 fs-6 button mt-3" type="button">
                 Back to Homepage
             </button>
+            <script>
+                $("#btn-back-home-register").click(function () {
+                    window.location.href = "{% url 'readquest:index' %}";
+                });
+            </script>
         </div>
     </div>
 </div>

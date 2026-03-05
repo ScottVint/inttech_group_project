@@ -47,7 +47,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return redirect(reverse('readquest:register'))
+                return redirect(reverse('readquest:home'))
             else:
                 return HttpResponse("Your ReadQuest account is disabled.")
         else:
