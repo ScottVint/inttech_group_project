@@ -32,14 +32,14 @@
                     class="navbar-brand p-2">
 
 
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="navbar-collapse collapse justify-content-end" id="navbarNavAltMarkup">
 
-                        
+
                     <ul class="navbar-nav mb-lg-0">
                         <li class="nav-item p-4 ">Home</li>
                         <li class="nav-item p-4">Profile</li>
@@ -48,17 +48,19 @@
                     </ul>
 
                     <div id="search_nav">
-                    <form class="d-flex align-items-center me-2">
-                        <input class="form-control me-2" id="search" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit" id="search_btn">Search</button>
-                    </form>
+                        <form class="d-flex align-items-center me-2">
+                            <input class="form-control me-2" id="search" type="search" placeholder="Search"
+                                aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit" id="search_btn">Search</button>
+                        </form>
                     </div>
-               
-                <div class="d-flex justify-content-between align-items-center d-none d-sm-none d-md-none d-lg-block" >
-                    <img src="{% static 'images/profile.png' %}" alt="Profile icon" id="profile_img">
+
+                    <div
+                        class="d-flex justify-content-between align-items-center d-none d-sm-none d-md-none d-lg-block">
+                        <img src="{% static 'images/profile.png' %}" alt="Profile icon" id="profile_img">
+                    </div>
                 </div>
-</div>
-                  
+
             </div>
 
         </nav>
@@ -74,11 +76,18 @@
         {% endblock %}
     </div>
 
-    <footer class="bg-dark mt-auto">
-        <div class="container d-flex">
-            <p> testing the footer</p>
+    <footer class="bg-dark mt-auto p-2">
+        <div class="container d-flex col-12 p-2 justify-content-between">
+            <div class="col-10">
+            <p style="color: white;"> If you need any additional information about Readquest</p>
+            <hr style="color:white;">
+            </div>
+            
+            <div class="col-1">
+            <img src="{% static 'images/logo_white.png' %}" alt="ReadQuest Logo" id="footer_logo" class="p-2" >
+            
         </div>
-
+        </div>
     </footer>
 </body>
 

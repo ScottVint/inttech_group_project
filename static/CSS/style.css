@@ -86,6 +86,10 @@ p{
 
 /* Footer */
 
+#footer_logo{
+    height: 65px !important;
+    justify-content: right;
+}
 
 /* Front page */
 
