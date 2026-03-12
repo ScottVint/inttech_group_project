@@ -28,53 +28,76 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
 
-                        <img src="{% static 'images/logo.jpg' %}" alt="ReadQuest Logo" id="logo_auth_page"
-                            class="navbar-brand p-2">
-                   
+                <img src="{% static 'images/logo.jpg' %}" alt="ReadQuest Logo" id="logo_auth_page"
+                    class="navbar-brand p-2">
 
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon "></span>
-                    </button>
 
-                    <div class="navbar-collapse collapse justify-content-between " id="navbar-collapse">
-                        
-                            <ul class="nav navbar-nav mr-auto">
-                                <li class="nav-item p-4 ">Home</li>
-                                <li class="nav-item p-4">Profile</li>
-                                <li class="nav-item p-4">Goals</li>
-                                <li class="nav-item p-4">Catalogue</li>
-                            </ul>
-                        
-                            <form class="d-flex align-items-center me-2">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit" id="search_btn">Search</button>
-                            </form>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
+                <div class="navbar-collapse collapse justify-content-end" id="navbarNavAltMarkup">
+
+
+                    <ul class="navbar-nav mb-lg-0">
+                        <li class="nav-item p-4 ">Home</li>
+                        <li class="nav-item p-4">Profile</li>
+                        <li class="nav-item p-4">Goals</li>
+                        <li class="nav-item p-4">Catalogue</li>
+                    </ul>
+
+                    <div id="search_nav">
+                        <form class="d-flex align-items-center me-2">
+                            <input class="form-control me-2" id="search" type="search" placeholder="Search"
+                                aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit" id="search_btn">Search</button>
+                        </form>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
+
+                    <div
+                        class="d-flex justify-content-between align-items-center d-none d-sm-none d-md-none d-lg-block">
                         <img src="{% static 'images/profile.png' %}" alt="Profile icon" id="profile_img">
                     </div>
-
                 </div>
-            
+
+            </div>
+
         </nav>
+
+
 
     </header>
 
     <div class="container pt-4">
-    <!-- Page specific content goes here -->
-    {% block body_block %}
+        <!-- Page specific content goes here -->
+        {% block body_block %}
 
-    {% endblock %}
+        {% endblock %}
     </div>
 
-    <footer class="bg-dark mt-auto">
-        <div class="container d-flex">
-            <p> testing the footer</p>
-        </div>
+    <footer class="bg-dark mt-auto p-4">
+        <div class="container d-flex col-12 p-2 justify-content-between">
+            <div class="col-10">
+                <div>
+                    <p style="color: white;"> If you need any additional information about Readquest</p>
+                    <hr style="color:white; margin: 0; padding: 0;">>
+                </div>
+                <div>
+                    <ul class="d-flex footer-list float-start">
+                        <li class="footer-item pe-4 pt-1">Home</li>
+                        <li class="footer-item pe-4 ps-4 pt-1">Profile</li>
+                        <li class="footer-item pe-4 ps-4 pt-1">Goals</li>
+                        <li class="footer-item pe-4 ps-4 pt-1">Catalogue</li>
+                    </ul>
+                </div>
+            </div>
 
+            <div class="col-1">
+                <img src="{% static 'images/logo_white.png' %}" alt="ReadQuest Logo" id="footer_logo" class="p-2">
+
+            </div>
+        </div>
     </footer>
 </body>
 
