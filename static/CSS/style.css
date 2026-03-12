@@ -75,6 +75,11 @@ p{ font-family: "Inter", sans-serif;
   font-size: 60px;
 }
 
+.profile_icon{
+      font-size: 40px;
+    
+}
+
 /* Navigation */
 #profile_img {
     height: 40px !important;
