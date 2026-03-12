@@ -175,6 +175,19 @@ p{
 }
 
 
+/* Profile page */
+
+.progress-bar{
+     --bs-progress-bar-bg: #F98410;
+     --bs-progress-height: 50px;
+}
+
+.book_cover_profile{
+    background:darkred; 
+    height:300px; 
+    width: 200px;
+}
+
 @media (max-width: 1140px) {
 
 
