@@ -63,3 +63,7 @@ def index(request):
 def home(request):
 
     return render(request,'readquest/home.html')
+
+def profile(request):
+
+    return render(request,'readquest/profile.html')
