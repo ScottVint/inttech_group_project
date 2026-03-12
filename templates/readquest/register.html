@@ -63,7 +63,7 @@ Join ReadQuest
                         </button>
 
                         <div class="mt-4 text-center">
-                            <small class="text-muted">Already have an account? <a href="{% url 'readquest:login' %}"
+                            <small class="text-muted">Already have an account? <a href="{% url 'readquest:index' %}"
                                     style="color: #F98410; font-weight: 500;" class="text-decoration-none">Log in
                                     here</a></small>
                         </div>
@@ -71,9 +71,7 @@ Join ReadQuest
 
                 </div>
             </div>
-            <button id="btn-back-home-register" class="btn w-100 py-2 fs-6 button mt-3" type="button">
-                Back to Homepage
-            </button>
+
             <script>
                 $("#btn-back-home-register").click(function () {
                     window.location.href = "{% url 'readquest:index' %}";

@@ -141,7 +141,20 @@ p{
     color: #6c757d;
 }
 
+.link {
+    color: #F98410; 
+    font-weight: 500;
+}
 
+
+@media (max-width: 1140px) {
+
+
+        #front_image{
+        margin-bottom: 1rem !important;
+        padding: 0;
+    }
+}
 
 @media (max-width: 992px) {
 
@@ -161,6 +174,11 @@ p{
         width: 80%;
         justify-content: center;
         margin: auto;
+    }
+
+    #front_image{
+        margin-bottom: 1rem !important;
+        padding: 0;
     }
 
 

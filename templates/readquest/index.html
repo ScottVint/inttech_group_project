@@ -10,10 +10,10 @@ Welcome
 {% block body_block %}
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
-            <img src="{%static 'images/front_page_library.jpg'%}" class="col-md-12" id="front_image">
+        <div class="col-xl-8">
+            <img src="{%static 'images/front_page_library.jpg'%}" class="col-xl-12" id="front_image">
         </div>
-        <div class="col-md-4 card-custom card-body p-4 text-center align-items-center justify-content-center ">
+        <div class="col-xl-4 card-custom card-body p-4 text-center align-items-center ">
             <div class="d-flex align-items-center justify-content-center p-4">
 
                 <img src="{% static 'images/logo.jpg' %}" alt="ReadQuest Logo" class="logo-img me-3">
@@ -42,21 +42,16 @@ Welcome
                         </button>
 
                         <div class="mt-4 text-center">
-                            <small class="text-muted">Don't have an account? <a href="{% url 'readquest:register' %}" style="color: #F98410; font-weight: 500;" class="text-decoration-none">Register here</a></small>
+                            <small class="text-muted">Don't have an account? <a href="{% url 'readquest:register' %}" class="text-decoration-none link">Register here</a></small>
                         </div>
                     </form>
 
-            <!-- <div class="d-flex justify-content-center align-items-center">
-                <div class="col-md-12">
-                    <button class="button btn py-2 fs-6 mt-3 col-md-12" type="button"> Register for
-                        ReadQuest</button>
-                    <button class="button btn py-2 fs-6 mt-3 col-md-10" type="button">Log in</button>
-            </div> -->
+
         </div>
             
     </div>
 </div>
-</div>
+
 
 {% endblock %}
 
