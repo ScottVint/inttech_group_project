@@ -8,6 +8,7 @@ urlpatterns = [
     path('register/', views.land_register, name='register'),
     path('login/', views.user_login, name='login'),
     path('home/', views.home, name='home'),
-    path('details/<slug:details_slug>', views.show_details, name='show_details')
-
+    path('<slug:details_slug>/details', views.show_details, name='details'),
+    path('<slug:details_slug>/review', views.book_review, name='review'),
 ]
+
