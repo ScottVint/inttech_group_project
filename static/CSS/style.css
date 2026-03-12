@@ -44,7 +44,7 @@ p{
 
 .nav-item{
   font-family: "Inter", sans-serif;
-  color: #4b1319;;
+  color: #4b1319 !important;
 
 }
 
@@ -96,8 +96,8 @@ p{
     padding: 0;
 }
 
-.footer-item{
-    color: white;
+.footer-item a{
+    color: white !important;
     list-style-type: none;
     margin: 0;
 

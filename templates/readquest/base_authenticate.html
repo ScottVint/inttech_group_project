@@ -29,34 +29,39 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
 
-                <img src="{% static 'images/logo.jpg' %}" alt="ReadQuest Logo" id="logo_auth_page"
-                    class="navbar-brand p-2">
+                <a href="{% url 'readquest:home' %}"> <img src="{% static 'images/logo.jpg' %}" alt="ReadQuest Logo"
+                        id="logo_auth_page" class="navbar-brand p-2"></a>
 
 
-  
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-          
-                    <div class="navbar-collapse collapse justify-content-end" id="navbarNavAltMarkup">
-                        
-                            <ul class="mb-lg-0 navbar-nav">
-                                <li class="nav-item p-4"><a id="nav-home" href="{% url 'readquest:home' %}" class="text-decoration-none text-dark">Home</a></li>
-                                <li class="nav-item p-4">Profile</li>
-                                <li class="nav-item p-4">Goals</li>
-                                <li class="nav-item p-4">Catalogue</li>
-                            </ul>
-                        
-                             <div id="search_nav">
+
+                <div class="navbar-collapse collapse justify-content-end" id="navbarNavAltMarkup">
+
+                    <ul class="mb-lg-0 navbar-nav">
+                        <li class="p-4"><a id="nav-home" href="{% url 'readquest:home' %}"
+                                class="text-decoration-none nav-item">Home</a></li>
+                        <li class=" p-4"><a href="{% url 'readquest:profile' %}"
+                                class="text-decoration-none nav-item">Profile</a></li>
+                        <li class="p-4"><a href="{% url 'readquest:goals' %}"
+                                class="text-decoration-none nav-item">Goals</a></li>
+                        </li>
+                        <li class=" p-4"><a href="{% url 'readquest:catalogue' %}"
+                                class="text-decoration-none nav-item">Catalogue</a></li>
+                    </ul>
+
+                    <div id="search_nav">
                         <form class="d-flex align-items-center me-2">
                             <input class="form-control me-2" id="search" type="search" placeholder="Search"
                                 aria-label="Search">
                             <button class="btn btn-outline-success" type="submit" id="search_btn">Search</button>
                         </form>
-                      </div>         
+                    </div>
 
-                
+
                     <div
                         class="d-flex justify-content-between align-items-center d-none d-sm-none d-md-none d-lg-block">
                         <img src="{% static 'images/profile.png' %}" alt="Profile icon" id="profile_img">
@@ -87,17 +92,22 @@
                 </div>
                 <div>
                     <ul class="d-flex footer-list float-start">
-                        <li class="footer-item pe-4 pt-1">Home</li>
-                        <li class="footer-item pe-4 ps-4 pt-1">Profile</li>
-                        <li class="footer-item pe-4 ps-4 pt-1">Goals</li>
-                        <li class="footer-item pe-4 ps-4 pt-1">Catalogue</li>
+                        <li class="footer-item pe-4 pt-1"><a id="nav-home" href="{% url 'readquest:home' %}"
+                                class="text-decoration-none">Home</a></li>
+                        <li class="footer-item pe-4 ps-4 pt-1"><a href="{% url 'readquest:profile' %}"
+                                class="text-decoration-none">Profile</a></li>
+                        <li class="footer-item pe-4 ps-4 pt-1"><a href="{% url 'readquest:goals' %}"
+                                class="text-decoration-none">Goals</a></li>
+                        <li class="footer-item pe-4 ps-4 pt-1"><a href="{% url 'readquest:catalogue' %}"
+                                class="text-decoration-none">Catalogue</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="col-1">
-                <img src="{% static 'images/logo_white.png' %}" alt="ReadQuest Logo" id="footer_logo" class="p-2">
-
+                <a href="{% url 'readquest:home' %}">
+                    <img src="{% static 'images/logo_white.png' %}" alt="ReadQuest Logo" id="footer_logo" class="p-2">
+                </a>
             </div>
         </div>
     </footer>

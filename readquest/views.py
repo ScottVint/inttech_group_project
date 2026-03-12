@@ -67,3 +67,11 @@ def home(request):
 def profile(request):
 
     return render(request,'readquest/profile.html')
+
+def goals(request):
+
+    return render(request,'readquest/goals.html')
+
+def catalogue(request):
+
+    return render(request,'readquest/catalogue.html')
