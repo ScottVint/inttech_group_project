@@ -74,3 +74,10 @@ class Details(models.Model):
 
     def __str__(self):
         return str(self.book)
+
+class Review(models.Model):
+    text = models.TextField()
+    book = models.models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Review of book {self.book}"

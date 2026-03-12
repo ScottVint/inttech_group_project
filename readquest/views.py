@@ -94,7 +94,7 @@ def show_details(request, details_slug):
 
     try:
         details = Details.objects.get(slug=details_slug)
-        book = Details.objects.select_related('book').get(id=1)
+        book = details.objects.select_related('book').get()
         context_dict['details'] = details
         context_dict['book'] = book
 
@@ -106,4 +106,38 @@ def show_details(request, details_slug):
         context_dict['details'] = None
         context_dict['book'] = None
 
-    return render(request, 'readquest/details.html')
+    return render(request, 'readquest/details.html', context=context_dict)
+
+def book_review(request, details_slug):
+    # Display details for book
+    try:
+        details = Details.objects.get(slug=details_slug)
+        book = details.objects.select_related('book').get()
+
+    except Detail.DoesNotExist:
+        book = None
+
+    except Book.DoesNotExist:
+        book = None
+
+    if book is None:
+        return redirect('')
+
+    form = ReviewForm()
+
+    # Form submission
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+            if book:
+                review = form.save()
+
+            return redirect(reverse('readquest:details',
+                                     kwargs={'details_slug':
+                                             details_slug}))
+
+    context_dict = {'form': form, 'book': book}
+    return render(request, 'readquest/review.html', {'form': form})
+
+            

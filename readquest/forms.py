@@ -7,3 +7,12 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
+
+
+class ReviewForm(forms.ModelForm):
+    text = forms.CharField(widegt=forms.Textarea)
+
+    class Meta:
+        model = Review
+        exclude = ('book',)
+        fields = ('text',)
