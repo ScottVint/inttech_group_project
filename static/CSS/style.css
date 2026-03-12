@@ -10,6 +10,7 @@
     font-weight: 500;
     text-decoration: none;
     border: none;
+    font-family: "Inter", sans-serif;
     
 }
 
@@ -39,11 +40,16 @@ h3 {
     font-size: 22px;
 }
 
-
-p{
-      font-family: "Inter", sans-serif;
-
+h4 {
+    font-family: "Fraunces", sans-serif;
+    font-size: 18px;
 }
+
+
+
+p{ font-family: "Inter", sans-serif;
+}
+
 
 .base_cards{
     background-color: #FFEBD7;
@@ -58,6 +64,15 @@ p{
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     border: none;
 
+}
+
+
+
+
+/* Icons */
+
+.icon {
+  font-size: 60px;
 }
 
 /* Navigation */
@@ -179,7 +194,6 @@ p{
 
 .progress-bar{
      --bs-progress-bar-bg: #F98410;
-     --bs-progress-height: 50px;
 }
 
 .book_cover_profile{
