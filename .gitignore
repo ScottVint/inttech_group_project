@@ -27,6 +27,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.conda/
 
 # Unit test / coverage reports
 htmlcov/
@@ -44,3 +45,7 @@ coverage.xml
 cover/
 
 *.jpg
+
+### IDEs ###
+.vscode/
+.idea/
