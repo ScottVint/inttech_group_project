@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from readquest.forms import UserForm
+import readquest.models
 from django.contrib.auth.decorators import login_required
-from readquest.models import Book
 
 # Create your views here.
 def land_register(request):
@@ -88,3 +88,22 @@ def goals(request):
 @login_required
 def catalogue(request):
     return render(request,'readquest/catalogue.html')
+    
+def show_details(request, details_slug):
+    context_dict = {}
+
+    try:
+        details = Details.objects.get(slug=details_slug)
+        book = Details.objects.select_related('book').get(id=1)
+        context_dict['details'] = details
+        context_dict['book'] = book
+
+    except Detail.DoesNotExist:
+        context_dict['details'] = None
+        context_dict['book'] = None
+
+    except Book.DoesNotExist:
+        context_dict['details'] = None
+        context_dict['book'] = None
+
+    return render(request, 'readquest/details.html')
