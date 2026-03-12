@@ -91,6 +91,18 @@ p{
     justify-content: right;
 }
 
+.footer-list{
+    margin:0;
+    padding: 0;
+}
+
+.footer-item{
+    color: white;
+    list-style-type: none;
+    margin: 0;
+
+}
+
 /* Front page */
 
 #front_image {

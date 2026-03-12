@@ -76,17 +76,27 @@
         {% endblock %}
     </div>
 
-    <footer class="bg-dark mt-auto p-2">
+    <footer class="bg-dark mt-auto p-4">
         <div class="container d-flex col-12 p-2 justify-content-between">
             <div class="col-10">
-            <p style="color: white;"> If you need any additional information about Readquest</p>
-            <hr style="color:white;">
+                <div>
+                    <p style="color: white;"> If you need any additional information about Readquest</p>
+                    <hr style="color:white; margin: 0; padding: 0;">>
+                </div>
+                <div>
+                    <ul class="d-flex footer-list float-start">
+                        <li class="footer-item pe-4 pt-1">Home</li>
+                        <li class="footer-item pe-4 ps-4 pt-1">Profile</li>
+                        <li class="footer-item pe-4 ps-4 pt-1">Goals</li>
+                        <li class="footer-item pe-4 ps-4 pt-1">Catalogue</li>
+                    </ul>
+                </div>
             </div>
-            
+
             <div class="col-1">
-            <img src="{% static 'images/logo_white.png' %}" alt="ReadQuest Logo" id="footer_logo" class="p-2" >
-            
-        </div>
+                <img src="{% static 'images/logo_white.png' %}" alt="ReadQuest Logo" id="footer_logo" class="p-2">
+
+            </div>
         </div>
     </footer>
 </body>
