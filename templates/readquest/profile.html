@@ -7,6 +7,45 @@ Profile
 
 
 {% block body_block %}
+
 <h1>Your Profile</h1>
 
+<div class="col-12">
+
+    <div class="d-flex mt-4 container p-0">
+        <div class="col-8 p-4 me-4 base_cards">
+            <div class="row justify-content-between">
+                <h2 class="col-3">Current read</h2> <button class="button btn col-3 p-2">Add new book + </button>
+            </div>
+
+            <div class="m-2 dark_card col-12 p-4 row">
+                <div class="col-2" style="background: blue; height:300px; width: 200px;"><img></div>
+
+
+                <div class="col-8">
+                    <h3 class="mb-3">Book Title</h3>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100">25%</div>
+                    </div>
+                    <button class="button btn">Update progress</button>
+                    <button class="button btn">Finished book</button>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 p-4 base_cards">
+            <h2>Current goal</h2>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</div>
 {% endblock %}
