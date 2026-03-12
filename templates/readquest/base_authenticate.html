@@ -38,8 +38,6 @@
                 <a href="{% url 'readquest:home' %}"> <img src="{% static 'images/logo.jpg' %}" alt="ReadQuest Logo"
                         id="logo_auth_page" class="navbar-brand p-2"></a>
 
-
-
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup">
                     <span class="navbar-toggler-icon"></span>
@@ -73,13 +71,8 @@
                         <img src="{% static 'images/profile.png' %}" alt="Profile icon" id="profile_img">
                     </div>
                 </div>
-
             </div>
-
         </nav>
-
-
-
     </header>
 
     <div class="container pt-5">
@@ -89,8 +82,10 @@
         {% endblock %}
     </div>
 
-    <footer class="bg-dark mt-auto p-4">
-        <div class="container d-flex col-12 p-2 justify-content-between">
+
+    <footer class="bg-dark p-4 mt-4 footer-expand-lg ">
+        <div class="container">
+            <div class="d-flex col-12 p-2 justify-content-between">
             <div class="col-10">
                 <div>
                     <p style="color: white;"> If you need any additional information about Readquest</p>
@@ -116,7 +111,10 @@
                 </a>
             </div>
         </div>
+        </div>
     </footer>
+
+
 </body>
 
 </html>
