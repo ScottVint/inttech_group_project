@@ -11,4 +11,6 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('goals', views.goals, name='goals'),
     path('catalogue', views.catalogue, name='catalogue'),
+    path('search-books/', views.search_books, name='search_books'),
+    path('add-book/', views.add_book, name='add_book'),
 ]

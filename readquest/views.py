@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from readquest.forms import UserForm
 from django.contrib.auth.decorators import login_required
-from readquest.models import Book
+from django.core.files.base import ContentFile
+from readquest.models import Book, ProgressRecord
+import requests
+import json
 
 # Create your views here.
 def land_register(request):
@@ -79,7 +82,70 @@ def book_list(request):
 
 @login_required
 def profile(request):
-    return render(request,'readquest/profile.html')
+    current_reads = ProgressRecord.objects.filter(owner=request.user).order_by('-id')
+    return render(request, 'readquest/profile.html', {'current_reads': current_reads})
+
+@login_required
+def search_books(request):
+    query = request.GET.get('q', '').strip()
+    if not query:
+        return JsonResponse({'results': []})
+
+    try:
+        response = requests.get(
+            'https://openlibrary.org/search.json',
+            params={'title': query, 'limit': 5, 'fields': 'title,author_name,number_of_pages_median,isbn'},
+            timeout=10
+        )
+        docs = response.json().get('docs', [])
+    except requests.RequestException:
+        return JsonResponse({'results': []})
+
+    results = []
+    for doc in docs:
+        isbn_list = doc.get('isbn', [])
+        isbn = isbn_list[0] if isbn_list else None
+        results.append({
+            'title': doc.get('title', 'Unknown'),
+            'author': doc.get('author_name', ['Unknown'])[0] if doc.get('author_name') else 'Unknown',
+            'pages': doc.get('number_of_pages_median') or 0,
+            'isbn': isbn,
+            'cover_url': f'https://covers.openlibrary.org/b/isbn/{isbn}-M.jpg' if isbn else None,
+        })
+
+    return JsonResponse({'results': results})
+
+@login_required
+def add_book(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False})
+
+    data = json.loads(request.body)
+    isbn = data.get('isbn')
+    title = data.get('title', 'Unknown')
+    author = data.get('author', 'Unknown')
+    pages = int(data.get('pages') or 1)
+
+    book, created = Book.objects.get_or_create(
+        isbn=isbn,
+        defaults={'title': title, 'author': author, 'pages': pages, 'blurb': ''}
+    )
+
+    if created or not book.cover_image:
+        try:
+            resp = requests.get(f'https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg', timeout=10)
+            if resp.status_code == 200 and len(resp.content) > 1000:
+                book.cover_image.save(f'{isbn}.jpg', ContentFile(resp.content), save=True)
+        except requests.RequestException:
+            pass
+
+    record_name = f'{request.user.username}-{isbn}'
+    record, _ = ProgressRecord.objects.get_or_create(
+        name=record_name,
+        defaults={'owner': request.user, 'book': book, 'stage_current': 0, 'stage_final': pages}
+    )
+
+    return JsonResponse({'success': True})
 
 @login_required
 def goals(request):

@@ -20,36 +20,49 @@ Profile
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="mb-0">Current read</h2>
-                    <button class="button btn p-2">Add new book +</button>
+                    <button class="button btn p-2" data-bs-toggle="modal" data-bs-target="#addBookModal">Add new book +</button>
                 </div>
 
-                <!-- Inner Darker Card -->
-                <div class="dark_card p-4 d-flex align-items-end">
+                {% if current_reads %}
+                    {% for record in current_reads %}
+                    <!-- Inner Darker Card -->
+                    <div class="dark_card p-4 d-flex align-items-end {% if not forloop.last %}mb-3{% endif %}">
 
-                    <div class="book_cover_profile me-3">
-                        <img>
-                    </div>
+                        <div class="book_cover_profile me-3" style="overflow:hidden;">
+                            {% if record.book.cover_image %}
+                                <img src="{{ record.book.cover_image.url }}" style="width:100%; height:100%; object-fit:cover;">
+                            {% else %}
+                                <img>
+                            {% endif %}
+                        </div>
 
-                    <div class="flex-grow-1">
-                        <h3 class="mb-3">Book Title</h3>
+                        <div class="flex-grow-1">
+                            <h3 class="mb-1">{{ record.book.title }}</h3>
+                            <p class="mb-3" style="color:#5a3a2a;">{{ record.book.author }} &nbsp;·&nbsp; {{ record.book.pages }} pages</p>
 
+                            <!-- Progress bar -->
+                            <div class="progress mb-3" style="height: 28px;">
+                                <div class="progress-bar" role="progressbar"
+                                    style="width: {{ record.stage_current }}%;"
+                                    aria-valuenow="{{ record.stage_current }}"
+                                    aria-valuemin="0" aria-valuemax="{{ record.stage_final }}">
+                                    {{ record.stage_current }}/{{ record.stage_final }} pages
+                                </div>
+                            </div>
 
-
-                        <!-- Progress bar -->
-                        <div class="progress mb-3" style="height: 28px;">
-                            <div class="progress-bar" role="progressbar" style="width:45%;" aria-valuenow="45"
-                                aria-valuemin="0" aria-valuemax="100">
-                                45%
+                            <div class="d-flex gap-3">
+                                <button class="button_two btn">Update progress</button>
+                                <button class="button_two btn">Finished book</button>
                             </div>
                         </div>
 
-                        <div class="d-flex gap-3">
-                            <button class="button_two btn">Update progress</button>
-                            <button class="button_two btn">Finished book</button>
-                        </div>
                     </div>
-
-                </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="dark_card p-4 d-flex align-items-center justify-content-center" style="min-height:120px;">
+                        <p class="mb-0 text-muted">No books added yet. Click "Add new book +" to get started.</p>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
@@ -126,4 +139,87 @@ Profile
     </div>
     </div>
 
-    {% endblock %}
+<!-- Add Book Modal -->
+<div class="modal fade" id="addBookModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color:#FFEBD7; border:none; border-radius:12px;">
+            <div class="modal-header" style="border-bottom: 1px solid #d8c5b2;">
+                <h5 class="modal-title" style="font-family:'Fraunces',serif; color:#4b1319;">Search for a book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+                <!-- Search bar -->
+                <div class="d-flex gap-2 mb-4">
+                    <input type="text" id="bookSearchInput" class="form-control" placeholder="Enter book title..." style="border-color:#af671f;">
+                    <button id="bookSearchBtn" class="btn button_two px-4">Search</button>
+                </div>
+
+                <!-- Results -->
+                <div id="searchResults"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const searchInput = document.getElementById('bookSearchInput');
+    const searchBtn = document.getElementById('bookSearchBtn');
+    const resultsDiv = document.getElementById('searchResults');
+
+    searchBtn.addEventListener('click', function () {
+        const query = searchInput.value.trim();
+        if (!query) return;
+
+        resultsDiv.innerHTML = '<p class="text-muted">Searching...</p>';
+
+        fetch(`{% url 'readquest:search_books' %}?q=${encodeURIComponent(query)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.results.length === 0) {
+                    resultsDiv.innerHTML = '<p class="text-muted">No results found.</p>';
+                    return;
+                }
+
+                resultsDiv.innerHTML = data.results.map(book => `
+                    <div class="dark_card p-3 mb-3 d-flex align-items-center gap-3">
+                        <img src="${book.cover_url || ''}" alt="cover"
+                            style="height:90px; width:60px; object-fit:cover; border-radius:4px; background:#c9ab96;"
+                            onerror="this.style.visibility='hidden'">
+                        <div class="flex-grow-1">
+                            <h5 style="font-family:'Fraunces',serif; color:#4b1319; margin-bottom:2px;">${book.title}</h5>
+                            <p style="font-size:0.85rem; color:#5a3a2a; margin-bottom:0;">${book.author} &nbsp;·&nbsp; ${book.pages || '?'} pages</p>
+                        </div>
+                        <button class="btn button_two btn-sm"
+                            onclick="selectBook(${JSON.stringify(book).replace(/"/g, '&quot;')})">
+                            Add
+                        </button>
+                    </div>
+                `).join('');
+            });
+    });
+
+    searchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') searchBtn.click();
+    });
+
+    function selectBook(book) {
+        fetch("{% url 'readquest:add_book' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify(book)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            }
+        });
+    }
+</script>
+
+{% endblock %}
