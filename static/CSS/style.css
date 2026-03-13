@@ -25,6 +25,30 @@
     background-color: #af671f !important;
 }
 
+
+.button_two {
+    transition: all 0.1s ease-in-out;
+    background-color:#af671f;
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    font-family: "Inter", sans-serif;
+    
+}
+
+
+.button_two:hover {
+    opacity: 0.9;
+    transform: scale(0.99);
+    background-color: #af671f;
+    color: white !important;
+}
+
+.button_two:active {
+    background-color: #af671f !important;
+}
+
 h1 {
     font-family: "Fraunces", sans-serif;
     font-size: 35px;
@@ -195,17 +219,30 @@ p{ font-family: "Inter", sans-serif;
 }
 
 
-/* Profile page */
+/* Home page */
 
-.progress-bar{
-     --bs-progress-bar-bg: #F98410;
-}
+
+/* Profile page */
 
 .book_cover_profile{
     background:darkred; 
     height:300px; 
     width: 200px;
 }
+
+
+/* Progress bars */
+.progress-bar{
+     --bs-progress-bar-bg: #f9ab10; 
+}
+
+.progress-bar_round{
+    
+
+}
+
+
+
 
 @media (max-width: 1140px) {
 

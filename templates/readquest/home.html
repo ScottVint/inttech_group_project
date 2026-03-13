@@ -32,7 +32,7 @@ Home
                         <i class="bi bi-person profile_icon"></i>
                         <h3 class="mb-3">Book Title</h3>
                         <h3 class="mb-3">Author</h3>
-                        
+
 
                         <!-- Progress bar -->
                         <div class="progress" style="height: 28px;">
@@ -48,25 +48,65 @@ Home
         </div>
 
 
-    
-      <div class="col-12 col-md-4">
-        <div>
-            <div class="p-4 base_cards">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="mb-0">Your current read</h2>
+
+        <div class="col-12 col-md-4">
+            <div>
+                <div class="p-4 base_cards">
+                    <div class="d-flex mb-3 row">
+                        <h2 class="mb-0 col-12">Your current read</h2>
+                        <div>
+
+                            {%for book in books %}
+
+
+                            {% empty %}
+                            <div class="col-12 dark_card mb-2 p-4">
+                                <img src="{{ book.cover_image }}" class="book_cover" alt="{{ book.title }}">
+
+                                <div class="card-body">
+                                    <h3 class="mb-3">{{ book.title }}</h3>
+
+                                    <!-- Progress bar -->
+                                    <div class="progress mb-3" style="height: 28px;">
+                                        <div class="progress-bar" role="progressbar"
+                                            style="width: {{ book.progress }}%;" aria-valuenow="{{ book.progress }}"
+                                            aria-valuemin="0" aria-valuemax="100">
+                                            {{ book.progress }}%
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex gap-3">
+                                        <button class="button_two btn">Update progress</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- <p>You aren't reading any books.</p> -->
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
 
-         <div>
-            <div class="p-4 base_cards mt-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="mb-0">Your current goal</h2>
+            <div>
+                <div class="p-4 base_cards mt-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="mb-0">Your current goal</h2>
+                        <div class="progress-bar_round">
+
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 

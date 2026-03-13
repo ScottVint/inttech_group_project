@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from readquest.forms import UserForm
+from django.contrib.auth.decorators import login_required
+from readquest.models import Book
 
 # Create your views here.
 def land_register(request):
@@ -63,6 +65,13 @@ def index(request):
 def home(request):
 
     return render(request,'readquest/home.html')
+
+@login_required
+def book_list(request):
+    user_books = Book.objects.filter(user=request.user)
+    
+    return render(request, 'readquest/home.html', {'books': user_books})
+
 
 def profile(request):
 
