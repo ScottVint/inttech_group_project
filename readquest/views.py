@@ -45,10 +45,15 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        remember_me = request.POST.get('remember_me')
         user = authenticate(request, username=username, password=password)
         if user:
             if user.is_active:
                 login(request, user)
+                if remember_me:
+                    request.session.set_expiry(1209600)  # 2 weeks in seconds
+                else:
+                    request.session.set_expiry(0)  # expires when browser closes
                 return redirect(reverse('readquest:home'))
             else:
                 return HttpResponse("Your ReadQuest account is disabled.")
@@ -62,25 +67,24 @@ def index(request):
     return render(request,'readquest/index.html')
 
 
+@login_required
 def home(request):
-
-    return render(request,'readquest/home.html')
+    return render(request, 'readquest/home.html')
 
 @login_required
 def book_list(request):
     user_books = Book.objects.filter(user=request.user)
-    
+
     return render(request, 'readquest/home.html', {'books': user_books})
 
-
+@login_required
 def profile(request):
-
     return render(request,'readquest/profile.html')
 
+@login_required
 def goals(request):
-
     return render(request,'readquest/goals.html')
 
+@login_required
 def catalogue(request):
-
     return render(request,'readquest/catalogue.html')

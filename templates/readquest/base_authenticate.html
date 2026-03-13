@@ -114,6 +114,79 @@
         </div>
     </footer>
 
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="position-fixed bottom-0 start-0 end-0"
+        style="background-color: #FFEBD7; border-top: 2px solid #f9ab10; z-index: 9999; display: none; box-shadow: 0 -4px 20px rgba(0,0,0,0.12);">
+        <div class="container py-3 px-4">
+            <div class="row align-items-center g-3">
+
+                <!-- Text side -->
+                <div class="col-12 col-lg-8">
+                    <h5 style="font-family: 'Fraunces', serif; color: #4b1319; margin-bottom: 0.4rem;">
+                        <i class="bi bi-cookie me-2" style="color: #F98410;"></i>We use cookies
+                    </h5>
+                    <p style="font-size: 0.88rem; color: #5a3a2a; margin-bottom: 0.5rem;">
+                        ReadQuest uses cookies to give you a better reading experience. Here's what we store:
+                    </p>
+                    <div class="d-flex flex-wrap gap-3" style="font-size: 0.82rem; color: #5a3a2a;">
+                        <span><i class="bi bi-check-circle-fill me-1" style="color: #F98410;"></i>
+                            <strong>Essential</strong> — keeps you logged in and your session secure</span>
+                        <span><i class="bi bi-check-circle-fill me-1" style="color: #F98410;"></i>
+                            <strong>Authentication</strong> — keeps you logged in so you don't have to sign in every time</span>
+                        <span><i class="bi bi-check-circle-fill me-1" style="color: #F98410;"></i>
+                            <strong>Preferences</strong> — remembers your settings between visits</span>
+                    </div>
+                </div>
+
+                <!-- Button side -->
+                <div class="col-12 col-lg-4 d-flex flex-column justify-content-center gap-2">
+                    <button id="cookie-accept-btn" class="btn button_two py-2">
+                        Accept all cookies
+                    </button>
+                    <button id="cookie-decline-btn" class="btn py-2"
+                        style="border: 1px solid #af671f; color: #af671f; background: transparent; font-family: 'Inter', sans-serif;">
+                        Decline
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            function getCookie(name) {
+                const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+                return match ? match[2] : null;
+            }
+
+            function setCookie(name, value, days) {
+                const expires = new Date();
+                expires.setDate(expires.getDate() + days);
+                document.cookie = name + '=' + value + '; expires=' + expires.toUTCString() + '; path=/';
+            }
+
+            function dismissBanner() {
+                document.getElementById('cookie-banner').style.display = 'none';
+            }
+
+            if (!getCookie('cookie_consent')) {
+                document.getElementById('cookie-banner').style.display = 'block';
+            }
+
+            document.getElementById('cookie-accept-btn').addEventListener('click', function () {
+                setCookie('cookie_consent', 'accepted', 365);
+                dismissBanner();
+            });
+
+            document.getElementById('cookie-decline-btn').addEventListener('click', function () {
+                setCookie('cookie_consent', 'declined', 30);
+                dismissBanner();
+            });
+        })();
+    </script>
+
 </body>
 
 </html>
