@@ -1,0 +1,15 @@
+<form method="GET">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search books...">
+    <button class="btn btn-outline-success" type="submit" id="search_btn">Search</button>
+</form>
+
+{% for book in results %}
+
+<div>
+    <h3>{{ book.title }}</h3>
+    <p>{{ book.author }}</p>
+    <img src="{{ book.cover_image }}" alt="{{ book.title }}">
+</div>
+{% empty %}
+{% if query %}<p>No results found.</p>{% endif %}
+{% endfor %}
