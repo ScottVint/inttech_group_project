@@ -40,10 +40,14 @@ class Book(models.Model):
     author = models.CharField(max_length=MAX_AUTHOR_LENGTH)#ArrayField(models.CharField(max_length=MAX_AUTHOR_LENGTH))
     pages = models.IntegerField()
     blurb = models.TextField()
-    cover_image = models.ImageField()
+    cover_image = models.ImageField(null=True)
     wishlisted_by = models.ManyToManyField(User, related_name='wishlisted_by')
     read_by = models.ManyToManyField(User, related_name='read_by')
 
+    def save(self, *args,**kwargs):
+            self.validate_unique()
+            super(Book ,self).save(*args, **kwargs) 
+    
     def __str__(self):
         return self.title
 

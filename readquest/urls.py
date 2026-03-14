@@ -14,5 +14,6 @@ urlpatterns = [
     path('catalogue', views.catalogue, name='catalogue'),
     path('<slug:details_slug>/details', views.show_details, name='details'),
     path('<slug:details_slug>/review', views.book_review, name='review'),
+    path('<slug:details_slug>/review', views.add_book, name='add_book'),
 ]
 

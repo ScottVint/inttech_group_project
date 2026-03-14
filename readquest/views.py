@@ -112,7 +112,7 @@ def book_review(request, details_slug):
     # Display details for book
     try:
         details = Details.objects.get(slug=details_slug)
-        book = details.objects.select_related('book').get()
+        book = details.parent
 
     except Detail.DoesNotExist:
         book = None
@@ -121,7 +121,7 @@ def book_review(request, details_slug):
         book = None
 
     if book is None:
-        return redirect('')
+        return redirect('') # Where to redirect?
 
     form = ReviewForm()
 
@@ -140,23 +140,16 @@ def book_review(request, details_slug):
     context_dict = {'form': form, 'book': book}
     return render(request, 'readquest/review.html', {'form': form})
 
-            
+def add_book(request):
+    if request.method == 'POST':
+        form = book_form(request.POST)
 
-def show_details(request, details_slug):
-    context_dict = {}
+        if form.is_valid():
+            book = form.save()
 
-    try:
-        details = Details.objects.get(slug=details_slug)
-        book = Details.objects.select_related('book').get(id=1)
-        context_dict['details'] = details
-        context_dict['book'] = book
+            return redirect(reverse('readquest:home'))
 
-    except Detail.DoesNotExist:
-        context_dict['details'] = None
-        context_dict['book'] = None
+        else:
+            print(form.errors)
 
-    except Book.DoesNotExist:
-        context_dict['details'] = None
-        context_dict['book'] = None
-
-    return render(request, 'readquest/details.html')
+    return render(request, 'readquest/add_book.html')
