@@ -231,6 +231,15 @@ p{ font-family: "Inter", sans-serif;
 }
 
 
+/* Search */
+.search_book_cover{
+    height: auto;
+    width:90px; 
+    object-fit:cover; 
+    border-radius:4px; 
+    background:#403227;
+}
+
 /* Progress bars */
 .progress-bar{
      --bs-progress-bar-bg: #f9ab10; 

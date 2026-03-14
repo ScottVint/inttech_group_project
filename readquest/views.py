@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
@@ -7,6 +8,9 @@ from .models import Achievement
 from .models import Book
 from .models import ProgressRecord
 from django.contrib.auth.decorators import login_required
+
+from .services import search_books
+
 
 # Create your views here.
 def land_register(request):
@@ -165,3 +169,16 @@ def add_book(request):
             print(form.errors)
 
     return render(request, 'readquest/add_book.html')
+
+
+def book_search(request):
+    query = request.GET.get("q", "").strip()
+    print("QUERY:", query)
+    results = []
+    
+    if query:
+        try: 
+            results = search_books(query)
+        except Exception as e:
+            messages.error(request, "Please try again")
+    return render(request, "readquest/book-search.html", {"results": results, "query": query})
