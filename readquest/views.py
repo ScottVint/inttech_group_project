@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from readquest.forms import UserForm
-import readquest.models
+from .models import Achievement
+from .models import Book
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.

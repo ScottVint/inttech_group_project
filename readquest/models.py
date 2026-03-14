@@ -82,7 +82,7 @@ class Details(models.Model):
 
 class Review(models.Model):
     text = models.TextField()
-    book = models.models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Review of book {self.book}"

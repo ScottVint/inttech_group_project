@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Review
+from .models import Book
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -10,7 +12,7 @@ class UserForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
-    text = forms.CharField(widegt=forms.Textarea(),
+    text = forms.CharField(widget=forms.Textarea(),
                            help_text="Leave a review...")
 
     class Meta:
@@ -27,7 +29,7 @@ class BookForm(forms.ModelForm):
     pages = forms.IntegerField(min_value=1)
     blurb = forms.CharField(widget=forms.HiddenInput(), 
                             initial="This is a user submitted book.")
-    cover_image = forms.ImageField(blank=True)
+    cover_image = forms.ImageField(required=False)
 
 
     class Meta:
