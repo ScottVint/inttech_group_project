@@ -1,6 +1,7 @@
 from django.urls import path
 from readquest import views
 
+
 app_name = 'readquest'
 
 urlpatterns = [
@@ -13,5 +14,6 @@ urlpatterns = [
     path('catalogue/', views.catalogue, name="catalogue"),
     path('<slug:details_slug>/details', views.show_details, name='details'),
     path('<slug:details_slug>/review', views.book_review, name='review'),
+    path('book-search', views.book_search, name="book-search"),
 ]
 
