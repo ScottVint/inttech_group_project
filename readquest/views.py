@@ -5,6 +5,7 @@ from django.urls import reverse
 from readquest.forms import UserForm
 from .models import Achievement
 from .models import Book
+from .models import ProgressRecord
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -87,8 +88,8 @@ def profile(request):
     context_dict = {}
     context_dict['read_books'] = Book.objects.filter(read_by=request.user)
     context_dict['current_read'] = Book.objects.filter(currently_reading = request.user)
-    context_dict['wishlisted'] = Book.objects.filter(wishlister_by=request.user)
-    context_dict['badges'] = Achivement.objects.filter(earners=request.user)
+    context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
+    context_dict['badges'] = Achievement.objects.filter(earners=request.user)
     return render(request,'readquest/profile.html')
 
 @login_required
