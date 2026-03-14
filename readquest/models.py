@@ -40,10 +40,15 @@ class Book(models.Model):
     author = models.CharField(max_length=MAX_AUTHOR_LENGTH)#ArrayField(models.CharField(max_length=MAX_AUTHOR_LENGTH))
     pages = models.IntegerField()
     blurb = models.TextField()
-    cover_image = models.ImageField()
+    cover_image = models.ImageField(null=True)
     wishlisted_by = models.ManyToManyField(User, related_name='wishlisted_by')
     read_by = models.ManyToManyField(User, related_name='read_by')
+    currently_reading = models.ManyToManyField(User, related_name='currently_reading')
 
+    def save(self, *args,**kwargs):
+            self.validate_unique()
+            super(Book ,self).save(*args, **kwargs) 
+    
     def __str__(self):
         return self.title
 
@@ -74,3 +79,10 @@ class Details(models.Model):
 
     def __str__(self):
         return str(self.book)
+
+class Review(models.Model):
+    text = models.TextField()
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Review of book {self.book}"

@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from readquest.forms import UserForm
+from .models import Achievement
+from .models import Book
+from .models import ProgressRecord
 from django.contrib.auth.decorators import login_required
-from django.core.files.base import ContentFile
-from readquest.models import Book, ProgressRecord
-import requests
-import json
 
 # Create your views here.
 def land_register(request):
@@ -72,85 +71,97 @@ def index(request):
 
 @login_required
 def home(request):
-    return render(request, 'readquest/home.html')
+    context_dict = {}
+    context_dict['user'] = request.user #fetches the user that sent the request
+    context_dict['achivements'] = Achievement.objects.filter(earners=request.user)
+
+    return render(request, 'readquest/home.html', context=context_dict)
 
 @login_required
 def book_list(request):
-    user_books = Book.objects.filter(user=request.user)
-
-    return render(request, 'readquest/home.html', {'books': user_books})
+    context_dict['read_books'] = Book.objects.filter(read_by=request.user)
+    context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
+    return render(request, 'readquest/home.html', context=context_dict)
 
 @login_required
 def profile(request):
-    current_reads = ProgressRecord.objects.filter(owner=request.user).order_by('-id')
-    return render(request, 'readquest/profile.html', {'current_reads': current_reads})
-
-@login_required
-def search_books(request):
-    query = request.GET.get('q', '').strip()
-    if not query:
-        return JsonResponse({'results': []})
-
-    try:
-        response = requests.get(
-            'https://openlibrary.org/search.json',
-            params={'title': query, 'limit': 5, 'fields': 'title,author_name,number_of_pages_median,isbn'},
-            timeout=10
-        )
-        docs = response.json().get('docs', [])
-    except requests.RequestException:
-        return JsonResponse({'results': []})
-
-    results = []
-    for doc in docs:
-        isbn_list = doc.get('isbn', [])
-        isbn = isbn_list[0] if isbn_list else None
-        results.append({
-            'title': doc.get('title', 'Unknown'),
-            'author': doc.get('author_name', ['Unknown'])[0] if doc.get('author_name') else 'Unknown',
-            'pages': doc.get('number_of_pages_median') or 0,
-            'isbn': isbn,
-            'cover_url': f'https://covers.openlibrary.org/b/isbn/{isbn}-M.jpg' if isbn else None,
-        })
-
-    return JsonResponse({'results': results})
-
-@login_required
-def add_book(request):
-    if request.method != 'POST':
-        return JsonResponse({'success': False})
-
-    data = json.loads(request.body)
-    isbn = data.get('isbn')
-    title = data.get('title', 'Unknown')
-    author = data.get('author', 'Unknown')
-    pages = int(data.get('pages') or 1)
-
-    book, created = Book.objects.get_or_create(
-        isbn=isbn,
-        defaults={'title': title, 'author': author, 'pages': pages, 'blurb': ''}
-    )
-
-    if created or not book.cover_image:
-        try:
-            resp = requests.get(f'https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg', timeout=10)
-            if resp.status_code == 200 and len(resp.content) > 1000:
-                book.cover_image.save(f'{isbn}.jpg', ContentFile(resp.content), save=True)
-        except requests.RequestException:
-            pass
-
-    record_name = f'{request.user.username}-{isbn}'
-    record, _ = ProgressRecord.objects.get_or_create(
-        name=record_name,
-        defaults={'owner': request.user, 'book': book, 'stage_current': 0, 'stage_final': pages}
-    )
-
-    return JsonResponse({'success': True})
+    context_dict = {}
+    context_dict['read_books'] = Book.objects.filter(read_by=request.user)
+    context_dict['current_read'] = Book.objects.filter(currently_reading = request.user)
+    context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
+    context_dict['badges'] = Achievement.objects.filter(earners=request.user)
+    return render(request,'readquest/profile.html')
 
 @login_required
 def goals(request):
-    return render(request,'readquest/goals.html')
+    context_dict = {'progress_record': ProgressRecord.objects.filter(owner=request.user)}
+    return render(request,'readquest/goals.html', context=context_dict)
 
 @login_required
 def catalogue(request):
-    return render(request,'readquest/catalogue.html')
+    return render(request,'readquest/catalogue.html', context={'books': Book.objects.all()})
+    
+def show_details(request, details_slug):
+    context_dict = {}
+
+    try:
+        details = Details.objects.get(slug=details_slug)
+        book = details.objects.select_related('book').get()
+        context_dict['details'] = details
+        context_dict['book'] = book
+
+    except Detail.DoesNotExist:
+        context_dict['details'] = None
+        context_dict['book'] = None
+
+    except Book.DoesNotExist:
+        context_dict['details'] = None
+        context_dict['book'] = None
+
+    return render(request, 'readquest/details.html', context=context_dict)
+
+def book_review(request, details_slug):
+    # Display details for book
+    try:
+        details = Details.objects.get(slug=details_slug)
+        book = details.parent
+
+    except Detail.DoesNotExist:
+        book = None
+
+    except Book.DoesNotExist:
+        book = None
+
+    if book is None:
+        return redirect('') # Where to redirect?
+
+    form = ReviewForm()
+
+    # Form submission
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+            if book:
+                review = form.save()
+
+            return redirect(reverse('readquest:details',
+                                     kwargs={'details_slug':
+                                             details_slug}))
+
+    context_dict = {'form': form, 'book': book}
+    return render(request, 'readquest/review.html', context=context_dict)
+
+def add_book(request):
+    if request.method == 'POST':
+        form = book_form(request.POST)
+
+        if form.is_valid():
+            book = form.save()
+
+            return redirect(reverse('readquest:home'))
+
+        else:
+            print(form.errors)
+
+    return render(request, 'readquest/add_book.html')
