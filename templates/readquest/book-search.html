@@ -1,15 +1,36 @@
-<form method="GET">
-    <input type="text" name="q" value="{{ query }}" placeholder="Search books...">
-    <button class="btn btn-outline-success" type="submit" id="search_btn">Search</button>
-</form>
+{% extends 'readquest/base_authenticate.html' %}
+{% load static %}
 
-{% for book in results %}
+{% block title_block %}
+Search
+{% endblock %}
 
-<div>
-    <h3>{{ book.title }}</h3>
-    <p>{{ book.author }}</p>
-    <img src="{{ book.cover_image }}" alt="{{ book.title }}">
+
+{% block body_block %}
+
+<h1>Search results</h1>
+
+
+
+<div class="row g-3 mt-4">
+    {% for book in results %}
+
+    <div class="col-6">
+        <div class="dark_card p-3 d-flex align-items-end">
+            <div class="col-4 me-4">
+                <img src="{{ book.cover_image }}" alt="cover" onerror="this.style.visibility='hidden'">
+            </div>
+            <div class="col-6 d-flex flex-column ms-2">
+                <h4>{{ book.title }}</h4>
+                <p>{{ book.author }} </p>
+                <p>{{ book.pages|default:'?' }} pages</p>
+                <button class="btn button_two btn-sm">Add</button>
+            </div>
+        </div>
+    </div>
+
+    {% empty %}
+    {% if query %}<p>No results found.</p>{% endif %}
+    {% endfor %}
 </div>
-{% empty %}
-{% if query %}<p>No results found.</p>{% endif %}
-{% endfor %}
+{% endblock %}

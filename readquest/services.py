@@ -1,22 +1,23 @@
 import requests
 
-API_KEY = "2a5b14e214msh8ee3c1b2ab357f8p1519c3jsn8d295323620b"
-
-
 def search_books(query):
-    url = "https://project-gutenberg-free-books-api1.p.rapidapi.com/subjects"
-
-    headers = {
-        "x-rapidapi-key": API_KEY,
-        "x-rapidapi-host": "project-gutenberg-free-books-api1.p.rapidapi.com",
-        "Content-Type": "application/json"
-    }
-
     response = requests.get(
-        "https://project-gutenberg-free-books-api1.p.rapidapi.com/books",
-        headers=headers,
-        params={"title": query}
+        "https://openlibrary.org/search.json",
+        params={
+            "q": query,
+            "fields": "key,title,author_name,cover_i,number_of_pages_median,first_publish_year",
+            "limit": 10
+        }
     )
+    response.raise_for_status()
 
-
-    return response.json()["results"]
+    books = []
+    for doc in response.json().get("docs", []):
+        books.append({
+            "title": doc.get("title", "Unknown Title"),
+            "author": ", ".join(doc.get("author_name", ["Unknown Author"])),
+            "pages": doc.get("number_of_pages_median", None),
+            "year": doc.get("first_publish_year", None),
+            "cover_image": f"https://covers.openlibrary.org/b/id/{doc['cover_i']}-M.jpg" if doc.get("cover_i") else None,
+        })
+    return books
