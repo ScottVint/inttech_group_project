@@ -43,6 +43,7 @@ class Book(models.Model):
     cover_image = models.ImageField(null=True)
     wishlisted_by = models.ManyToManyField(User, related_name='wishlisted_by')
     read_by = models.ManyToManyField(User, related_name='read_by')
+    currently_reading = models.ManyToManyField(User, related_name='currently_reading')
 
     def save(self, *args,**kwargs):
             self.validate_unique()

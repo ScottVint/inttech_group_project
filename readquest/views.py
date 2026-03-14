@@ -69,25 +69,35 @@ def index(request):
 
 @login_required
 def home(request):
-    return render(request, 'readquest/home.html')
+    context_dict = {}
+    context_dict['user'] = request.user #fetches the user that sent the request
+    context_dict['achivements'] = Achievement.objects.filter(earners=request.user)
+
+    return render(request, 'readquest/home.html', context=context_dict)
 
 @login_required
 def book_list(request):
-    user_books = Book.objects.filter(user=request.user)
-
-    return render(request, 'readquest/home.html', {'books': user_books})
+    context_dict['read_books'] = Book.objects.filter(read_by=request.user)
+    context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
+    return render(request, 'readquest/home.html', context=context_dict)
 
 @login_required
 def profile(request):
+    context_dict = {}
+    context_dict['read_books'] = Book.objects.filter(read_by=request.user)
+    context_dict['current_read'] = Book.objects.filter(currently_reading = request.user)
+    context_dict['wishlisted'] = Book.objects.filter(wishlister_by=request.user)
+    context_dict['badges'] = Achivement.objects.filter(earners=request.user)
     return render(request,'readquest/profile.html')
 
 @login_required
 def goals(request):
-    return render(request,'readquest/goals.html')
+    context_dict = {'progress_record': ProgressRecord.objects.filter(owner=request.user)}
+    return render(request,'readquest/goals.html', context=context_dict)
 
 @login_required
 def catalogue(request):
-    return render(request,'readquest/catalogue.html')
+    return render(request,'readquest/catalogue.html', context={'books': Book.objects.all()})
     
 def show_details(request, details_slug):
     context_dict = {}
@@ -138,7 +148,7 @@ def book_review(request, details_slug):
                                              details_slug}))
 
     context_dict = {'form': form, 'book': book}
-    return render(request, 'readquest/review.html', {'form': form})
+    return render(request, 'readquest/review.html', context=context_dict)
 
 def add_book(request):
     if request.method == 'POST':
