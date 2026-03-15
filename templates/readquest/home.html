@@ -75,19 +75,24 @@ Home
                                     </p>
 
                                     <!-- Progress bar -->
+                                    {% for record in progress_records %}
+
+                                    {% if record.book_id == book.id %}
                                     <div class="progress mb-3" style="height: 28px;">
-                                        <div class="progress-bar" role="progressbar" style="width:0%;" aria-valuenow="0"
-                                            aria-valuemin="0" aria-valuemax="100">
-                                            0%
+                                        <div class="progress-bar" role="progressbar"
+                                            style="width: {{ record.percent|default:0 }}%;"
+                                            aria-valuenow="{{ record.percent|default:0 }}" aria-valuemin="0"
+                                            aria-valuemax="100">
+                                            {{ record.stage_current }} / {{ book.pages }} pages
                                         </div>
                                     </div>
+                                    {% endif %}
+                                    {% endfor %}
 
                                     <div class="d-flex gap-3">
-                                        <button class="button_two btn">Update progress</button>
-                                        <!-- <form method="post" action="{% url 'readquest:finish-book' book.id %}">
-                                {% csrf_token %}
-                                <button class="button_two btn" type="submit">Finished book</button>
-                            </form> -->
+                                        <button class="button_two btn" data-bs-toggle="modal"
+                                            data-bs-target="#updateProgress{{ book.id}}"> Update progress</button>
+                                        {% include 'readquest/update_progress_modal.html' %}
                                     </div>
 
                                 </div>

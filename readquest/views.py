@@ -77,11 +77,9 @@ def user_logout(request):
     # Take the user back to the un-authroised home 
     return redirect(reverse('readquest:index'))
 
-
 def index(request):
 
     return render(request,'readquest/index.html')
-
 
 @login_required
 def home(request):
@@ -90,11 +88,13 @@ def home(request):
     context_dict['achivements'] = Achievement.objects.filter(earners=request.user)
     context_dict['current_read'] = Book.objects.filter(currently_reading=request.user)
     context_dict['goals'] = current_goals(request.user)
+    context_dict['progress_records'] = current_book_progress(request.user)
 
     return render(request, 'readquest/home.html', context=context_dict)
 
 @login_required
 def book_list(request):
+    context_dict = {}
     context_dict['read_books'] = Book.objects.filter(read_by=request.user)
     context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
     return render(request, 'readquest/home.html', context=context_dict)
@@ -107,6 +107,7 @@ def profile(request):
     context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
     context_dict['badges'] = Achievement.objects.filter(earners=request.user)
     context_dict['goals'] = current_goals(request.user)
+    context_dict['progress_records'] = current_book_progress(request.user)
 
     return render(request, 'readquest/profile.html', context=context_dict)
 
@@ -171,10 +172,6 @@ def current_goals(user):
 
     return goals
 
-# @login_required
-# def catalogue(request):
-#     return render(request,'readquest/catalogue_book-search.html', context={'books': Book.objects.all()})
-    
 def show_details(request, details_slug):
     context_dict = {}
 
@@ -269,3 +266,47 @@ def catalogue(request):
         except Exception as e:
             messages.error(request, "Please try again")
     return render(request, "readquest/catalogue_book-search.html", {"results": results, "query": query})
+
+
+@login_required
+def update_progress(request, book_id):
+
+    # get number of pages read on that book 
+    if request.method == 'POST':
+        pages_read = int(request.POST.get('pages_read', 0))
+        book = Book.objects.get(id=book_id)
+        next_url = request.POST.get('next', reverse('readquest:profile'))
+
+        # check current progress and update the current page 
+        try:
+            progress = ProgressRecord.objects.get(owner=request.user, book=book)
+            progress.stage_current = pages_read
+            progress.save()
+            return redirect(next_url)
+
+        #  if the progress doesn't exist
+        except ProgressRecord.DoesNotExist:
+            ProgressRecord.objects.create(
+                owner=request.user,
+                book=book,
+                name=f"{request.user.username}_{book.title}",
+                stage_final=book.pages,
+                stage_current=pages_read,
+            )
+
+    return redirect('readquest:profile')
+
+
+def current_book_progress(user):
+    # get progress for the user
+    records = ProgressRecord.objects.filter(owner=user)
+
+    # percentage of book read
+    # make sure that 
+    for record in records:
+        if record.stage_final and record.stage_final > 0:
+            record.percent = round((record.stage_current / record.stage_final) * 100)
+        else:
+            record.percent = 0
+
+    return records

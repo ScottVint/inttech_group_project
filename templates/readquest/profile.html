@@ -20,12 +20,14 @@ Profile
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="mb-0">Current read</h2>
-                    <button class="button btn p-2" data-bs-toggle="modal" data-bs-target="#addBookModal">Add new book
-                        +</button>
+                    <button class="button btn p-2" data-bs-toggle="modal" data-bs-target="#addBookModal">Add new
+                        book+</button>
                     {% include 'readquest/add_book_modal.html' %}
+
                 </div>
 
                 {% for book in current_read %}
+                {% include 'readquest/update_progress_modal.html' with book=book %}
                 <!-- Inner Darker Card -->
                 <div class="dark_card p-4 d-flex align-items-end mb-3">
 
@@ -42,15 +44,22 @@ Profile
                         <p class="mb-3">{{ book.author }} &nbsp;·&nbsp; {{ book.pages|default:'?' }} pages</p>
 
                         <!-- Progress bar -->
+                        {% for record in progress_records %}
+
+                        {% if record.book_id == book.id %}
                         <div class="progress mb-3" style="height: 28px;">
-                            <div class="progress-bar" role="progressbar" style="width:0%;" aria-valuenow="0"
-                                aria-valuemin="0" aria-valuemax="100">
-                                0%
+                            <div class="progress-bar" role="progressbar" style="width: {{ record.percent|default:0 }}%;"
+                                aria-valuenow="{{ record.percent|default:0 }}" aria-valuemin="0" aria-valuemax="100">
+                                {{ record.stage_current }} / {{ book.pages }} pages
                             </div>
                         </div>
+                        {% endif %}
+                        {% endfor %}
 
                         <div class="d-flex gap-3">
-                            <button class="button_two btn">Update progress</button>
+                            <button class="button_two btn" data-bs-toggle="modal"
+                                data-bs-target="#updateProgress{{ book.id}}"> Update progress</button>
+                            {% include 'readquest/update_progress_modal.html' %}
                             <form method="post" action="{% url 'readquest:finish-book' book.id %}">
                                 {% csrf_token %}
                                 <button class="button_two btn" type="submit">Finished book</button>
@@ -71,118 +80,118 @@ Profile
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="mb-0">Current goal</h2>
-                     <button class="button btn p-2" data-bs-toggle="modal" data-bs-target="#addGoalModal">New goal
-                            +</button>
-                             {% include 'readquest/add_goal.html' %}
+                    <button class="button btn p-2" data-bs-toggle="modal" data-bs-target="#addGoalModal">New goal
+                        +</button>
+                    {% include 'readquest/add_goal.html' %}
                 </div>
 
-                    <div class="d-flex row">
-                        {% for goal in goals %}
-                        <!-- Inner Darker Card -->
-                        <div class="dark_card p-4 d-flex align-items-end g-3 mt-3">
-                            <div class="col-12">
-                                <h3 class="mb-1">{{ goal.title_goal }}</h3>
-                                <p class="mb-3">{{ goal.books }} books to read</p>
+                <div class="d-flex row">
+                    {% for goal in goals %}
+                    <!-- Inner Darker Card -->
+                    <div class="dark_card p-4 d-flex align-items-end g-3 mt-3">
+                        <div class="col-12">
+                            <h3 class="mb-1">{{ goal.title_goal }}</h3>
+                            <p class="mb-3">{{ goal.books }} books to read</p>
 
-                                <!-- Progress bar -->
-                                <div class="progress mb-3" style="height: 28px;">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ goal.progress }}%;" aria-valuenow="{{ goal.progress}}"
-                                        aria-valuemin="0" aria-valuemax="100">
-                                         {{ goal.books_read }} / {{ goal.books }}
-                                    </div>
+                            <!-- Progress bar -->
+                            <div class="progress mb-3" style="height: 28px;">
+                                <div class="progress-bar" role="progressbar" style="width: {{ goal.progress }}%;"
+                                    aria-valuenow="{{ goal.progress}}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ goal.books_read }} / {{ goal.books }}
                                 </div>
                             </div>
                         </div>
-                        {% empty %}
-                        <p class="text-muted">No goals added yet. Click "New goal+" to get started.</p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Previous reads -->
-        <div class="col-12 col-md-12 mt-4">
-            <div class="p-4 base_cards">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="mb-0">Previous reads</h2>
-                </div>
-                <div class="row g-3">
-                    {% for book in read_books %}
-                    <div class="col-3 col-sm-3">
-                        <div class="dark_card p-2 d-flex flex-column align-items-center">
-                            {% if book.cover_url %}
-                            <img src="{{ book.cover_url }}" alt="{{ book.title }}"
-                                style="width:100%; height:130px; object-fit:cover; border-radius:6px;">
-                            {% elif book.cover_image %}
-                            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}"
-                                style="width:100%; height:130px; object-fit:cover; border-radius:6px;">
-                            {% else %}
-                            <div style="width:100%; height:130px; background:#af671f; border-radius:6px;"></div>
-                            {% endif %}
-                            <p class="mt-2 mb-0 text-center" style="font-size:0.85rem;">{{ book.title }}</p>
-                        </div>
                     </div>
                     {% empty %}
-                    <p class="text-muted">No previous reads yet.</p>
+                    <p class="text-muted">No goals added yet. Click "New goal+" to get started.</p>
                     {% endfor %}
                 </div>
             </div>
         </div>
 
-        <!-- Badges -->
+    </div>
 
-        <div class="mt-4 p-4 base_cards">
-            <h2 class="mb-3">Badges</h2>
-            <div class="row g-3 mt-4">
-
-                <!-- Box for each badge  -->
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100">
-                        <i class="bi bi-trophy fs-2 mb-2"></i>
-                        <h4 class="text-center mb-0">Read 10 books</h4>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100">
-                        <i class="bi bi-postcard fs-2 mb-2"></i>
-                        <h4 class="text-center mb-0">Read a classic</h4>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100">
-                        <i class="bi bi-rocket fs-2 mb-2"></i>
-                        <h4 class="text-center mb-0">Read a book about space</h4>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100">
-                        <i class="bi bi-record-circle fs-2 mb-2"></i>
-                        <h4 class="text-center mb-0">Read a book in one night</h4>
-                    </div>
-                </div>
+    <!-- Previous reads -->
+    <div class="col-12 col-md-12 mt-4">
+        <div class="p-4 base_cards">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="mb-0">Previous reads</h2>
             </div>
-        </div>
-
-        <!-- Want to read -->
-        <div class="row mt-4 g-4">
-            <div class="col-12 col-md-6">
-                <div class="p-4 base_cards">
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h2 class="mb-0">Want to read</h2>
-
+            <div class="row g-3">
+                {% for book in read_books %}
+                <div class="col-3 col-sm-3">
+                    <div class="dark_card p-2 d-flex flex-column align-items-center">
+                        {% if book.cover_url %}
+                        <img src="{{ book.cover_url }}" alt="{{ book.title }}"
+                            style="width:100%; height:130px; object-fit:cover; border-radius:6px;">
+                        {% elif book.cover_image %}
+                        <img src="{{ book.cover_image.url }}" alt="{{ book.title }}"
+                            style="width:100%; height:130px; object-fit:cover; border-radius:6px;">
+                        {% else %}
+                        <div style="width:100%; height:130px; background:#af671f; border-radius:6px;"></div>
+                        {% endif %}
+                        <p class="mt-2 mb-0 text-center" style="font-size:0.85rem;">{{ book.title }}</p>
                     </div>
                 </div>
+                {% empty %}
+                <p class="text-muted">No previous reads yet.</p>
+                {% endfor %}
             </div>
-
-
         </div>
     </div>
 
+    <!-- Badges -->
 
-    {% endblock %}
+    <div class="mt-4 p-4 base_cards">
+        <h2 class="mb-3">Badges</h2>
+        <div class="row g-3 mt-4">
+
+            <!-- Box for each badge  -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100">
+                    <i class="bi bi-trophy fs-2 mb-2"></i>
+                    <h4 class="text-center mb-0">Read 10 books</h4>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100">
+                    <i class="bi bi-postcard fs-2 mb-2"></i>
+                    <h4 class="text-center mb-0">Read a classic</h4>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100">
+                    <i class="bi bi-rocket fs-2 mb-2"></i>
+                    <h4 class="text-center mb-0">Read a book about space</h4>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100">
+                    <i class="bi bi-record-circle fs-2 mb-2"></i>
+                    <h4 class="text-center mb-0">Read a book in one night</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Want to read -->
+    <div class="row mt-4 g-4">
+        <div class="col-12 col-md-6">
+            <div class="p-4 base_cards">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="mb-0">Want to read</h2>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}

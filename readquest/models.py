@@ -100,3 +100,5 @@ class Goal(models.Model):
 
     # Track time on goals
     created_at = models.DateTimeField(default=timezone.now)
+
+
