@@ -21,7 +21,7 @@ class ReviewForm(forms.ModelForm):
         fields = ('text',)
 
 class BookForm(forms.ModelForm):
-    isbn = forms.IntegerField(help_text="Enter IBSN of book")
+    isbn = forms.IntegerField(help_text="Enter ISBN of book (optional)", required=False)
     title = forms.CharField(max_length=Book.MAX_TITLE_LENGTH,
                             help_text="Book Title")
     author = forms.CharField(max_length=Book.MAX_AUTHOR_LENGTH,
