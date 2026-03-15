@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from readquest.forms import UserForm, BookForm
 from .models import Achievement
@@ -67,6 +67,15 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'readquest/login.html')
+
+@login_required
+def user_logout(request):
+    
+    logout(request)
+
+    # Take the user back to the un-authroised home 
+    return redirect(reverse('readquest:index'))
+
 
 def index(request):
 
