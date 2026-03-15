@@ -88,6 +88,7 @@ def home(request):
     context_dict['achivements'] = Achievement.objects.filter(earners=request.user)
     context_dict['current_read'] = Book.objects.filter(currently_reading=request.user)
     context_dict['goals'] = current_goals(request.user)
+    context_dict['progress_records'] = current_book_progress(request.user)
 
     return render(request, 'readquest/home.html', context=context_dict)
 
@@ -275,12 +276,14 @@ def update_progress(request, book_id):
         print(request.POST)  # add this
         pages_read = int(request.POST.get('pages_read', 0))
         book = Book.objects.get(id=book_id)
+        next_url = request.POST.get('next', reverse('readquest:profile'))
 
         # check current progress and update the current page 
         try:
             progress = ProgressRecord.objects.get(owner=request.user, book=book)
             progress.stage_current = pages_read
             progress.save()
+            return redirect(next_url)
 
         #  if the progress doesn't exist
         except ProgressRecord.DoesNotExist:
