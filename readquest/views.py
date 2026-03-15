@@ -140,9 +140,9 @@ def goals(request):
     context_dict = {'progress_record': ProgressRecord.objects.filter(owner=request.user)}
     return render(request,'readquest/goals.html', context=context_dict)
 
-@login_required
-def catalogue(request):
-    return render(request,'readquest/catalogue.html', context={'books': Book.objects.all()})
+# @login_required
+# def catalogue(request):
+#     return render(request,'readquest/catalogue_book-search.html', context={'books': Book.objects.all()})
     
 def show_details(request, details_slug):
     context_dict = {}
@@ -212,7 +212,7 @@ def add_book(request):
     return redirect(reverse('readquest:profile'))
 
 @login_required
-def book_search(request):
+def catalogue(request):
     query = request.GET.get("q", "").strip()
     results = []
     
@@ -221,4 +221,4 @@ def book_search(request):
             results = search_books(query)
         except Exception as e:
             messages.error(request, "Please try again")
-    return render(request, "readquest/book-search.html", {"results": results, "query": query})
+    return render(request, "readquest/catalogue_book-search.html", {"results": results, "query": query})

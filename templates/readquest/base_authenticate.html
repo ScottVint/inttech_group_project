@@ -55,12 +55,14 @@
                         <li class="p-4"><a href="{% url 'readquest:goals' %}"
                                 class="text-decoration-none nav-item">Goals</a></li>
                         </li>
-                        <li class=" p-4"><a href="{% url 'readquest:catalogue' %}"
+                        <li class=" p-4"><a href="{% url 'readquest:catalogue_book-search' %}"
                                 class="text-decoration-none nav-item">Catalogue</a></li>
                     </ul>
 
+
+                    <!-- Search bar -->
                     <div id="search_nav">
-                        <form class="d-flex align-items-center me-2" action="{% url 'readquest:book-search' %}" method="get">
+                        <form class="d-flex align-items-center me-2" action="{% url 'readquest:catalogue_book-search' %}" method="get">
                             <input class="form-control me-2" id="search" type="search" name="q" placeholder="Search"
                                 aria-label="Search">
                             <button class="btn btn-outline-success" type="submit" id="search_btn">Search</button>
@@ -101,7 +103,7 @@
                                 class="text-decoration-none">Profile</a></li>
                         <li class="footer-item pe-4 ps-4 pt-1"><a href="{% url 'readquest:goals' %}"
                                 class="text-decoration-none">Goals</a></li>
-                        <li class="footer-item pe-4 ps-4 pt-1"><a href="{% url 'readquest:catalogue' %}"
+                        <li class="footer-item pe-4 ps-4 pt-1"><a href="{% url 'readquest:catalogue_book-search' %}"
                                 class="text-decoration-none">Catalogue</a></li>
                     </ul>
                 </div>
