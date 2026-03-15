@@ -2,6 +2,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 # User model
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 
@@ -45,12 +46,16 @@ class Book(models.Model):
     read_by = models.ManyToManyField(User, related_name='read_by')
     currently_reading = models.ManyToManyField(User, related_name='currently_reading')
 
+    # So we can track goals
+    date_read = models.DateTimeField(null=True, blank=True)
+
     def save(self, *args,**kwargs):
             self.validate_unique()
             super(Book ,self).save(*args, **kwargs) 
     
     def __str__(self):
         return self.title
+
 
 class ProgressRecord(models.Model):
     MAX_NAME_LENGTH = 128
@@ -91,5 +96,7 @@ class Goal(models.Model):
    
     title_goal = models.CharField(max_length=200, default=0)
     books = models.IntegerField(default=0)
-
     current_goals = models.ManyToManyField(User, related_name='current_goals')
+
+    # Track time on goals
+    created_at = models.DateTimeField(default=timezone.now)

@@ -4,13 +4,13 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from readquest.forms import UserForm, BookForm, GoalForm
-from .models import Achievement
-from .models import Book
-from .models import Goal
-from .models import ProgressRecord
+from .models import Book, Goal, ProgressRecord, Achievement
 from django.contrib.auth.decorators import login_required
 
 from .services import search_books
+
+# Being able to track the goals from when a new goal is set up
+from django.utils import timezone
 
 
 # Create your views here.
@@ -105,7 +105,22 @@ def profile(request):
     context_dict['current_read'] = Book.objects.filter(currently_reading=request.user)
     context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
     context_dict['badges'] = Achievement.objects.filter(earners=request.user)
-    context_dict['goals'] = Goal.objects.filter(current_goals=request.user)
+
+
+    books_read_count = Book.objects.filter(read_by=request.user).count()
+    goals = Goal.objects.filter(current_goals=request.user)
+
+    for goal in goals:
+        # only count books after goal the started
+        books_read_count = Book.objects.filter(
+            read_by=request.user,
+            date_read__gte=goal.created_at).count()
+
+        goal.progress = (books_read_count / goal.books * 100)
+        goal.books_read = books_read_count
+
+    context_dict['goals'] = goals
+
     return render(request, 'readquest/profile.html', context=context_dict)
 
 @login_required
@@ -115,6 +130,8 @@ def finish_book(request, book_id):
             book = Book.objects.get(id=book_id)
             book.currently_reading.remove(request.user)
             book.read_by.add(request.user)
+            book.date_read = timezone.now()
+            book.save()
         except Book.DoesNotExist:
             pass
     return redirect(reverse('readquest:profile'))

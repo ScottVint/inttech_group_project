@@ -68,30 +68,27 @@ Profile
         <!-- Current Goal -->
         <div class="col-12 col-md-4">
             <div class="p-4 base_cards">
-                <div class="d-flex row justify-content-between align-items-center mb-3">
-                    <div class="row">
-                        <h2 class="mb-0 col-8">Current goal</h2>
 
-                        <button class="button btn p-2 col" data-bs-toggle="modal" data-bs-target="#addGoalModal">New goal
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="mb-0">Current goal</h2>
+                     <button class="button btn p-2" data-bs-toggle="modal" data-bs-target="#addGoalModal">New goal
                             +</button>
-                    </div>
-                    {% include 'readquest/add_goal.html' %}
+                             {% include 'readquest/add_goal.html' %}
+                </div>
 
                     <div class="d-flex row">
                         {% for goal in goals %}
                         <!-- Inner Darker Card -->
-                        <div class="dark_card p-4 d-flex align-items-end mb-3">
-
-
-                            <div class="flex-grow-1">
+                        <div class="dark_card p-4 d-flex align-items-end mb-3 mt-3">
+                            <div class="col-12">
                                 <h3 class="mb-1">{{ goal.title_goal }}</h3>
-                                <p class="mb-3">{{ goal.books }}</p>
+                                <p class="mb-3">{{ goal.books }} books to read</p>
 
                                 <!-- Progress bar -->
                                 <div class="progress mb-3" style="height: 28px;">
-                                    <div class="progress-bar" role="progressbar" style="width:0%;" aria-valuenow="0"
+                                    <div class="progress-bar" role="progressbar" style="width: {{ goal.progress }}%;" aria-valuenow="{{ goal.progress}}"
                                         aria-valuemin="0" aria-valuemax="100">
-                                        0%
+                                         {{ goal.books_read }} / {{ goal.books }}
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +109,7 @@ Profile
                     <h2 class="mb-0">Previous reads</h2>
                 </div>
                 <div class="row g-3">
-                    {% for book in read_books|slice:"3:" reversed %}
+                    {% for book in read_books %}
                     <div class="col-3 col-sm-3">
                         <div class="dark_card p-2 d-flex flex-column align-items-center">
                             {% if book.cover_url %}
