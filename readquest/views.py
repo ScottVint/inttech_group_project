@@ -66,7 +66,7 @@ def user_login(request):
         else:
             return HttpResponse("Invalid login details supplied.")
     else:
-        return render(request, 'readquest/login.html')
+        return redirect(reverse('readquest:index'))
 
 @login_required
 def user_logout(request):
