@@ -71,16 +71,21 @@
                     </div>
 
 
-                    <div
-                        class="d-flex justify-content-between align-items-center d-none d-sm-none d-md-none d-lg-block">
-                        <a href="{% url 'readquest:profile' %}"><img src="{% static 'images/profile.png' %}"
-                                alt="Profile icon" id="profile_img"></a>
+
+                    <div class="dropdown">
+                        <img src="{% static 'images/profile.png' %}" alt="Profile icon" id="profile_img"
+                            onclick="toggleDropdown()" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div id="myDropdown" class="dropdown-menu">
+                            <li><a href="{% url 'readquest:profile' %}">Profile</a></li>
+                            <li><a href="{% url 'readquest:logout' %}">Logout</a></li>
+                        </div>
                     </div>
 
+
                     <ul>
+
                         
-                        <li><a href="{% url 'readquest:logout' %}">Logout</a></li>
-                        
+
                     </ul>
                 </div>
             </div>
