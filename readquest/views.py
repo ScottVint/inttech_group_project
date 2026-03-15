@@ -273,7 +273,6 @@ def update_progress(request, book_id):
 
     # get number of pages read on that book 
     if request.method == 'POST':
-        print(request.POST)  # add this
         pages_read = int(request.POST.get('pages_read', 0))
         book = Book.objects.get(id=book_id)
         next_url = request.POST.get('next', reverse('readquest:profile'))
@@ -299,8 +298,11 @@ def update_progress(request, book_id):
 
 
 def current_book_progress(user):
+    # get progress for the user
     records = ProgressRecord.objects.filter(owner=user)
 
+    # percentage of book read
+    # make sure that 
     for record in records:
         if record.stage_final and record.stage_final > 0:
             record.percent = round((record.stage_current / record.stage_final) * 100)
