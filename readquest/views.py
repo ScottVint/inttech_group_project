@@ -153,6 +153,7 @@ def add_to_currently_reading(request):
 @login_required
 def goals(request):
     context_dict = {'progress_record': ProgressRecord.objects.filter(owner=request.user)}
+    context_dict['goals'] = current_goals(request.user)
     return render(request,'readquest/goals.html', context=context_dict)
 
 
