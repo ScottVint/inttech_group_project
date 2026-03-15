@@ -77,11 +77,9 @@ def user_logout(request):
     # Take the user back to the un-authroised home 
     return redirect(reverse('readquest:index'))
 
-
 def index(request):
 
     return render(request,'readquest/index.html')
-
 
 @login_required
 def home(request):
@@ -171,10 +169,6 @@ def current_goals(user):
 
     return goals
 
-# @login_required
-# def catalogue(request):
-#     return render(request,'readquest/catalogue_book-search.html', context={'books': Book.objects.all()})
-    
 def show_details(request, details_slug):
     context_dict = {}
 
@@ -269,3 +263,8 @@ def catalogue(request):
         except Exception as e:
             messages.error(request, "Please try again")
     return render(request, "readquest/catalogue_book-search.html", {"results": results, "query": query})
+
+
+@login_required
+def update_progress(request):
+    return render(request)
