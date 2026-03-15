@@ -89,6 +89,7 @@ def home(request):
     context_dict['user'] = request.user #fetches the user that sent the request
     context_dict['achivements'] = Achievement.objects.filter(earners=request.user)
     context_dict['current_read'] = Book.objects.filter(currently_reading=request.user)
+    context_dict['goals'] = current_goals(request.user)
 
     return render(request, 'readquest/home.html', context=context_dict)
 
@@ -105,21 +106,7 @@ def profile(request):
     context_dict['current_read'] = Book.objects.filter(currently_reading=request.user)
     context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
     context_dict['badges'] = Achievement.objects.filter(earners=request.user)
-
-
-    books_read_count = Book.objects.filter(read_by=request.user).count()
-    goals = Goal.objects.filter(current_goals=request.user)
-
-    for goal in goals:
-        # only count books after goal the started
-        books_read_count = Book.objects.filter(
-            read_by=request.user,
-            date_read__gte=goal.created_at).count()
-
-        goal.progress = (books_read_count / goal.books * 100)
-        goal.books_read = books_read_count
-
-    context_dict['goals'] = goals
+    context_dict['goals'] = current_goals(request.user)
 
     return render(request, 'readquest/profile.html', context=context_dict)
 
@@ -167,6 +154,21 @@ def add_to_currently_reading(request):
 def goals(request):
     context_dict = {'progress_record': ProgressRecord.objects.filter(owner=request.user)}
     return render(request,'readquest/goals.html', context=context_dict)
+
+
+def current_goals(user):
+    goals = Goal.objects.filter(current_goals=user)
+
+    for goal in goals:
+        # only count books after goal the started
+        books_read_count = Book.objects.filter(
+            read_by=user,
+            date_read__gte=goal.created_at).count()
+
+        goal.progress = (books_read_count / goal.books * 100)
+        goal.books_read = books_read_count
+
+    return goals
 
 # @login_required
 # def catalogue(request):
@@ -238,7 +240,6 @@ def add_book(request):
             print(form.errors)
 
     return redirect(reverse('readquest:profile'))
-
 
 @login_required
 def add_goal(request):
