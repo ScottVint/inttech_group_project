@@ -16,15 +16,23 @@ Search
     {% for book in results %}
 
     <div class="col-6">
-        <div class="dark_card p-3 d-flex align-items-end">
-            <div class="col-4 me-4">
-                <img src="{{ book.cover_image }}" alt="cover" onerror="this.style.visibility='hidden'">
+        <div class="dark_card p-3 d-flex align-items-center">
+            <div class="me-3 flex-shrink-0">
+                <img class="search_book_cover" src="{{ book.cover_image }}" alt="cover" onerror="this.style.visibility='hidden'">
             </div>
-            <div class="col-6 d-flex flex-column ms-2">
-                <h4>{{ book.title }}</h4>
-                <p>{{ book.author }} </p>
-                <p>{{ book.pages|default:'?' }} pages</p>
-                <button class="btn button_two btn-sm">Add</button>
+            <div class="d-flex flex-column">
+                <h4 class="mb-1">{{ book.title }}</h4>
+                <p class="mb-1">{{ book.author }}</p>
+                <p class="mb-3">{{ book.pages|default:'?' }} pages</p>
+                <form method="post" action="{% url 'readquest:add-to-reading' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="ol_key" value="{{ book.ol_key }}">
+                    <input type="hidden" name="title" value="{{ book.title }}">
+                    <input type="hidden" name="author" value="{{ book.author }}">
+                    <input type="hidden" name="pages" value="{{ book.pages }}">
+                    <input type="hidden" name="cover_url" value="{{ book.cover_image }}">
+                    <button class="btn button_two" type="submit">Add</button>
+                </form>
             </div>
         </div>
     </div>

@@ -33,14 +33,14 @@ class Book(models.Model):
     MAX_TITLE_LENGTH = 128
     MAX_AUTHOR_LENGTH = 128
 
-    #TODO Figure out how to import the API
-    isbn = models.IntegerField(unique=True)
+    isbn = models.IntegerField(unique=True, null=True, blank=True)
+    ol_key = models.CharField(max_length=64, unique=True, null=True, blank=True)
     title = models.CharField(max_length=MAX_TITLE_LENGTH)
-    #TODO How to do multivalued fields (more models perhaps)
-    author = models.CharField(max_length=MAX_AUTHOR_LENGTH)#ArrayField(models.CharField(max_length=MAX_AUTHOR_LENGTH))
-    pages = models.IntegerField()
-    blurb = models.TextField()
-    cover_image = models.ImageField(null=True)
+    author = models.CharField(max_length=MAX_AUTHOR_LENGTH)
+    pages = models.IntegerField(default=0)
+    blurb = models.TextField(default='')
+    cover_image = models.ImageField(null=True, blank=True)
+    cover_url = models.URLField(null=True, blank=True)
     wishlisted_by = models.ManyToManyField(User, related_name='wishlisted_by')
     read_by = models.ManyToManyField(User, related_name='read_by')
     currently_reading = models.ManyToManyField(User, related_name='currently_reading')

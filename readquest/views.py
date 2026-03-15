@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
-from readquest.forms import UserForm
+from readquest.forms import UserForm, BookForm
 from .models import Achievement
 from .models import Book
 from .models import ProgressRecord
@@ -91,10 +91,48 @@ def book_list(request):
 def profile(request):
     context_dict = {}
     context_dict['read_books'] = Book.objects.filter(read_by=request.user)
-    context_dict['current_read'] = Book.objects.filter(currently_reading = request.user)
+    context_dict['current_read'] = Book.objects.filter(currently_reading=request.user)
     context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
     context_dict['badges'] = Achievement.objects.filter(earners=request.user)
-    return render(request,'readquest/profile.html')
+    return render(request, 'readquest/profile.html', context=context_dict)
+
+@login_required
+def finish_book(request, book_id):
+    if request.method == 'POST':
+        try:
+            book = Book.objects.get(id=book_id)
+            book.currently_reading.remove(request.user)
+            book.read_by.add(request.user)
+        except Book.DoesNotExist:
+            pass
+    return redirect(reverse('readquest:profile'))
+
+@login_required
+def add_to_currently_reading(request):
+    if request.method == 'POST':
+        ol_key = request.POST.get('ol_key', '').strip()
+        title = request.POST.get('title', 'Unknown Title').strip()
+        author = request.POST.get('author', 'Unknown Author').strip()
+        pages = request.POST.get('pages', 0)
+        cover_url = request.POST.get('cover_url', '').strip()
+
+        try:
+            pages = int(pages)
+        except (ValueError, TypeError):
+            pages = 0
+
+        book, _ = Book.objects.get_or_create(
+            ol_key=ol_key,
+            defaults={
+                'title': title,
+                'author': author,
+                'pages': pages,
+                'cover_url': cover_url or None,
+            }
+        )
+        book.currently_reading.add(request.user)
+
+    return redirect(reverse('readquest:profile'))
 
 @login_required
 def goals(request):
@@ -156,19 +194,20 @@ def book_review(request, details_slug):
     context_dict = {'form': form, 'book': book}
     return render(request, 'readquest/review.html', context=context_dict)
 
+@login_required
 def add_book(request):
     if request.method == 'POST':
-        form = book_form(request.POST)
+        form = BookForm(request.POST, request.FILES)
 
         if form.is_valid():
             book = form.save()
-
-            return redirect(reverse('readquest:home'))
+            book.currently_reading.add(request.user)
+            return redirect(reverse('readquest:profile'))
 
         else:
             print(form.errors)
 
-    return render(request, 'readquest/add_book.html')
+    return redirect(reverse('readquest:profile'))
 
 
 def book_search(request):

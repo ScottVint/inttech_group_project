@@ -60,8 +60,8 @@
                     </ul>
 
                     <div id="search_nav">
-                        <form class="d-flex align-items-center me-2">
-                            <input class="form-control me-2" id="search" type="search" placeholder="Search"
+                        <form class="d-flex align-items-center me-2" action="{% url 'readquest:book-search' %}" method="get">
+                            <input class="form-control me-2" id="search" type="search" name="q" placeholder="Search"
                                 aria-label="Search">
                             <button class="btn btn-outline-success" type="submit" id="search_btn">Search</button>
                         </form>
