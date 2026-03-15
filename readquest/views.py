@@ -78,6 +78,7 @@ def home(request):
     context_dict = {}
     context_dict['user'] = request.user #fetches the user that sent the request
     context_dict['achivements'] = Achievement.objects.filter(earners=request.user)
+    context_dict['current_read'] = Book.objects.filter(currently_reading=request.user)
 
     return render(request, 'readquest/home.html', context=context_dict)
 

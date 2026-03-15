@@ -90,7 +90,29 @@ p{ font-family: "Inter", sans-serif;
 
 }
 
+.book_modal_card{
+    background-color: #e4d5c6;
 
+
+}
+
+
+#addBookTabs .nav-link.active {
+    background-color: #e4d5c6;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.08);
+    border-style: solid solid none solid;
+
+}
+
+#addBookTabs .nav-link:not(.active) {
+    background-color:  #d8c5b2;
+    color: grey;
+    border: white;
+}
+
+#addBookTabs .nav-link:hover {
+    color: your-colour;
+}
 
 
 /* Icons */
@@ -220,7 +242,13 @@ p{ font-family: "Inter", sans-serif;
 
 
 /* Home page */
+.book_cover_home{
+    background:darkred; 
+    height:180px; 
+    width: 140px;
 
+     border-radius:8px;
+}
 
 /* Profile page */
 
@@ -228,7 +256,18 @@ p{ font-family: "Inter", sans-serif;
     background:darkred; 
     height:300px; 
     width: 200px;
+
+     border-radius:8px;
 }
+
+.book_cover_img{
+    object-fit:cover;
+    width: 100%;
+    height: 100%;
+
+}
+
+
 
 
 /* Search */
