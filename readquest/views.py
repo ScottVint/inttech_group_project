@@ -93,6 +93,7 @@ def home(request):
 
 @login_required
 def book_list(request):
+    context_dict = {}
     context_dict['read_books'] = Book.objects.filter(read_by=request.user)
     context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
     return render(request, 'readquest/home.html', context=context_dict)
@@ -105,6 +106,7 @@ def profile(request):
     context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
     context_dict['badges'] = Achievement.objects.filter(earners=request.user)
     context_dict['goals'] = current_goals(request.user)
+    context_dict['progress_records'] = current_book_progress(request.user)
 
     return render(request, 'readquest/profile.html', context=context_dict)
 
@@ -266,5 +268,40 @@ def catalogue(request):
 
 
 @login_required
-def update_progress(request):
-    return render(request)
+def update_progress(request, book_id):
+
+    # get number of pages read on that book 
+    if request.method == 'POST':
+        print(request.POST)  # add this
+        pages_read = int(request.POST.get('pages_read', 0))
+        book = Book.objects.get(id=book_id)
+
+        # check current progress and update the current page 
+        try:
+            progress = ProgressRecord.objects.get(owner=request.user, book=book)
+            progress.stage_current = pages_read
+            progress.save()
+
+        #  if the progress doesn't exist
+        except ProgressRecord.DoesNotExist:
+            ProgressRecord.objects.create(
+                owner=request.user,
+                book=book,
+                name=f"{request.user.username}_{book.title}",
+                stage_final=book.pages,
+                stage_current=pages_read,
+            )
+
+    return redirect('readquest:profile')
+
+
+def current_book_progress(user):
+    records = ProgressRecord.objects.filter(owner=user)
+
+    for record in records:
+        if record.stage_final and record.stage_final > 0:
+            record.percent = round((record.stage_current / record.stage_final) * 100)
+        else:
+            record.percent = 0
+
+    return records
