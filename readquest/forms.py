@@ -39,8 +39,9 @@ class BookForm(forms.ModelForm):
 
 
 class GoalForm(forms.ModelForm):
+    title_goal = forms.CharField(help_text="Your goal title", required=True)
     books = forms.IntegerField(help_text="Enter the amount of books you want to read", required=True)
 
     class Meta:
         model = Goal
-        fields = ('books',)
+        fields = ('title_goal', 'books',)

@@ -88,4 +88,8 @@ class Review(models.Model):
         return f"Review of book {self.book}"
 
 class Goal(models.Model):
-    goal = models.TextField()
+   
+    title_goal = models.CharField(max_length=200, default=0)
+    books = models.IntegerField(default=0)
+
+    current_goals = models.ManyToManyField(User, related_name='current_goals')

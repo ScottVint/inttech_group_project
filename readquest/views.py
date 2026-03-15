@@ -3,9 +3,10 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
-from readquest.forms import UserForm, BookForm
+from readquest.forms import UserForm, BookForm, GoalForm
 from .models import Achievement
 from .models import Book
+from .models import Goal
 from .models import ProgressRecord
 from django.contrib.auth.decorators import login_required
 
@@ -104,6 +105,7 @@ def profile(request):
     context_dict['current_read'] = Book.objects.filter(currently_reading=request.user)
     context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
     context_dict['badges'] = Achievement.objects.filter(earners=request.user)
+    context_dict['goals'] = Goal.objects.filter(current_goals=request.user)
     return render(request, 'readquest/profile.html', context=context_dict)
 
 @login_required
@@ -228,8 +230,8 @@ def add_goal(request):
         next_url = request.POST.get('next', reverse('readquest:profile'))
 
         if form.is_valid():
-            book = form.save()
-            book.currently_reading.add(request.user)
+            goal = form.save()
+            goal.current_goals.add(request.user)
             return redirect(next_url)
 
         else:
