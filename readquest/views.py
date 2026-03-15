@@ -220,6 +220,23 @@ def add_book(request):
 
     return redirect(reverse('readquest:profile'))
 
+
+@login_required
+def add_goal(request):
+    if request.method == 'POST':
+        form = GoalForm(request.POST, request.FILES)
+        next_url = request.POST.get('next', reverse('readquest:profile'))
+
+        if form.is_valid():
+            book = form.save()
+            book.currently_reading.add(request.user)
+            return redirect(next_url)
+
+        else:
+            print(form.errors)
+
+    return redirect(reverse('readquest:profile'))
+
 @login_required
 def catalogue(request):
     query = request.GET.get("q", "").strip()

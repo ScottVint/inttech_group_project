@@ -17,6 +17,7 @@ urlpatterns = [
     path('<slug:details_slug>/review', views.book_review, name='review'),
     path('add-to-reading', views.add_to_currently_reading, name="add-to-reading"),
     path('add-book', views.add_book, name="add-book"),
+    path('add-goal', views.add_goal, name="add-goal"),
     path('finish-book/<int:book_id>', views.finish_book, name="finish-book"),
 ]
 

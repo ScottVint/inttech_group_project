@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from .models import Review
 from .models import Book
+from .models import Goal
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -35,3 +36,11 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ('isbn', 'title', 'author', 'pages', 'blurb', 'cover_image',)
+
+
+class GoalForm(forms.ModelForm):
+    books = forms.IntegerField(help_text="Enter the amount of books you want to read", required=True)
+
+    class Meta:
+        model = Goal
+        fields = ('books',)

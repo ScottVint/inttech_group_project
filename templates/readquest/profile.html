@@ -71,7 +71,9 @@ Profile
             <div class="p-4 base_cards">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="mb-0">Current goal</h2>
-                    <button class="button btn p-2">New goal +</button>
+                    
+                    <button class="button btn p-2" data-bs-toggle="modal" data-bs-target="#addGoalModal">New goal +</button>
+                    {% include 'readquest/add_goal.html' %}
                 </div>
             </div>
         </div>

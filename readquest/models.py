@@ -86,3 +86,6 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review of book {self.book}"
+
+class Goal(models.Model):
+    goal = models.TextField()
