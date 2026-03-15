@@ -74,10 +74,10 @@
 
                     <div class="dropdown">
                         <img src="{% static 'images/profile.png' %}" alt="Profile icon" id="profile_img"
-                            onclick="toggleDropdown()" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div id="myDropdown" class="dropdown-menu">
-                            <li><a href="{% url 'readquest:profile' %}">Profile</a></li>
-                            <li><a href="{% url 'readquest:logout' %}">Logout</a></li>
+                            onclick="toggleDropdown()" class="btn btn-dropdown dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div id="myDropdown" class="dropdown-menu dropdown-menu-end">
+                            <li><a href="{% url 'readquest:profile' %}" class="dropDownItem">Profile</a></li>
+                            <li><a href="{% url 'readquest:logout' %}" class="dropDownItem">Logout</a></li>
                         </div>
                     </div>
 

@@ -125,14 +125,6 @@ p{ font-family: "Inter", sans-serif;
 }
 
 /* Navigation */
-#profile_img {
-    height: 40px !important;
-    padding-left: 10px;
-}
-
-#logo_auth_page{
-        height: 65px !important;
-}
 
 .nav-item{
   font-family: "Inter", sans-serif;
@@ -174,8 +166,47 @@ p{ font-family: "Inter", sans-serif;
     color:#af671f;
 }
 
+
 /* Dropdown on profile pic */
-.drop{}
+#profile_img {
+    height: 50px !important;
+    padding-left: 10px;
+}
+
+#logo_auth_page{
+        height: 65px !important;
+}
+
+
+.btn-dropdown{
+    border: none !important;
+}
+
+.btn.show{
+    border: none !important;
+    background-color: #FFEBD7;
+}
+
+.dropdown-menu{
+    background-color:#d8c5b2;
+    text-align: center;
+    line-height: 2rem;
+}
+
+.dropdown:hover{
+    scale: 1.1;
+}
+
+.dropDownItem{
+    text-decoration: none !important;
+    color: #4b1319 !important;
+}
+
+.dropDownItem:hover{
+    text-decoration: underline !important;
+    color:#771F28 !important;
+}
+
 
 
 
