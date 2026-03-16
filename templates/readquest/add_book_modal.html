@@ -1,18 +1,23 @@
 <!-- Add Book Modal -->
-<div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+<section class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg ">
         <div class="modal-content book_modal_card p-4">
+
+            <!-- Title of add modal -->
             <div class="modal-header">
                 <h3 class="modal-title" id="addBookModalLabel">Add a book</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
+
+            <!-- modal body -->
             <div class="modal-body">
 
                 <!-- Tabs -->
                 <ul class="nav nav-tabs mb-3" id="addBookTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="manual-tab" data-bs-toggle="tab"
-                            data-bs-target="#manualTab" type="button" role="tab">
+                        <button class="nav-link active" id="manual-tab" data-bs-toggle="tab" data-bs-target="#manualTab"
+                            type="button" role="tab">
                             Manual upload
                         </button>
                     </li>
@@ -23,6 +28,7 @@
                         </button>
                     </li>
                 </ul>
+
 
                 <div class="tab-content" id="addBookTabsContent">
 
@@ -36,22 +42,26 @@
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label class="form-label">Title <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="title" required maxlength="128">
+                                    <input type="text" class="form-control" name="title" required maxlength="128"
+                                        placeholder="Title of book">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Author <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="author" required maxlength="128">
+                                    <input type="text" class="form-control" name="author" required maxlength="128"
+                                        placeholder="Author of book">
                                 </div>
                                 <div class="col-6">
                                     <label class="form-label">Pages <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" name="pages" required min="1">
+                                    <input type="number" class="form-control" name="pages" required min="1"
+                                        placeholder="0">
                                 </div>
                                 <div class="col-6">
                                     <label class="form-label">ISBN <span class="text-muted">(optional)</span></label>
-                                    <input type="number" class="form-control" name="isbn">
+                                    <input type="number" class="form-control" name="isbn" placeholder="ISBN">
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label">Cover image <span class="text-muted">(optional)</span></label>
+                                    <label class="form-label">Cover image <span
+                                            class="text-muted">(optional)</span></label>
                                     <input type="file" class="form-control" name="cover_image" accept="image/*">
                                 </div>
                                 <input type="hidden" name="blurb" value="This is a user submitted book.">
@@ -68,46 +78,16 @@
                         <form action="{% url 'readquest:catalogue_book-search' %}" method="get">
                             <label for="modalBookSearch" class="form-label">Book title</label>
                             <input type="search" class="form-control mb-3" id="modalBookSearch" name="q"
-                                placeholder="e.g. Harry Potter">
+                                placeholder="Search for a book">
                             <div class="d-flex justify-content-end gap-2">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                 <button type="submit" class="button btn">Search</button>
                             </div>
                         </form>
-                        <div class="row g-3 mt-4">
-    {% for book in results %}
-
-    <div class="col-6">
-        <div class="dark_card p-3 d-flex align-items-center">
-            <div class="me-3 flex-shrink-0">
-                <img class="search_book_cover" src="{{ book.cover_image }}" alt="cover" onerror="this.style.visibility='hidden'">
-            </div>
-            <div class="d-flex flex-column">
-                <h4 class="mb-1">{{ book.title }}</h4>
-                <p class="mb-1">{{ book.author }}</p>
-                <p class="mb-3">{{ book.pages|default:'?' }} pages</p>
-                <form method="post" action="{% url 'readquest:add-to-reading' %}">
-                    {% csrf_token %}
-
-                    <input type="hidden" name="ol_key" value="{{ book.ol_key }}">
-                    <input type="hidden" name="title" value="{{ book.title }}">
-                    <input type="hidden" name="author" value="{{ book.author }}">
-                    <input type="hidden" name="pages" value="{{ book.pages }}">
-                    <input type="hidden" name="cover_url" value="{{ book.cover_image }}">
-                    <button class="btn button_two" type="submit">Add</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    {% empty %}
-    {% if query %}<p>No results found.</p>{% endif %}
-    {% endfor %}
-</div>
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>

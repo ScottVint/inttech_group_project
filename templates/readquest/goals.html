@@ -7,11 +7,13 @@ Goals
 
 
 {% block body_block %}
-<div class="d-flex justify-content-between align-items-center mb-3">
+<!-- Title and add new goal -->
+<section class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="mb-0">Your goals</h1>
     <button class="button btn p-2" data-bs-toggle="modal" data-bs-target="#addGoalModal">Add new goal +</button>
     {% include 'readquest/add_goal.html' %}
-</div>
+</section>
+
 
 <div class="container p-0">
     <div class="row mt-2 p-0 g-4">
@@ -73,10 +75,9 @@ Goals
 
     </div>
 
-
     <!-- Badges -->
 
-    <div class="mt-4 p-4 base_cards">
+    <section class="mt-4 p-4 base_cards">
         <h2 class="mb-3">Badges</h2>
         <div class="row g-3 mt-4">
 
@@ -109,9 +110,7 @@ Goals
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
-</div>
-
 
 {% endblock %}

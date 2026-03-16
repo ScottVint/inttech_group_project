@@ -11,10 +11,11 @@ Profile
 <h1>Your Profile</h1>
 
 <div class="container p-0">
+    <!-- Top Row -->
     <div class="row mt-2 p-0 g-4">
 
         <!-- Current Read -->
-        <div class="col-12 col-md-8">
+        <section class="col-12 col-md-8">
             <div class="p-4 base_cards">
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -26,16 +27,18 @@ Profile
                 </div>
 
                 {% for book in current_read %}
-                
+
                 {% include 'readquest/update_progress_modal.html' with book=book %}
                 <!-- Inner Darker Card -->
                 <div class="dark_card p-4 d-flex align-items-end mb-3">
 
                     <div class="book_cover_profile me-3 overflow-hidden">
                         {% if book.cover_url %}
-                        <img src="{{ book.cover_url }}" fetchpriority="high" alt="{{ book.title }} cover" loading="lazy" class="book_cover_img">
+                        <img src="{{ book.cover_url }}" fetchpriority="high" alt="Book cover for {{ book.title }}"
+                            loading="lazy" class="book_cover_img">
                         {% elif book.cover_image %}
-                        <img src="{{ book.cover_image.url }}" fetchpriority="high" alt="{{ book.title }} cover" loading="lazy" class="book_cover_img">
+                        <img src="{{ book.cover_image.url }}" fetchpriority="high" alt="Book cover for {{ book.title }}"
+                            loading="lazy" class="book_cover_img">
                         {% endif %}
                     </div>
 
@@ -72,11 +75,11 @@ Profile
                 <p class="text-muted">No books added yet. Click "Add new book +" to get started.</p>
                 {% endfor %}
             </div>
-        </div>
+        </section>
 
         <!-- Current Goal -->
-        <div class="col-12 col-md-4">
-            <div class="p-4 base_cards h-100">
+        <section class="col-12 col-md-4">
+            <div class="p-4 base_cards">
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="mb-0">Current goal</h2>
@@ -111,12 +114,12 @@ Profile
                     {% endfor %}
                 </div>
             </div>
-        </div>
-
+        </section>
     </div>
 
+
     <!-- Previous reads -->
-    <div class="col-12 col-md-12 mt-4">
+    <section class="col-12 col-md-12 mt-4">
         <div class="p-4 base_cards">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="mb-0">Previous reads</h2>
@@ -142,11 +145,11 @@ Profile
                 {% endfor %}
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Badges -->
 
-    <div class="mt-4 p-4 base_cards">
+    <section class="mt-4 p-4 base_cards">
         <h2 class="mb-3">Badges</h2>
         <div class="row g-3 mt-4">
 
@@ -179,10 +182,10 @@ Profile
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Want to read -->
-    <div class="row mt-4 g-4">
+    <section class="row mt-4 g-4">
         <div class="col-12 col-md-6">
             <div class="p-4 base_cards">
 
@@ -194,7 +197,7 @@ Profile
         </div>
 
 
-    </div>
+    </section>
 </div>
 
 
