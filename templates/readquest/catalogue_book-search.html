@@ -8,10 +8,10 @@ Search
 
 {% block body_block %}
 
-<h1>Search results</h1>
+<h1>Catalogue</h1>
 
 <!-- Search bar -->
-<section class="mb-2 mt-4 col-6">
+<section class="mb-4 mt-4 col-6">
     <form action="{% url 'readquest:catalogue_book-search' %}" method="get">
         <input type="search" class="form-control mb-3" name="q" placeholder="Search for a book">
         <div class="d-flex justify-content-start gap-2">
@@ -22,7 +22,8 @@ Search
 
 <!-- Search results -->
 <section>
-    <div class="row g-3 mt-4">
+<h3 id="result-title">Search results for {{ query }}</h3>
+    <div class="row g-3 mt-2">
         {% for book in results %}
         <div class="col-6">
             <div class="dark_card p-3 d-flex align-items-center">

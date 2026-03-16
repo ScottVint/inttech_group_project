@@ -12,6 +12,7 @@ def search_books(query):
     response.raise_for_status()
 
     books = []
+    
     for doc in response.json().get("docs", []):
         cover_image = f"https://covers.openlibrary.org/b/id/{doc['cover_i']}-M.jpg" if doc.get("cover_i") else None
         books.append({
