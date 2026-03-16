@@ -120,6 +120,7 @@ def finish_book(request, book_id):
             book.read_by.add(request.user)
             book.date_read = timezone.now()
             book.save()
+            _check_and_complete_goals(request.user)
         except Book.DoesNotExist:
             pass
     return redirect(reverse('readquest:profile'))
@@ -155,6 +156,7 @@ def add_to_currently_reading(request):
 def goals(request):
     context_dict = {'progress_record': ProgressRecord.objects.filter(owner=request.user)}
     context_dict['goals'] = current_goals(request.user)
+    context_dict['completed_goals'] = completed_goals(request.user)
     return render(request,'readquest/goals.html', context=context_dict)
 
 
@@ -167,10 +169,39 @@ def current_goals(user):
             read_by=user,
             date_read__gte=goal.created_at).count()
 
-        goal.progress = (books_read_count / goal.books * 100)
+        goal.progress = min((books_read_count / goal.books * 100), 100)
         goal.books_read = books_read_count
 
     return goals
+
+
+def completed_goals(user):
+    goals = Goal.objects.filter(completed_by=user).order_by('-completed_at')
+
+    for goal in goals:
+        books_read_count = Book.objects.filter(
+            read_by=user,
+            date_read__gte=goal.created_at,
+            date_read__lte=goal.completed_at).count()
+        goal.books_read = books_read_count
+
+    return goals
+
+
+def _check_and_complete_goals(user):
+    """After finishing a book, archive any goals that have reached their target."""
+    active_goals = Goal.objects.filter(current_goals=user)
+
+    for goal in active_goals:
+        books_read_count = Book.objects.filter(
+            read_by=user,
+            date_read__gte=goal.created_at).count()
+
+        if books_read_count >= goal.books:
+            goal.current_goals.remove(user)
+            goal.completed_by.add(user)
+            goal.completed_at = timezone.now()
+            goal.save()
 
 def show_details(request, details_slug):
     context_dict = {}

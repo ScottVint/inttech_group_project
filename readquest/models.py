@@ -93,12 +93,14 @@ class Review(models.Model):
         return f"Review of book {self.book}"
 
 class Goal(models.Model):
-   
+
     title_goal = models.CharField(max_length=200, default=0)
     books = models.IntegerField(default=0)
     current_goals = models.ManyToManyField(User, related_name='current_goals')
+    completed_by = models.ManyToManyField(User, related_name='completed_goals', blank=True)
 
     # Track time on goals
     created_at = models.DateTimeField(default=timezone.now)
+    completed_at = models.DateTimeField(null=True, blank=True)
 
 
