@@ -5,24 +5,13 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{% static 'CSS/style.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="{% static 'JS/script.js' %}"></script>
-    <script src="{% static 'JS/cookies.js' %}" defer></script>
-    
-    <title>ReadQuest -
+{% include 'readquest/head.html' %}
+{% include 'readquest/scripts.html' %}
+<title>ReadQuest -
         {% block title_block %}
-        Welcome
+
         {% endblock %}
-    </title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
-        </style>
+</title>
 </head>
 
 
@@ -36,5 +25,5 @@
 {% include 'readquest/cookie_banner.html' %}
 
 </body>
-
+{% include 'readquest/scripts.html' %}
 </html>
