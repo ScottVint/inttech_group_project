@@ -18,40 +18,59 @@ Goals
 
         <!-- Current goals -->
         <div class="col-12">
-
-
-
             <div class="p-4 base_cards">
-
-        
+                <h2 class="mb-3">Current goal</h2>
                 <div class="d-flex row g-3">
-                        {% for goal in goals %}
-                        <!-- Inner Darker Card -->
-                        <div class="dark_card p-4 d-flex align-items-end">
-                            <div class="col-12">
-                                <h3 class="mb-1">{{ goal.title_goal }}</h3>
-                                <p class="mb-3">{{ goal.books }} books to read</p>
-
-                                <!-- Progress bar -->
-                                <div class="progress" style="height: 28px;">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ goal.progress }}%;"
-                                        aria-valuenow="{{ goal.progress}}" aria-valuemin="0" aria-valuemax="100">
-                                        {{ goal.books_read }} / {{ goal.books }}
-                                    </div>
+                    {% for goal in goals %}
+                    <div class="dark_card p-4">
+                        <div class="col-12">
+                            <h3 class="mb-1">{{ goal.title_goal }}</h3>
+                            <p class="mb-2 text-muted">{{ goal.books_read }} of {{ goal.books }} books read</p>
+                            <div class="progress mb-2" style="height: 28px;">
+                                <div class="progress-bar" role="progressbar"
+                                    style="width: {{ goal.progress }}%;"
+                                    aria-valuenow="{{ goal.progress }}"
+                                    aria-valuemin="0" aria-valuemax="100">
+                                    {{ goal.progress|floatformat:0 }}%
                                 </div>
                             </div>
+                            <p class="mb-0" style="font-size:0.8rem; color:#af671f;">
+                                Started {{ goal.created_at|date:"d M Y" }}
+                            </p>
                         </div>
-                        {% empty %}
-                        <p class="text-muted">No goals added yet. Click " Add new goal+" to get started.</p>
-                        {% endfor %}
                     </div>
-
+                    {% empty %}
+                    <p class="text-muted mt-2">No active goal. Head to your profile to set one.</p>
+                    {% endfor %}
+                </div>
             </div>
-
-
-
-
         </div>
+
+        <!-- Completed goals -->
+        <div class="col-12">
+            <div class="p-4 base_cards">
+                <h2 class="mb-3">Completed goals</h2>
+                <div class="d-flex row g-3">
+                    {% for goal in completed_goals %}
+                    <div class="dark_card p-4">
+                        <div class="col-12 d-flex justify-content-between align-items-start">
+                            <div>
+                                <h3 class="mb-1">{{ goal.title_goal }}</h3>
+                                <p class="mb-1 text-muted">{{ goal.books }} books &nbsp;·&nbsp; {{ goal.books_read }} read</p>
+                                <p class="mb-0" style="font-size:0.8rem; color:#af671f;">
+                                    Completed {{ goal.completed_at|date:"d M Y" }}
+                                </p>
+                            </div>
+                            <i class="bi bi-check-circle-fill fs-2" style="color:#F98410;"></i>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted">No completed goals yet — keep reading!</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
     </div>
 
 

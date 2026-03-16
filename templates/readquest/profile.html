@@ -10,7 +10,6 @@ Profile
 
 <h1>Your Profile</h1>
 
-
 <div class="container p-0">
     <div class="row mt-2 p-0 g-4">
 
@@ -77,34 +76,38 @@ Profile
 
         <!-- Current Goal -->
         <div class="col-12 col-md-4">
-            <div class="p-4 base_cards">
+            <div class="p-4 base_cards h-100">
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="mb-0">Current goal</h2>
-                    <button class="button btn p-2" data-bs-toggle="modal" data-bs-target="#addGoalModal">New goal
-                        +</button>
+                    <button class="button btn p-2" data-bs-toggle="modal" data-bs-target="#addGoalModal">Add new goal +</button>
                     {% include 'readquest/add_goal.html' %}
                 </div>
 
                 <div class="d-flex row">
                     {% for goal in goals %}
                     <!-- Inner Darker Card -->
-                    <div class="dark_card p-4 d-flex align-items-end g-3 mt-3">
+                    <div class="dark_card p-4 g-3 mt-3">
                         <div class="col-12">
                             <h3 class="mb-1">{{ goal.title_goal }}</h3>
-                            <p class="mb-3">{{ goal.books }} books to read</p>
+                            <p class="mb-2 text-muted">{{ goal.books_read }} of {{ goal.books }} books read</p>
 
                             <!-- Progress bar -->
-                            <div class="progress mb-3" style="height: 28px;">
-                                <div class="progress-bar" role="progressbar" style="width: {{ goal.progress }}%;"
-                                    aria-valuenow="{{ goal.progress}}" aria-valuemin="0" aria-valuemax="100">
-                                    {{ goal.books_read }} / {{ goal.books }}
+                            <div class="progress mb-2" style="height: 28px;">
+                                <div class="progress-bar" role="progressbar"
+                                    style="width: {{ goal.progress }}%;"
+                                    aria-valuenow="{{ goal.progress }}"
+                                    aria-valuemin="0" aria-valuemax="100">
+                                    {{ goal.progress|floatformat:0 }}%
                                 </div>
                             </div>
+                            <p class="mb-0" style="font-size:0.8rem; color:#af671f;">
+                                Started {{ goal.created_at|date:"d M Y" }}
+                            </p>
                         </div>
                     </div>
                     {% empty %}
-                    <p class="text-muted">No goals added yet. Click "New goal+" to get started.</p>
+                    <p class="text-muted mt-2">No goal set yet. Click "Add new goal +" to get started.</p>
                     {% endfor %}
                 </div>
             </div>
