@@ -241,6 +241,15 @@ p {
 
 }
 
+footer p {
+    color:white;
+}
+
+footer hr{
+    color:white;
+
+}
+
 /* Front page */
 
 #front_image {

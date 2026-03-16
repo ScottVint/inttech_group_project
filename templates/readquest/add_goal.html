@@ -1,5 +1,5 @@
 <!-- Add Goal -->
-<div class="modal fade" id="addGoalModal" tabindex="-1" aria-labelledby="addGoalModalLabel" aria-hidden="true">
+<section class="modal fade" id="addGoalModal" tabindex="-1" aria-labelledby="addGoalModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg ">
         <div class="modal-content book_modal_card p-4">
             <div class="modal-header">
@@ -20,11 +20,11 @@
                         <div class="row g-3">
                             <div class="col-12">
                                 <label class="form-label">Title of goal <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="title_goal" required maxlength="128">
+                                <input type="text" class="form-control" name="title_goal" required maxlength="128" placeholder="Title of goal">
                             </div>
                             <div class="col-6">
                                 <label class="form-label">Amount of books <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" name="books" required min="1">
+                                <input type="number" class="form-control" name="books" required min="1" placeholder="0">
                             </div>
                             <input type="hidden" name="blurb" value="This is a user has submitted a new goal.">
                         </div>
@@ -40,4 +40,4 @@
         </div>
 
     </div>
-</div>
+</section>
