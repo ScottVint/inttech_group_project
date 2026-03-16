@@ -6,14 +6,15 @@
 Welcome
 {% endblock %}
 
-
 {% block body_block %}
 <div class="container">
     <div class="row">
-        <div class="col-xl-8">
-            <img src="{%static 'images/front_page_library.jpg'%}" class="col-xl-12" id="front_image">
-        </div>
-        <div class="col-xl-4 card-custom card-body p-4 text-center align-items-center ">
+
+        <section class="col-xl-8">
+            <img src="{%static 'images/front_page_library.jpg'%}" class="col-xl-12" id="front_image" alt="Image of loads of books on a multidude of bookshelf">
+        </section>
+
+        <section class="col-xl-4 card-custom card-body p-4 text-center align-items-center ">
             <div class="d-flex align-items-center justify-content-center p-4">
 
                 <img src="{% static 'images/logo.jpg' %}" alt="ReadQuest Logo" class="logo-img me-3">
@@ -22,43 +23,45 @@ Welcome
             </div>
             <div class="align-items-center justify-content-center p-4">
                 <p class="text-center">ReadQuest will help you keep track of your reading progress.</p>
+            </div>
+
+            <form id="login_form" method="post" action="{% url 'readquest:login' %}">
+                {% csrf_token %}
+
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="User Name"
+                        required>
+                    <label for="username">User Name</label>
                 </div>
 
-                <form id="login_form" method="post" action="{% url 'readquest:login' %}">
-                        {% csrf_token %}
+                <div class="form-floating mb-2">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                        required>
+                    <label for="password">Password</label>
+                </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="username" name="username" placeholder="User Name" required>
-                            <label for="username">User Name</label>
-                        </div>
+                <div class="form-check mb-2 text-start">
+                    <input class="form-check-input" type="checkbox" id="remember_me" name="remember_me">
+                    <label class="form-check-label text-muted" for="remember_me" style="font-size: 0.9rem;">
+                        Remember me
+                    </label>
+                </div>
 
-                        <div class="form-floating mb-2">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                            <label for="password">Password</label>
-                        </div>
+                <button class="btn w-100 py-2 fs-6 text-white button" type="submit">
+                    Log In
+                </button>
 
-                        <div class="form-check mb-2 text-start">
-                            <input class="form-check-input" type="checkbox" id="remember_me" name="remember_me">
-                            <label class="form-check-label text-muted" for="remember_me" style="font-size: 0.9rem;">
-                                Remember me
-                            </label>
-                        </div>
-
-                        <button class="btn w-100 py-2 fs-6 text-white button" type="submit">
-                            Log In
-                        </button>
-
-                        <div class="mt-4 text-center">
-                            <small class="text-muted">Don't have an account? <a href="{% url 'readquest:register' %}" class="text-decoration-none link">Register here</a></small>
-                        </div>
-                    </form>
+                <div class="mt-4 text-center">
+                    <small class="text-muted">Don't have an account? <a href="{% url 'readquest:register' %}"
+                            class="text-decoration-none link">Register here</a></small>
+                </div>
+            </form>
 
 
-        </div>
-            
+        </section>
+
     </div>
 </div>
 
 
 {% endblock %}
-

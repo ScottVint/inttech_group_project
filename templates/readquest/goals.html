@@ -7,57 +7,51 @@ Goals
 
 
 {% block body_block %}
-<div class="d-flex justify-content-between align-items-center mb-3">
+<!-- Title and add new goal -->
+<section class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="mb-0">Your goals</h1>
     <button class="button btn p-2" data-bs-toggle="modal" data-bs-target="#addGoalModal">Add new goal +</button>
     {% include 'readquest/add_goal.html' %}
-</div>
+</section>
+
 
 <div class="container p-0">
     <div class="row mt-2 p-0 g-4">
 
         <!-- Current goals -->
-        <div class="col-12">
-
-
-
+        <section class="col-12">
             <div class="p-4 base_cards">
-
-        
                 <div class="d-flex row g-3">
-                        {% for goal in goals %}
-                        <!-- Inner Darker Card -->
-                        <div class="dark_card p-4 d-flex align-items-end">
-                            <div class="col-12">
-                                <h3 class="mb-1">{{ goal.title_goal }}</h3>
-                                <p class="mb-3">{{ goal.books }} books to read</p>
+                    {% for goal in goals %}
+                    <!-- Inner Darker Card -->
+                    <div class="dark_card p-4 d-flex align-items-end">
+                        <div class="col-12">
+                            <h3 class="mb-1">{{ goal.title_goal }}</h3>
+                            <p class="mb-3">{{ goal.books }} books to read</p>
 
-                                <!-- Progress bar -->
-                                <div class="progress" style="height: 28px;">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ goal.progress }}%;"
-                                        aria-valuenow="{{ goal.progress}}" aria-valuemin="0" aria-valuemax="100">
-                                        {{ goal.books_read }} / {{ goal.books }}
-                                    </div>
+                            <!-- Progress bar -->
+                            <div class="progress" style="height: 28px;">
+                                <div class="progress-bar" role="progressbar" style="width: {{ goal.progress }}%;"
+                                    aria-valuenow="{{ goal.progress}}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ goal.books_read }} / {{ goal.books }}
                                 </div>
                             </div>
                         </div>
-                        {% empty %}
-                        <p class="text-muted">No goals added yet. Click " Add new goal+" to get started.</p>
-                        {% endfor %}
                     </div>
+                    {% empty %}
+                    <p class="text-muted">No goals added yet. Click " Add new goal+" to get started.</p>
+                    {% endfor %}
+                </div>
 
             </div>
 
+        </section>
 
-
-
-        </div>
     </div>
-
 
     <!-- Badges -->
 
-    <div class="mt-4 p-4 base_cards">
+    <section class="mt-4 p-4 base_cards">
         <h2 class="mb-3">Badges</h2>
         <div class="row g-3 mt-4">
 
@@ -90,9 +84,7 @@ Goals
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
-</div>
-
 
 {% endblock %}
