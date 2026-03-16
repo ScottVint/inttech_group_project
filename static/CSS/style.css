@@ -35,7 +35,6 @@
     text-decoration: none;
     border: none;
     font-family: "Inter", sans-serif;
-    
 }
 
 
@@ -53,21 +52,25 @@
 h1 {
     font-family: "Fraunces", sans-serif;
     font-size: 35px;
+    color: #4b1319;
 }
 
 h2 {
     font-family: "Fraunces", sans-serif;
     font-size: 25px;
+    color: #4b1319;
 }
 
 h3 {
     font-family: "Fraunces", sans-serif;
     font-size: 22px;
+    color: #4b1319;
 }
 
 h4 {
     font-family: "Fraunces", sans-serif;
     font-size: 18px;
+    color: #4b1319 !important;
 }
 
 
@@ -317,9 +320,33 @@ p{ font-family: "Inter", sans-serif;
      --bs-progress-bar-bg: #f9ab10; 
 }
 
+/* Cookies */
+
+#cookie-decline-btn{
+    border: 1px solid #af671f; 
+    color: #af671f; 
+    background: transparent; 
+    font-family: 'Inter', sans-serif;
+}
+
+
+.bi-check-circle-fill{
+    color: #F98410;
+}
+
+.cookies-box{
+    font-size: 0.82rem; 
+    color: #5a3a2a;
+}
+
+#cookie-banner{
+    background-color: #FFEBD7; 
+    border-top: 2px solid #f9ab10; 
+    z-index: 9999; display: none; 
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+}
 
 @media (max-width: 1140px) {
-
 
         #front_image{
         margin-bottom: 1rem !important;
@@ -352,6 +379,6 @@ p{ font-family: "Inter", sans-serif;
         padding: 0;
     }
 
-
-
 }
+
+
