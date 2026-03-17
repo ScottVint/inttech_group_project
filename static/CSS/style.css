@@ -17,7 +17,6 @@
 
 .button:hover {
     opacity: 0.9;
-    transform: scale(0.99);
     background-color: #F98410;
     color: white !important;
 }
@@ -28,25 +27,26 @@
 
 
 .button_two {
-    transition: all 0.1s ease-in-out;
+    padding: 8px 28px;
     background-color: #af671f;
     color: white;
     font-weight: 500;
     text-decoration: none;
     border: none;
+    border-radius: 10px;
     font-family: "Inter", sans-serif;
 }
 
-
-.button_two:hover {
-    opacity: 0.9;
-    transform: scale(0.99);
-    background-color: #af671f;
-    color: white !important;
-}
-
+.button_two:hover,
+.button_two:focus,
+.button_two:focus-visible,
 .button_two:active {
     background-color: #af671f !important;
+    color: white !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transform: none !important;
 }
 
 h1 {
@@ -201,11 +201,17 @@ p {
 
 .dropdown-menu {
     background-color: #d8c5b2;
-    text-align: center;
+    text-align: left;
     line-height: 2rem;
 }
 
-.dropdown:hover {
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+    background-color: #c4af9a;
+    color: #4b1319;
+}
+
+.navbar .dropdown:hover {
     scale: 1.1;
 }
 
