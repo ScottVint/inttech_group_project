@@ -25,6 +25,14 @@ Welcome
                 <p class="text-center">ReadQuest will help you keep track of your reading progress.</p>
             </div>
 
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger text-center py-2 mb-3" style="font-size: 0.9rem;" role="alert">
+                <p>{{message}}</p>
+            </div>
+            {% endfor %}
+            {% endif %}
+
             <form id="login_form" method="post" action="{% url 'readquest:login' %}">
                 {% csrf_token %}
 

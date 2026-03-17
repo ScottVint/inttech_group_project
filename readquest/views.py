@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse
 from readquest.forms import UserForm, BookForm, GoalForm
 from .models import Book, Goal, ProgressRecord, Achievement, ReadRecord
-from django.contrib.auth.decorators import login_required
 
 from .services import search_books
 
@@ -39,7 +40,7 @@ def land_register(request):
 
             user.save()
 
-            return redirect(reverse('readquest:login'))
+            return redirect(reverse('readquest:index'))
         else:
             print(user_form.errors)
 
@@ -50,11 +51,13 @@ def land_register(request):
 
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        form = AuthenticationForm(request, data=request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
         remember_me = request.POST.get('remember_me')
-        user = authenticate(request, username=username, password=password)
-        if user:
+        
+        if form.is_valid():
+            user = form.get_user()
             if user.is_active:
                 login(request, user)
                 if remember_me:
@@ -63,11 +66,15 @@ def user_login(request):
                     request.session.set_expiry(0)  # expires when browser closes
                 return redirect(reverse('readquest:home'))
             else:
-                return HttpResponse("Your ReadQuest account is disabled.")
+                messages.error(request, "Your ReadQuest account is disabled.")
+                return redirect(reverse('readquest:index'))
         else:
-            return HttpResponse("Invalid login details supplied.")
+            messages.error(request, "Invalid username or password.")
+            return redirect(reverse('readquest:index'))
     else:
-        return redirect(reverse('readquest:index'))
+        form = AuthenticationForm()
+
+        return render(request, 'readquest/index.html', {'form': form})
 
 @login_required
 def user_logout(request):
