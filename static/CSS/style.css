@@ -342,6 +342,18 @@ footer hr{
     background: #403227;
 }
 
+/* Badges */
+
+.badge-earned {
+    background-color: #F98410 !important;
+    color: white;
+}
+
+.badge-earned h4,
+.badge-earned i {
+    color: white !important;
+}
+
 /* Progress bars */
 .progress-bar {
     --bs-progress-bar-bg: #f9ab10;

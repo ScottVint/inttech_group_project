@@ -108,6 +108,10 @@ def profile(request):
     context_dict['badges'] = Achievement.objects.filter(earners=request.user)
     context_dict['goals'] = current_goals(request.user)
     context_dict['progress_records'] = current_book_progress(request.user)
+    context_dict['badge_read_10'] = Book.objects.filter(read_by=request.user).count() >= 10
+    context_dict['badge_first_goal'] = Goal.objects.filter(completed_by=request.user).exists()
+    context_dict['badge_harry_potter'] = Book.objects.filter(read_by=request.user, title__icontains='Harry Potter').exists()
+    context_dict['badge_wishlist'] = Book.objects.filter(wishlisted_by=request.user).count() >= 5
 
     return render(request, 'readquest/profile.html', context=context_dict)
 
@@ -157,6 +161,10 @@ def goals(request):
     context_dict = {'progress_record': ProgressRecord.objects.filter(owner=request.user)}
     context_dict['goals'] = current_goals(request.user)
     context_dict['completed_goals'] = completed_goals(request.user)
+    context_dict['badge_read_10'] = Book.objects.filter(read_by=request.user).count() >= 10
+    context_dict['badge_first_goal'] = Goal.objects.filter(completed_by=request.user).exists()
+    context_dict['badge_harry_potter'] = Book.objects.filter(read_by=request.user, title__icontains='Harry Potter').exists()
+    context_dict['badge_wishlist'] = Book.objects.filter(wishlisted_by=request.user).count() >= 5
     return render(request,'readquest/goals.html', context=context_dict)
 
 
