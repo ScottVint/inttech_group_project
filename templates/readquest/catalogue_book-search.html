@@ -37,9 +37,9 @@ Search
                     <p class="mb-3">{{ book.pages|default:'?' }} pages</p>
                     
                     {% if book.is_added %}
-                    <button class="btn fake_button" disabled>Added</button>
+                    <button class="btn button_two added" disabled>Added</button>
+                    
                     {% else %}
-
                     <!-- Add book to current read -->
                     <form method="post" action="{% url 'readquest:add-to-reading' %}" class="add-book">
                         {% csrf_token %}
@@ -50,7 +50,6 @@ Search
                         <input type="hidden" name="cover_url" value="{{ book.cover_image }}">
                         <button class="btn button_two" type="submit">Add</button>
                     </form>
-                    <button class="btn fake_button" style="display:none;" disabled>Added</button>
                     {% endif %}
                 </div>
             </div>
