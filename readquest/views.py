@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from readquest.forms import UserForm, BookForm, GoalForm
-from .models import Book, Goal, ProgressRecord, Achievement
+from .models import Book, Goal, ProgressRecord, Achievement, ReadRecord
 from django.contrib.auth.decorators import login_required
 
 from .services import search_books
@@ -90,27 +90,30 @@ def home(request):
     context_dict['goals'] = current_goals(request.user)
     context_dict['progress_records'] = current_book_progress(request.user)
 
+    # for users to be able to see other users
+    context_dict['user_activity'] = ReadRecord.objects.exclude(user=request.user).select_related('user', 'book',).order_by('-date_read')[:10]
+
     return render(request, 'readquest/home.html', context=context_dict)
 
 @login_required
 def book_list(request):
     context_dict = {}
-    context_dict['read_books'] = Book.objects.filter(read_by=request.user)
+    context_dict['read_books'] = ReadRecord.objects.filter(user=request.user).select_related('book')
     context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
     return render(request, 'readquest/home.html', context=context_dict)
 
 @login_required
 def profile(request):
     context_dict = {}
-    context_dict['read_books'] = Book.objects.filter(read_by=request.user)
+    context_dict['read_books'] = ReadRecord.objects.filter(user=request.user).select_related('book')
     context_dict['current_read'] = Book.objects.filter(currently_reading=request.user)
     context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
     context_dict['badges'] = Achievement.objects.filter(earners=request.user)
     context_dict['goals'] = current_goals(request.user)
     context_dict['progress_records'] = current_book_progress(request.user)
-    context_dict['badge_read_10'] = Book.objects.filter(read_by=request.user).count() >= 10
+    context_dict['badge_read_10'] = ReadRecord.objects.filter(user=request.user).count() >= 10
     context_dict['badge_first_goal'] = Goal.objects.filter(completed_by=request.user).exists()
-    context_dict['badge_harry_potter'] = Book.objects.filter(read_by=request.user, title__icontains='Harry Potter').exists()
+    context_dict['badge_harry_potter'] = ReadRecord.objects.filter(user=request.user, book__title__icontains='Harry Potter').exists()
     context_dict['badge_wishlist'] = Book.objects.filter(wishlisted_by=request.user).count() >= 5
 
     return render(request, 'readquest/profile.html', context=context_dict)
@@ -121,9 +124,10 @@ def finish_book(request, book_id):
         try:
             book = Book.objects.get(id=book_id)
             book.currently_reading.remove(request.user)
-            book.read_by.add(request.user)
-            book.date_read = timezone.now()
-            book.save()
+            ReadRecord.objects.create(user=request.user, book=book, date_read=timezone.now())
+            # book.read_by.add(request.user)
+            # book.date_read = timezone.now()
+            # book.save()
             _check_and_complete_goals(request.user)
         except Book.DoesNotExist:
             pass
@@ -161,9 +165,9 @@ def goals(request):
     context_dict = {'progress_record': ProgressRecord.objects.filter(owner=request.user)}
     context_dict['goals'] = current_goals(request.user)
     context_dict['completed_goals'] = completed_goals(request.user)
-    context_dict['badge_read_10'] = Book.objects.filter(read_by=request.user).count() >= 10
+    context_dict['badge_read_10'] = ReadRecord.objects.filter(user=request.user).count() >= 10
     context_dict['badge_first_goal'] = Goal.objects.filter(completed_by=request.user).exists()
-    context_dict['badge_harry_potter'] = Book.objects.filter(read_by=request.user, title__icontains='Harry Potter').exists()
+    context_dict['badge_harry_potter'] = ReadRecord.objects.filter(user=request.user, book__title__icontains='Harry Potter').exists()
     context_dict['badge_wishlist'] = Book.objects.filter(wishlisted_by=request.user).count() >= 5
     return render(request,'readquest/goals.html', context=context_dict)
 
@@ -173,8 +177,8 @@ def current_goals(user):
 
     for goal in goals:
         # only count books after goal the started
-        books_read_count = Book.objects.filter(
-            read_by=user,
+        books_read_count = ReadRecord.objects.filter(
+            user=user,
             date_read__gte=goal.created_at).count()
 
         goal.progress = min((books_read_count / goal.books * 100), 100)
@@ -187,8 +191,8 @@ def completed_goals(user):
     goals = Goal.objects.filter(completed_by=user).order_by('-completed_at')
 
     for goal in goals:
-        books_read_count = Book.objects.filter(
-            read_by=user,
+        books_read_count = ReadRecord.objects.filter(
+            user=user,
             date_read__gte=goal.created_at,
             date_read__lte=goal.completed_at).count()
         goal.books_read = books_read_count
@@ -201,8 +205,8 @@ def _check_and_complete_goals(user):
     active_goals = Goal.objects.filter(current_goals=user)
 
     for goal in active_goals:
-        books_read_count = Book.objects.filter(
-            read_by=user,
+        books_read_count = ReadRecord.objects.filter(
+            user=user,
             date_read__gte=goal.created_at).count()
 
         if books_read_count >= goal.books:
