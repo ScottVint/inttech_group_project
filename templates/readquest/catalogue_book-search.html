@@ -39,12 +39,19 @@ Search
 
                     <!-- Add book dropdown -->
                     <div class="dropdown">
-                        <button class="button_two" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Add
-                        </button>
+                        {% if book.is_in_reading %}
+                            <button class="btn button_two added" disabled>Reading</button>
+                        {% elif book.is_in_wishlist%}
+                            <button class="btn button_two added" disabled>Wishlisted</button>
+                        {% else %}
+                            <button class="button_two" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Add
+                            </button>
+                        {% endif %}
+                        
                         <ul class="dropdown-menu">
                             <li>
-                                <form method="post" action="{% url 'readquest:add-to-reading' %}">
+                                <form method="post" action="{% url 'readquest:add-to-reading' %}" class="add-to-reading">
                                     {% csrf_token %}
                                     <input type="hidden" name="ol_key" value="{{ book.ol_key }}">
                                     <input type="hidden" name="title" value="{{ book.title }}">
@@ -55,7 +62,7 @@ Search
                                 </form>
                             </li>
                             <li>
-                                <form method="post" action="{% url 'readquest:add-to-wishlist' %}">
+                                <form method="post" action="{% url 'readquest:add-to-wishlist' %}" class="add-to-wishlist">
                                     {% csrf_token %}
                                     <input type="hidden" name="ol_key" value="{{ book.ol_key }}">
                                     <input type="hidden" name="title" value="{{ book.title }}">

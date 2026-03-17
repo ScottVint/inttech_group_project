@@ -49,7 +49,7 @@
     transform: none !important;
 }
 
-.button_two.added {
+.button_two:disabled {
     background-color: #4b1319;
     color: white;
 }
