@@ -157,6 +157,34 @@ def add_to_currently_reading(request):
             }
         )
         book.currently_reading.add(request.user)
+        book.wishlisted_by.remove(request.user)
+
+    return redirect(reverse('readquest:profile'))
+
+@login_required
+def add_to_wishlist(request):
+    if request.method == 'POST':
+        ol_key = request.POST.get('ol_key', '').strip()
+        title = request.POST.get('title', 'Unknown Title').strip()
+        author = request.POST.get('author', 'Unknown Author').strip()
+        pages = request.POST.get('pages', 0)
+        cover_url = request.POST.get('cover_url', '').strip()
+
+        try:
+            pages = int(pages)
+        except (ValueError, TypeError):
+            pages = 0
+
+        book, _ = Book.objects.get_or_create(
+            ol_key=ol_key,
+            defaults={
+                'title': title,
+                'author': author,
+                'pages': pages,
+                'cover_url': cover_url or None,
+            }
+        )
+        book.wishlisted_by.add(request.user)
 
 
     return JsonResponse({
