@@ -303,6 +303,11 @@ footer hr{
 
 }
 
+.like_button{
+    float: right;
+    font-size: 30px;
+}
+
 /* Profile page */
 
 .book_cover_profile {
