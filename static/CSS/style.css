@@ -49,6 +49,11 @@
     transform: none !important;
 }
 
+.button_two.added {
+    background-color: #4b1319;
+    color: white;
+}
+
 h1 {
     font-family: "Fraunces", sans-serif;
     font-size: 35px;

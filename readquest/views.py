@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from readquest.forms import UserForm, BookForm, GoalForm
@@ -186,7 +186,11 @@ def add_to_wishlist(request):
         )
         book.wishlisted_by.add(request.user)
 
-    return redirect(reverse('readquest:profile'))
+
+    return JsonResponse({
+        "success" : True,
+        "message" : "Book added",
+    })
 
 @login_required
 def goals(request):
@@ -334,6 +338,11 @@ def catalogue(request):
     if query:
         try: 
             results = search_books(query)
+
+            user_books = set(request.user.currently_reading.values_list('ol_key', flat=True))
+            
+            for book in results:
+                book['is_added'] = book['ol_key'] in user_books
         except Exception as e:
             messages.error(request, "Please try again")
     return render(request, "readquest/catalogue_book-search.html", {"results": results, "query": query})
