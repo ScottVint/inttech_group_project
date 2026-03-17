@@ -35,12 +35,14 @@ Search
                     <h4 class="mb-1">{{ book.title }}</h4>
                     <p class="mb-1">{{ book.author }}</p>
                     <p class="mb-3">{{ book.pages|default:'?' }} pages</p>
-    
+                    
+                    {% if book.is_added %}
+                    <button class="btn fake_button" disabled>Added</button>
+                    {% else %}
 
                     <!-- Add book to current read -->
-                    <form method="post" action="{% url 'readquest:add-to-reading' %}" id="add-book">
+                    <form method="post" action="{% url 'readquest:add-to-reading' %}" class="add-book">
                         {% csrf_token %}
-                        <input type="hidden" name="next" value="{{ next }}">
                         <input type="hidden" name="ol_key" value="{{ book.ol_key }}">
                         <input type="hidden" name="title" value="{{ book.title }}">
                         <input type="hidden" name="author" value="{{ book.author }}">
@@ -48,6 +50,8 @@ Search
                         <input type="hidden" name="cover_url" value="{{ book.cover_image }}">
                         <button class="btn button_two" type="submit">Add</button>
                     </form>
+                    <button class="btn fake_button" style="display:none;" disabled>Added</button>
+                    {% endif %}
                 </div>
             </div>
         </div>

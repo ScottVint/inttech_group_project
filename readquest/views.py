@@ -310,6 +310,11 @@ def catalogue(request):
     if query:
         try: 
             results = search_books(query)
+
+            user_books = set(request.user.currently_reading.values_list('ol_key', flat=True))
+            
+            for book in results:
+                book['is_added'] = book['ol_key'] in user_books
         except Exception as e:
             messages.error(request, "Please try again")
     return render(request, "readquest/catalogue_book-search.html", {"results": results, "query": query})
