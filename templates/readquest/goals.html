@@ -83,16 +83,16 @@ Goals
 
             <!-- Box for each badge  -->
             <div class="col-12 col-sm-6 col-md-3">
-                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100">
-                    <i class="bi bi-trophy fs-2 mb-2"></i>
+                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100{% if badge_read_10 %} badge-earned{% endif %}">
+                    <i class="bi bi-postcard fs-2 mb-2"></i>
                     <h4 class="text-center mb-0">Read 10 books</h4>
                 </div>
             </div>
 
             <div class="col-12 col-sm-6 col-md-3">
-                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100">
-                    <i class="bi bi-postcard fs-2 mb-2"></i>
-                    <h4 class="text-center mb-0">Read a classic</h4>
+                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100{% if badge_first_goal %} badge-earned{% endif %}">
+                    <i class="bi bi-trophy fs-2 mb-2"></i>
+                    <h4 class="text-center mb-0">Finish first goal</h4>
                 </div>
             </div>
 
