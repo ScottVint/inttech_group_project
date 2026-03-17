@@ -326,11 +326,12 @@ footer hr{
 
 .previous_read-img {
     width: 100%;
-    height: 130px;
+    height: 260px;
     object-fit: cover !important;
     border-radius: 6px;
 
 }
+
 
 
 /* Search */

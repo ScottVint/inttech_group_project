@@ -120,24 +120,25 @@ Profile
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="mb-0">Previous reads</h2>
             </div>
-            <div class="row g-3">
-                {% for book in read_books %}
-                <div class="col-3 col-sm-3">
+            <div class="row g-3 d-flex">
+                {% for record in read_books %}
+                
+                <div class="col-2 col-sm-2">
                     <div class="dark_card p-2 d-flex flex-column align-items-center">
-                        {% if book.cover_url %}
-                        <img src="{{ book.cover_url }}" loading="lazy" alt="{{ book.title }}" class="previous_read_img">
-
-                        {% elif book.cover_image %}
-                        <img src="{{ book.cover_image.url }}" loading="lazy" alt="{{ book.title }}"
+                        {% if record.book.cover_url %}
+                        <img src="{{ record.book.cover_url }}" loading="lazy" alt="{{ record.book.title }}"
                             class="previous_read-img">
-
+                        {% elif record.book.cover_image %}
+                        <img src="{{ record.book.cover_image.url }}" loading="lazy" alt="{{ record.book.title }}"
+                            class="previous_read-img">
                         {% else %}
-                        <div style="width:100%; height:130px; background:#af671f; border-radius:6px;">
+                        <div class="previous_read-img"></div>
 
-                        </div>
+
+
 
                         {% endif %}
-                        <p class="mt-2 mb-0 text-center" style="font-size:0.85rem;">{{ book.title }}</p>
+                        <p class="mt-2 mb-0 text-center" style="font-size:0.85rem;">{{ record.book.title }}</p>
                     </div>
                 </div>
                 {% empty %}
