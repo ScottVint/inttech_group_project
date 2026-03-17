@@ -95,10 +95,8 @@ Profile
 
                             <!-- Progress bar -->
                             <div class="progress mb-2" style="height: 28px;">
-                                <div class="progress-bar" role="progressbar"
-                                    style="width: {{ goal.progress }}%;"
-                                    aria-valuenow="{{ goal.progress }}"
-                                    aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" role="progressbar" style="width: {{ goal.progress }}%;"
+                                    aria-valuenow="{{ goal.progress }}" aria-valuemin="0" aria-valuemax="100">
                                     {{ goal.progress|floatformat:0 }}%
                                 </div>
                             </div>
@@ -127,13 +125,17 @@ Profile
                 <div class="col-3 col-sm-3">
                     <div class="dark_card p-2 d-flex flex-column align-items-center">
                         {% if book.cover_url %}
-                        <img src="{{ book.cover_url }}" loading="lazy" alt="{{ book.title }}"
-                            style="width:100%; height:130px; object-fit:cover; border-radius:6px;">
+                        <img src="{{ book.cover_url }}" loading="lazy" alt="{{ book.title }}" class="previous_read_img">
+
                         {% elif book.cover_image %}
                         <img src="{{ book.cover_image.url }}" loading="lazy" alt="{{ book.title }}"
-                            style="width:100%; height:130px; object-fit:cover; border-radius:6px;">
+                            class="previous_read-img">
+
                         {% else %}
-                        <div style="width:100%; height:130px; background:#af671f; border-radius:6px;"></div>
+                        <div style="width:100%; height:130px; background:#af671f; border-radius:6px;">
+
+                        </div>
+
                         {% endif %}
                         <p class="mt-2 mb-0 text-center" style="font-size:0.85rem;">{{ book.title }}</p>
                     </div>
@@ -153,28 +155,32 @@ Profile
 
             <!-- Box for each badge  -->
             <div class="col-12 col-sm-6 col-md-3">
-                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100{% if badge_read_10 %} badge-earned{% endif %}">
+                <div
+                    class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100{% if badge_read_10 %} badge-earned{% endif %}">
                     <i class="bi bi-postcard fs-2 mb-2"></i>
                     <h4 class="text-center mb-0">Read 10 books</h4>
                 </div>
             </div>
 
             <div class="col-12 col-sm-6 col-md-3">
-                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100{% if badge_first_goal %} badge-earned{% endif %}">
+                <div
+                    class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100{% if badge_first_goal %} badge-earned{% endif %}">
                     <i class="bi bi-trophy fs-2 mb-2"></i>
                     <h4 class="text-center mb-0">Finish first goal</h4>
                 </div>
             </div>
 
             <div class="col-12 col-sm-6 col-md-3">
-                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100{% if badge_harry_potter %} badge-earned{% endif %}">
+                <div
+                    class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100{% if badge_harry_potter %} badge-earned{% endif %}">
                     <i class="bi bi-magic fs-2 mb-2"></i>
                     <h4 class="text-center mb-0">Read a Harry Potter book</h4>
                 </div>
             </div>
 
             <div class="col-12 col-sm-6 col-md-3">
-                <div class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100{% if badge_wishlist %} badge-earned{% endif %}">
+                <div
+                    class="dark_card d-flex flex-column justify-content-center align-items-center p-3 h-100{% if badge_wishlist %} badge-earned{% endif %}">
                     <i class="bi bi-bookmark-heart fs-2 mb-2"></i>
                     <h4 class="text-center mb-0">Have 5 books in wishlist</h4>
                 </div>

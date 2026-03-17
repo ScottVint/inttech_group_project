@@ -5,12 +5,12 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
-
 class Userpage(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     slug = models.SlugField(unique=True)
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.owner.get_username())
@@ -43,11 +43,11 @@ class Book(models.Model):
     cover_image = models.ImageField(null=True, blank=True)
     cover_url = models.URLField(null=True, blank=True)
     wishlisted_by = models.ManyToManyField(User, related_name='wishlisted_by')
-    read_by = models.ManyToManyField(User, related_name='read_by')
+    read_by = models.ManyToManyField(User, through='ReadRecord', related_name='read_by')     # so we can see other users on home page
     currently_reading = models.ManyToManyField(User, related_name='currently_reading')
 
-    # So we can track goals
-    date_read = models.DateTimeField(null=True, blank=True)
+
+    
 
     def save(self, *args,**kwargs):
             self.validate_unique()
@@ -68,6 +68,14 @@ class ProgressRecord(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class ReadRecord(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    # So we can track goals
+    date_read = models.DateTimeField(null=True, blank=True)
 
 class Details(models.Model):
     book = models.OneToOneField(Book, on_delete=models.CASCADE)
