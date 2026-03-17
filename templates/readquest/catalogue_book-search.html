@@ -38,7 +38,7 @@ Search
     
 
                     <!-- Add book to current read -->
-                    <form method="post" action="{% url 'readquest:add-to-reading' %}">
+                    <form method="post" action="{% url 'readquest:add-to-reading' %}" id="add-book">
                         {% csrf_token %}
                         <input type="hidden" name="next" value="{{ next }}">
                         <input type="hidden" name="ol_key" value="{{ book.ol_key }}">

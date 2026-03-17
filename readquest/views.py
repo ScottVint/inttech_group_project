@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from readquest.forms import UserForm, BookForm, GoalForm
@@ -158,7 +158,11 @@ def add_to_currently_reading(request):
         )
         book.currently_reading.add(request.user)
 
-    return redirect(reverse('readquest:profile'))
+
+    return JsonResponse({
+        "success" : True,
+        "message" : "Book added",
+    })
 
 @login_required
 def goals(request):
