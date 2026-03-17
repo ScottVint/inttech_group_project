@@ -37,10 +37,10 @@
     font-family: "Inter", sans-serif;
 }
 
-.button_two:hover,
-.button_two:focus,
-.button_two:focus-visible,
-.button_two:active {
+.button_two:not(:disabled):hover,
+.button_two:not(:disabled):focus,
+.button_two:not(:disabled):focus-visible,
+.button_two:not(:disabled):active {
     background-color: #af671f !important;
     color: white !important;
     border: none !important;
