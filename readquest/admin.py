@@ -15,5 +15,4 @@ admin.site.register(Userpage)
 admin.site.register(Achievement)# AchievementAdmin)
 admin.site.register(Book)# BookAdmin)
 admin.site.register(ProgressRecord)
-admin.site.register(Details)#, DetailsAdmin)
 

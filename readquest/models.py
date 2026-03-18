@@ -7,15 +7,6 @@ from django.utils import timezone
 
 class Userpage(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
-    views = models.IntegerField(default=0)
-    likes = models.IntegerField(default=0)
-    slug = models.SlugField(unique=True)
-
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.owner.get_username())
-
-        super(Userpage, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.owner.get_username()
@@ -35,19 +26,14 @@ class Book(models.Model):
     MAX_AUTHOR_LENGTH = 128
 
     isbn = models.IntegerField(unique=True, null=True, blank=True)
-    ol_key = models.CharField(max_length=64, unique=True, null=True, blank=True)
     title = models.CharField(max_length=MAX_TITLE_LENGTH)
     author = models.CharField(max_length=MAX_AUTHOR_LENGTH)
     pages = models.IntegerField(default=0)
-    blurb = models.TextField(default='')
     cover_image = models.ImageField(null=True, blank=True)
     cover_url = models.URLField(null=True, blank=True)
     wishlisted_by = models.ManyToManyField(User, related_name='wishlisted_by')
     read_by = models.ManyToManyField(User, through='ReadRecord', related_name='read_by')     # so we can see other users on home page
     currently_reading = models.ManyToManyField(User, related_name='currently_reading')
-
-
-    
 
     def save(self, *args,**kwargs):
             self.validate_unique()
@@ -55,7 +41,6 @@ class Book(models.Model):
     
     def __str__(self):
         return self.title
-
 
 class ProgressRecord(models.Model):
     MAX_NAME_LENGTH = 128
@@ -69,7 +54,6 @@ class ProgressRecord(models.Model):
     def __str__(self):
         return self.name
     
-
 class ReadRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -77,22 +61,6 @@ class ReadRecord(models.Model):
     # So we can track goals
     date_read = models.DateTimeField(null=True, blank=True)
     rating = models.IntegerField(null=True, blank=True)
-
-class Details(models.Model):
-    book = models.OneToOneField(Book, on_delete=models.CASCADE)
-    favourites = models.IntegerField()
-    reads = models.IntegerField()
-    #ratings = models.ArrayField(models.IntegerField())
-    #rating_average = models.IntegerField()
-    slug = models.SlugField()
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.book)
-
-        super(Details, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return str(self.book)
 
 class Review(models.Model):
     text = models.TextField()
