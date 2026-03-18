@@ -8,7 +8,7 @@ Profile
 
 {% block body_block %}
 
-<h1>Your Profile</h1>
+<h1>{{user}}'s profile page</h1>
 
 <div class="container p-0">
     <!-- Top Row -->
@@ -122,7 +122,7 @@ Profile
             <div class="row g-3 d-flex">
                 {% for record in read_books %}
                 
-                <div class="col-2 col-sm-2">
+                <div class="col-6 col-md-2">
                     <div class="dark_card p-2 d-flex flex-column align-items-center">
                         {% if record.book.cover_url %}
                         <img src="{{ record.book.cover_url }}" loading="lazy" alt="{{ record.book.title }}"
@@ -132,10 +132,6 @@ Profile
                             class="previous_read-img">
                         {% else %}
                         <div class="previous_read-img"></div>
-
-
-
-
                         {% endif %}
                         <p class="mt-2 mb-1 text-center" style="font-size:0.85rem;">{{ record.book.title }}</p>
                         {% if record.rating %}
@@ -203,7 +199,7 @@ Profile
             </div>
             <div class="row g-3 d-flex">
                 {% for book in wishlisted %}
-                <div class="col-2 col-sm-2">
+                <div class="col-6 col-md-2">
                     <div class="dark_card p-2 d-flex flex-column align-items-center">
                         {% if book.cover_url %}
                         <img src="{{ book.cover_url }}" loading="lazy" alt="{{ book.title }}"

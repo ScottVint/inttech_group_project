@@ -11,21 +11,26 @@ Search
 <h1>Catalogue</h1>
 
 <!-- Search bar -->
-<section class="mb-4 mt-4 col-6">
-    <form action="{% url 'readquest:catalogue_book-search' %}" method="get">
-        <input type="search" class="form-control mb-3" name="q" placeholder="Search for a book">
-        <div class="d-flex justify-content-start gap-2">
-            <button type="submit" class="button btn">Search</button>
-        </div>
+<section class="mb-4 mt-4 col-md-6 col-12">
+    <form action="{% url 'readquest:catalogue_book-search' %}" method="get" class="d-flex gap-2">
+        <input type="search" class="form-control" name="q" placeholder="Search for a book">
+        <button type="submit" class="button btn btn-primary col-3">Search</button>
     </form>
 </section>
 
+
 <!-- Search results -->
 <section>
-<h3 id="results-title" style="display:none;">Search results for {{ query }}</h3>
+
+    <!-- Show the book that users have searched for -->
+    {% if query %}
+    <h3 id="results-title">Search results for {{ query }}</h3>
+    {% endif %}
+
+
     <div class="row g-3 mt-2">
         {% for book in results %}
-        <div class="col-6">
+        <div class="col-12 col-md-6">
             <div class="dark_card p-3 d-flex align-items-center">
                 <div class="me-3 flex-shrink-0">
                     <img class="search_book_cover" src="{{ book.cover_image }}" alt="Book cover for {{ book.title }}"
@@ -35,23 +40,24 @@ Search
                     <h4 class="mb-1">{{ book.title }}</h4>
                     <p class="mb-1">{{ book.author }}</p>
                     <p class="mb-3">{{ book.pages|default:'?' }} pages</p>
-    
+
 
                     <!-- Add book dropdown -->
                     <div class="dropdown">
                         {% if book.is_in_reading %}
-                            <button class="btn button_two added" disabled>Reading</button>
+                        <button class="btn button_two added" disabled>Reading</button>
                         {% elif book.is_in_wishlist%}
-                            <button class="btn button_two added" disabled>Wishlisted</button>
+                        <button class="btn button_two added" disabled>Wishlisted</button>
                         {% else %}
-                            <button class="btn button_two" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Add
-                            </button>
+                        <button class="btn button_two" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Add
+                        </button>
                         {% endif %}
-                        
+
                         <ul class="dropdown-menu">
                             <li>
-                                <form method="post" action="{% url 'readquest:add-to-reading' %}" class="add-to-reading">
+                                <form method="post" action="{% url 'readquest:add-to-reading' %}"
+                                    class="add-to-reading">
                                     {% csrf_token %}
                                     <input type="hidden" name="ol_key" value="{{ book.ol_key }}">
                                     <input type="hidden" name="title" value="{{ book.title }}">
@@ -62,7 +68,8 @@ Search
                                 </form>
                             </li>
                             <li>
-                                <form method="post" action="{% url 'readquest:add-to-wishlist' %}" class="add-to-wishlist">
+                                <form method="post" action="{% url 'readquest:add-to-wishlist' %}"
+                                    class="add-to-wishlist">
                                     {% csrf_token %}
                                     <input type="hidden" name="ol_key" value="{{ book.ol_key }}">
                                     <input type="hidden" name="title" value="{{ book.title }}">
