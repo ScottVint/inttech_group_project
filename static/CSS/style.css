@@ -186,12 +186,49 @@ p {
 
 /* Dropdown on profile pic */
 #profile_img {
-    height: 50px !important;
     padding-left: 10px;
+    color: #4b1319;
+    font-size: 40px;
+}
+
+#profile_img:hover {
+    padding-left: 10px;
+    background-color: #af671f;
+    color:white;
+}
+
+#myDropdown{
+    text-align: center !important;
+}
+
+#myDropdown:hover li{
+    text-align: center !important;
+    color:white !important;
+
+}
+
+li.navbar-item:hover a {
+    background-color: #af671f;
+    color:white !important;
+}
+
+.nav-item{
+    text-decoration:none;
+}
+
+
+nav li:hover{
+        background-color: #af671f;
+    
 }
 
 #logo_auth_page {
     height: 65px !important;
+}
+
+#logo_auth_page:hover {
+    box-shadow: 0 8px 24px rgba(180, 177, 177, 0.4);
+
 }
 
 
@@ -202,6 +239,22 @@ p {
 .btn.show {
     border: none !important;
     background-color: #FFEBD7;
+}
+
+
+#profileDropdown {
+    position: relative;
+    display:inline-block;
+}
+
+
+.dropDownItem a {
+    text-decoration: none !important;
+    color: #4b1319 !important;
+}
+
+.dropDownItem:hover a{
+    color: white !important;
 }
 
 .dropdown-menu {
@@ -215,23 +268,6 @@ p {
     background-color: #c4af9a;
     color: #4b1319;
 }
-
-.navbar .dropdown:hover {
-    scale: 1.1;
-}
-
-.dropDownItem {
-    text-decoration: none !important;
-    color: #4b1319 !important;
-}
-
-.dropDownItem:hover {
-    text-decoration: underline !important;
-    color: #771F28 !important;
-}
-
-
-
 
 /* Footer */
 

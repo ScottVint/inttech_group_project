@@ -21,7 +21,7 @@
     <header>
 
         <!-- To make the avbar background full width -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
             <!-- To make the navbar content stay in the middle -->
             <div class="container">
 
@@ -34,24 +34,11 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="navbar-collapse collapse justify-content-end" id="navbarNavAltMarkup">
+                <div class="navbar-collapse collapse justify-content-end mr-2" id="navbarNavAltMarkup">
 
-                    <ul class="mb-lg-0 navbar-nav">
-                        <li class="p-4"><a id="nav-home" href="{% url 'readquest:home' %}"
-                                class="text-decoration-none nav-item">Home</a></li>
-                        <li class=" p-4"><a href="{% url 'readquest:profile' %}"
-                                class="text-decoration-none nav-item">Profile</a></li>
-                        <li class="p-4"><a href="{% url 'readquest:goals' %}"
-                                class="text-decoration-none nav-item">Goals</a></li>
-                        </li>
-                        <li class=" p-4"><a href="{% url 'readquest:catalogue_book-search' %}"
-                                class="text-decoration-none nav-item">Catalogue</a></li>
-                    </ul>
-
-
-                    <!-- Search bar -->
-                    <div id="search_nav">
-                        <form class="d-flex align-items-center me-2"
+                     <!-- Search bar mobile -->
+                    <div id="search_nav" class="navbar-nav d-lg-none mb-5">
+                        <form class="d-flex align-items-center me-2  ml-5"
                             action="{% url 'readquest:catalogue_book-search' %}" method="get">
                             <input class="form-control me-2" id="search" type="search" name="q"
                                 placeholder="Search for books" aria-label="Search">
@@ -60,16 +47,45 @@
                     </div>
 
 
-                    <!-- Dropdown on profie picture , using bootstrap toggles-->
-                    <div class="dropdown">
-                        <img src="{% static 'images/profile.png' %}" alt="Profile icon" id="profile_img"
-                            onclick="toggleDropdown()" class="btn btn-dropdown dropdown-toggle"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                    <ul class="mb-lg-0 navbar-nav">
+                        <li class="p-4 navbar-item"><a id="nav-home" href="{% url 'readquest:home' %}"
+                                class="nav-item">Home</a></li>
+                        <li class="p-4 navbar-item"><a href="{% url 'readquest:profile' %}" class="nav-item">Profile</a>
+                        </li>
+                        <li class="p-4 navbar-item"><a href="{% url 'readquest:goals' %}" class=" nav-item">Goals</a>
+                        </li>
+                        </li>
+                        <li class="p-4 navbar-item"><a href="{% url 'readquest:catalogue_book-search' %}"
+                                class="nav-item">Catalogue</a></li>
+                    </ul>
+
+                    <!-- Search bar desktop -->
+                    <div id="search_nav" class="d-none d-lg-block">
+                        <form class="d-flex align-items-center me-2  ml-5"
+                            action="{% url 'readquest:catalogue_book-search' %}" method="get">
+                            <input class="form-control me-2" id="search" type="search" name="q"
+                                placeholder="Search for books" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit" id="search_btn">Search</button>
+                        </form>
+                    </div>
+
+                    <!-- Mobile logout  link -->
+                    <ul class="navbar-nav d-lg-none">
+                        <li class="p-4 navbar-item"><a href="{% url 'readquest:logout' %}" class="nav-item">Logout</a>
+                        </li>
+                    </ul>
+
+
+                    <!-- Dropdown on profie picture , using bootstrap toggles, only visable on desktop-->
+                    <div class="dropdown d-none d-lg-block">
+                        <i class="bi bi-person-circle btn btn-dropdown" alt="Profile icon" id="profile_img"
+                            onhover="toggleDropdown()" class="" data-bs-toggle="dropdown" aria-expanded="false"></i>
                         <div id="myDropdown" class="dropdown-menu dropdown-menu-end">
-                            <li><a href="{% url 'readquest:profile' %}" class="dropDownItem">Profile</a></li>
-                            <li><a href="{% url 'readquest:logout' %}" class="dropDownItem">Logout</a></li>
+                            <li class="dropDownItem"><a href="{% url 'readquest:logout' %}">Logout</a></li>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </nav>
@@ -84,7 +100,7 @@
 
 
     <!-- Footer -->
-     <!-- To make footer background full width -->
+    <!-- To make footer background full width -->
     <footer class="bg-dark p-4 mt-auto footer-expand-lg">
 
         <!-- to make footer content stay in the middle -->
@@ -95,7 +111,7 @@
                         <p> If you need any additional information about Readquest</p>
                         <hr class="my-4">
                     </div>
-                    
+
                     <div>
                         <ul class="d-flex footer-list float-start">
                             <li class="footer-item pe-4 pt-1"><a id="nav-home" href="{% url 'readquest:home' %}"
