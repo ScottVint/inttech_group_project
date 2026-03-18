@@ -12,8 +12,9 @@ Home
 <!-- Make content stay in the middle, don't want full width -->
 <div class="container p-0">
     <div class="row mt-2 p-0 g-4">
+
         <!-- Community Updates -->
-        <section class="col-12 col-md-8">
+        <section class="col-12 col-md-8 m-0">
             <div class="p-4 base_cards mb-4 col-12">
                 <div class="d-flex justify-content-between align-items-center mb-3 col-12">
                     <h2 class="mb-0">Community updates</h2>
@@ -21,20 +22,19 @@ Home
 
                 <div>
                     {% for activity in user_activity %}
-                    <div class="dark_card p-3 mb-3 row d-flex align-items-end">
+                    <div class="dark_card p-3 mb-3 row d-flex">
 
-                        <div class="col">
+                        <div class="col-md-3 col-5">
                             {% if activity.book.cover_url %}
-                            <img src="{{ activity.book.cover_url }}" alt="{{ activity.book.title }}" loading="lazy"
-                                class="me-3 book_cover_home">
+                            <img src="{{ activity.book.cover_url }}" alt="{{ activity.book.title }}" loading="lazy" class="me-3 book_cover_home mb-0">
                             {% else %}
                             <div class="me-3 book_cover_home"></div>
                             {% endif %}
                         </div>
-                        <div class="col">
-                            <p class="mb-0"><strong>{{ activity.user.username }}</strong> finished <br>
-                                <strong>{{ activity.book.title }}</strong>
-                            </p>
+                        <div class="col-md-4 col-5">
+                            <p class="mb-0"><strong>{{ activity.user.username }}</strong> finished <br></p>
+                                <h3 class="mt-1">{{ activity.book.title }}</strong></h3>
+                            
                             <small class="text-muted">{{ activity.date_read|timesince }} ago</small>
                         </div>
 
@@ -51,7 +51,7 @@ Home
         </section>
 
         <!-- Right hand column -->
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4 m-0">
 
             <!-- Current reads -->
             <section class="p-4 base_cards">
@@ -63,7 +63,7 @@ Home
                         <!-- Inner Darker Card -->
                         <div class="dark_card p-4 d-flex align-items-top mb-3">
 
-                            <div class="book_cover_home me-3 col-4 overflow-hidden">
+                            <div class="home_current_read me-3 col-md-4 col-6 overflow-hidden">
                                 {% if book.cover_url %}
                                 <img src="{{ book.cover_url }}" alt="Book cover for {{ book.title }}"
                                     class="book_cover_img">
@@ -75,7 +75,7 @@ Home
 
                             <div class="flex-grow-1">
                                 <h3 class="mb-1">{{ book.title }}</h3>
-                                <p class="mb-3">{{ book.author }} &nbsp;·&nbsp; {{ book.pages|default:'?' }} pages
+                                <p class="mb-3">{{ book.author }} &nbsp;·&nbsp; <br> {{ book.pages|default:'?' }} pages
                                 </p>
 
                                 <!-- Progress bar -->
@@ -114,7 +114,7 @@ Home
 
 
             <!-- Current goals -->
-            <section class="p-4 base_cards mt-2">
+            <section class="p-4 base_cards mt-4">
 
                 <div class="d-flex justify-content-between align-items-center mb-1">
                     <h2 class="mb-0">Current goal</h2>
@@ -149,4 +149,3 @@ Home
 
 
 {% endblock %}
-
