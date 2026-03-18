@@ -37,6 +37,11 @@
     font-family: "Inter", sans-serif;
 }
 
+button:hover{
+        opacity: 0.9;
+
+}
+
 .button_two:not(:disabled):hover,
 .button_two:not(:disabled):focus,
 .button_two:not(:disabled):focus-visible,
