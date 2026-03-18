@@ -131,10 +131,14 @@ def finish_book(request, book_id):
         try:
             book = Book.objects.get(id=book_id)
             book.currently_reading.remove(request.user)
-            ReadRecord.objects.create(user=request.user, book=book, date_read=timezone.now())
-            # book.read_by.add(request.user)
-            # book.date_read = timezone.now()
-            # book.save()
+            rating = request.POST.get('rating')
+            try:
+                rating = int(rating) if rating else None
+                if rating and not (1 <= rating <= 5):
+                    rating = None
+            except (ValueError, TypeError):
+                rating = None
+            ReadRecord.objects.create(user=request.user, book=book, date_read=timezone.now(), rating=rating)
             _check_and_complete_goals(request.user)
         except Book.DoesNotExist:
             pass

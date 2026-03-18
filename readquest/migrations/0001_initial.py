@@ -53,6 +53,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('date_read', models.DateTimeField(blank=True, null=True)),
+                ('rating', models.IntegerField(blank=True, null=True)),
                 ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='readquest.book')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],

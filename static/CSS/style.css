@@ -345,7 +345,12 @@ footer hr{
     height: 260px;
     object-fit: cover !important;
     border-radius: 6px;
+}
 
+.star-rating .star-icon {
+    font-size: 2rem;
+    color: #F98410;
+    cursor: pointer;
 }
 
 

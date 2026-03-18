@@ -76,6 +76,7 @@ class ReadRecord(models.Model):
 
     # So we can track goals
     date_read = models.DateTimeField(null=True, blank=True)
+    rating = models.IntegerField(null=True, blank=True)
 
 class Details(models.Model):
     book = models.OneToOneField(Book, on_delete=models.CASCADE)
