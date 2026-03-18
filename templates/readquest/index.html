@@ -10,10 +10,13 @@ Welcome
 <div class="container">
     <div class="row">
 
+
         <section class="col-xl-8">
-            <img src="{%static 'images/front_page_library.jpg'%}" class="col-xl-12" id="front_image" alt="Image of loads of books on a multidude of bookshelf">
+            <img src="{%static 'images/front_page_library.jpg'%}" class="col-xl-12" id="front_image"
+                alt="Image of books on bookshelves">
         </section>
 
+        <!-- login section -->
         <section class="col-xl-4 card-custom card-body p-4 text-center align-items-center ">
             <div class="d-flex align-items-center justify-content-center p-4">
 
@@ -25,14 +28,16 @@ Welcome
                 <p class="text-center">ReadQuest will help you keep track of your reading progress.</p>
             </div>
 
+            <!-- error handling -->
             {% if messages %}
             {% for message in messages %}
-            <div class="alert alert-danger text-center py-2 mb-3" style="font-size: 0.9rem;" role="alert">
+            <div class="alert alert-danger text-center py-2 mb-3 smaller_text" role="alert">
                 <p>{{message}}</p>
             </div>
             {% endfor %}
             {% endif %}
 
+            <!-- Login form -->
             <form id="login_form" method="post" action="{% url 'readquest:login' %}">
                 {% csrf_token %}
 
@@ -50,7 +55,7 @@ Welcome
 
                 <div class="form-check mb-2 text-start">
                     <input class="form-check-input" type="checkbox" id="remember_me" name="remember_me">
-                    <label class="form-check-label text-muted" for="remember_me" style="font-size: 0.9rem;">
+                    <label class="form-check-label text-muted smaller_text" for="remember_me">
                         Remember me
                     </label>
                 </div>
@@ -64,7 +69,6 @@ Welcome
                             class="text-decoration-none link">Register here</a></small>
                 </div>
             </form>
-
 
         </section>
 

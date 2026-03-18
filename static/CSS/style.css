@@ -95,10 +95,20 @@ h4 {
 }
 
 
-
 p {
     font-family: "Inter", sans-serif;
     font-display: swap;
+    color:#4b1319;
+}
+
+.orange_text{
+    font-size:0.8rem;
+    color:#af671f;
+
+}
+
+.smaller_text{
+    font-size:0.9em !important;
 }
 
 
@@ -317,6 +327,10 @@ footer hr{
     border-radius: 12px;
 }
 
+.like_button:hover {
+    transform: scale(1.2);
+}
+
 /* Login & Register Classes */
 
 .card-custom {
@@ -414,6 +428,7 @@ footer hr{
 
 
 
+
 /* Search */
 .search_book_cover {
     height: auto;
@@ -435,9 +450,19 @@ footer hr{
     color: white !important;
 }
 
+.completed_goal{
+    color:#F98410;
+}
+
 /* Progress bars */
 .progress-bar {
     --bs-progress-bar-bg: #f9ab10;
+    color: #4b1319;
+}
+
+.progress{
+    height:28px;
+    
 }
 
 /* Cookies */

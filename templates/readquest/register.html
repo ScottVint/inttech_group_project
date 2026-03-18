@@ -19,12 +19,15 @@ Join ReadQuest
                         <h1 class="brand-title">Join ReadQuest</h1>
                     </div>
 
+
+                    <!-- error message handling -->
                     {% if error %}
-                    <div class="alert alert-danger text-center py-2 mb-3" style="font-size: 0.9rem;" role="alert">
-                        {{ error }}
+                    <div class="alert alert-danger text-center py-2 mb-3" role="alert">
+                       <p> {{ error }}</p>
                     </div>
                     {% endif %}
 
+                    <!-- form for registering -->
                     <form id="user_form" method="post" action="" enctype="multipart/form-data">
                         {% csrf_token %}
 
@@ -53,7 +56,7 @@ Join ReadQuest
                         </div>
 
                         <div class="mb-4 ps-1">
-                            <small class="text-muted" style="font-size: 0.8rem;">
+                            <small class="text-muted smaller_text">
                                 * Password must be at least 8 characters long.
                             </small>
                         </div>
@@ -71,12 +74,6 @@ Join ReadQuest
 
                 </div>
             </div>
-
-            <script>
-                $("#btn-back-home-register").click(function () {
-                    window.location.href = "{% url 'readquest:index' %}";
-                });
-            </script>
         </section>
     </div>
 </div>
