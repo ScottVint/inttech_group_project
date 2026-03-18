@@ -63,10 +63,9 @@ Profile
                             <button class="button_two btn" data-bs-toggle="modal"
                                 data-bs-target="#updateProgress{{ book.id}}"> Update progress</button>
                             {% include 'readquest/update_progress_modal.html' %}
-                            <form method="post" action="{% url 'readquest:finish-book' book.id %}">
-                                {% csrf_token %}
-                                <button class="button_two btn" type="submit">Finished book</button>
-                            </form>
+                            <button class="button_two" type="button" data-bs-toggle="modal"
+                                data-bs-target="#finishBookModal{{ book.id }}">Finished book</button>
+                            {% include 'readquest/finish_book_modal.html' with book=book %}
                         </div>
                     </div>
 
@@ -138,7 +137,14 @@ Profile
 
 
                         {% endif %}
-                        <p class="mt-2 mb-0 text-center" style="font-size:0.85rem;">{{ record.book.title }}</p>
+                        <p class="mt-2 mb-1 text-center" style="font-size:0.85rem;">{{ record.book.title }}</p>
+                        {% if record.rating %}
+                        <div style="color:#F98410; font-size:0.75rem;">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= record.rating %}<i class="bi bi-star-fill"></i>{% else %}<i class="bi bi-star"></i>{% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 {% empty %}
@@ -219,5 +225,29 @@ Profile
     </section>
 </div>
 
+<script>
+$(document).ready(function () {
+    $(document).on('mouseenter', '.star-rating .star-icon', function () {
+        const val = parseInt($(this).data('value'));
+        const container = $(this).closest('.star-rating');
+        container.find('.star-icon').each(function () {
+            $(this).toggleClass('bi-star-fill', parseInt($(this).data('value')) <= val)
+                   .toggleClass('bi-star',      parseInt($(this).data('value')) >  val);
+        });
+    }).on('mouseleave', '.star-rating .star-icon', function () {
+        const container = $(this).closest('.star-rating');
+        const selected = parseInt(container.data('selected')) || 0;
+        container.find('.star-icon').each(function () {
+            $(this).toggleClass('bi-star-fill', parseInt($(this).data('value')) <= selected)
+                   .toggleClass('bi-star',      parseInt($(this).data('value')) >  selected);
+        });
+    }).on('click', '.star-rating .star-icon', function () {
+        const val = parseInt($(this).data('value'));
+        const container = $(this).closest('.star-rating');
+        container.data('selected', val);
+        $('#ratingInput' + container.data('book-id')).val(val);
+    });
+});
+</script>
 
 {% endblock %}
