@@ -2,9 +2,8 @@
 {% load static %}
 
 {% block title_block %}
-Search
+Catalogue
 {% endblock %}
-
 
 {% block body_block %}
 
@@ -29,6 +28,8 @@ Search
 
 
     <div class="row g-3 mt-2">
+
+        <!-- Show the books in the results, limits to 10 -->
         {% for book in results %}
         <div class="col-12 col-md-6">
             <div class="dark_card p-3 d-flex align-items-center">
@@ -48,11 +49,18 @@ Search
                         <button class="btn button_two added" disabled>Reading</button>
                         {% else %}
                         <button class="btn button_two {% if book.is_in_wishlist %}wishlisted{% endif%}" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {% if book.is_in_wishlist %}Wishlisted 
-                            {% else %}Add{% endif %}
+                            
+                            <!-- for interaction when book is in wishlist -->
+                            {% if book.is_in_wishlist %}
+                            Wishlisted 
+                            {% else %}
+                            Add
+                            {% endif %}
+
                         </button>
                         {% endif %}
 
+                        <!-- the dropdown menus -->
                         <ul class="dropdown-menu">
                             <li>
                                 <form method="post" action="{% url 'readquest:add-to-reading' %}"
@@ -89,5 +97,6 @@ Search
         {% empty %}
         {% if query %}<p>No results found.</p>{% endif %}
         {% endfor %}
+        
 </section>
 {% endblock %}

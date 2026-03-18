@@ -15,6 +15,7 @@ from django.utils import timezone
 
 
 # Create your views here.
+
 def land_register(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST)
@@ -102,6 +103,7 @@ def home(request):
 
     return render(request, 'readquest/home.html', context=context_dict)
 
+# The books that a user has read and had on their wishlist
 @login_required
 def book_list(request):
     context_dict = {}
@@ -115,9 +117,11 @@ def profile(request):
     context_dict['read_books'] = ReadRecord.objects.filter(user=request.user).select_related('book')
     context_dict['current_read'] = Book.objects.filter(currently_reading=request.user)
     context_dict['wishlisted'] = Book.objects.filter(wishlisted_by=request.user)
-    context_dict['badges'] = Achievement.objects.filter(earners=request.user)
     context_dict['goals'] = current_goals(request.user)
     context_dict['progress_records'] = current_book_progress(request.user)
+
+    # Badges
+    context_dict['badges'] = Achievement.objects.filter(earners=request.user)
     context_dict['badge_read_10'] = ReadRecord.objects.filter(user=request.user).count() >= 10
     context_dict['badge_first_goal'] = Goal.objects.filter(completed_by=request.user).exists()
     context_dict['badge_harry_potter'] = ReadRecord.objects.filter(user=request.user, book__title__icontains='Harry Potter').exists()
@@ -125,21 +129,27 @@ def profile(request):
 
     return render(request, 'readquest/profile.html', context=context_dict)
 
+# When user finishes a book
 @login_required
 def finish_book(request, book_id):
     if request.method == 'POST':
+
+        # get the book id and remove it from current read
         try:
             book = Book.objects.get(id=book_id)
             book.currently_reading.remove(request.user)
-            rating = request.POST.get('rating')
+
+            rating = request.POST.get('rating') #user can add a rating
             try:
                 rating = int(rating) if rating else None
                 if rating and not (1 <= rating <= 5):
                     rating = None
             except (ValueError, TypeError):
                 rating = None
+
+            # log book as finished with the timestamp and rating
             ReadRecord.objects.create(user=request.user, book=book, date_read=timezone.now(), rating=rating)
-            _check_and_complete_goals(request.user)
+            _check_and_complete_goals(request.user) #check if finished book completes a goal
         except Book.DoesNotExist:
             pass
     return redirect(reverse('readquest:profile'))
@@ -147,6 +157,7 @@ def finish_book(request, book_id):
 @login_required
 def add_to_currently_reading(request):
     if request.method == 'POST':
+        # get book details
         ol_key = request.POST.get('ol_key', '').strip()
         title = request.POST.get('title', 'Unknown Title').strip()
         author = request.POST.get('author', 'Unknown Author').strip()
@@ -158,6 +169,7 @@ def add_to_currently_reading(request):
         except (ValueError, TypeError):
             pages = 0
 
+        # get book if exists, of not create one
         book, _ = Book.objects.get_or_create(
             ol_key=ol_key,
             defaults={
@@ -167,6 +179,8 @@ def add_to_currently_reading(request):
                 'cover_url': cover_url or None,
             }
         )
+        
+        # add to current read or wishlist
         book.currently_reading.add(request.user)
         book.wishlisted_by.remove(request.user)
 
@@ -178,6 +192,7 @@ def add_to_currently_reading(request):
 @login_required
 def add_to_wishlist(request):
     if request.method == 'POST':
+        # get book details
         ol_key = request.POST.get('ol_key', '').strip()
         title = request.POST.get('title', 'Unknown Title').strip()
         author = request.POST.get('author', 'Unknown Author').strip()
@@ -189,6 +204,7 @@ def add_to_wishlist(request):
         except (ValueError, TypeError):
             pages = 0
 
+        # get book if exists, of not create one
         book, _ = Book.objects.get_or_create(
             ol_key=ol_key,
             defaults={
@@ -198,6 +214,8 @@ def add_to_wishlist(request):
                 'cover_url': cover_url or None,
             }
         )
+
+        # add to or wishlist
         book.wishlisted_by.add(request.user)
 
 
@@ -211,12 +229,13 @@ def goals(request):
     context_dict = {'progress_record': ProgressRecord.objects.filter(owner=request.user)}
     context_dict['goals'] = current_goals(request.user)
     context_dict['completed_goals'] = completed_goals(request.user)
+
+    # Badges
     context_dict['badge_read_10'] = ReadRecord.objects.filter(user=request.user).count() >= 10
     context_dict['badge_first_goal'] = Goal.objects.filter(completed_by=request.user).exists()
     context_dict['badge_harry_potter'] = ReadRecord.objects.filter(user=request.user, book__title__icontains='Harry Potter').exists()
     context_dict['badge_wishlist'] = Book.objects.filter(wishlisted_by=request.user).count() >= 5
     return render(request,'readquest/goals.html', context=context_dict)
-
 
 def current_goals(user):
     goals = Goal.objects.filter(current_goals=user)
@@ -232,7 +251,6 @@ def current_goals(user):
 
     return goals
 
-
 def completed_goals(user):
     goals = Goal.objects.filter(completed_by=user).order_by('-completed_at')
 
@@ -244,7 +262,6 @@ def completed_goals(user):
         goal.books_read = books_read_count
 
     return goals
-
 
 def _check_and_complete_goals(user):
     """After finishing a book, archive any goals that have reached their target."""
@@ -349,6 +366,7 @@ def catalogue(request):
     query = request.GET.get("q", "").strip()
     results = []
     
+    # results from search
     if query:
         try: 
             results = search_books(query)
@@ -359,10 +377,10 @@ def catalogue(request):
             for book in results:
                 book['is_in_reading'] = book['ol_key'] in user_books_in_reading
                 book['is_in_wishlist'] = book['ol_key'] in user_books_in_wishlist
+
         except Exception as e:
             messages.error(request, "Please try again")
     return render(request, "readquest/catalogue_book-search.html", {"results": results, "query": query})
-
 
 @login_required
 def update_progress(request, book_id):
@@ -391,7 +409,6 @@ def update_progress(request, book_id):
             )
 
     return redirect('readquest:profile')
-
 
 def current_book_progress(user):
     # get progress for the user

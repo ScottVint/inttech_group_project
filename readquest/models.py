@@ -5,12 +5,14 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
+# User model
 class Userpage(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.owner.get_username()
 
+# For our badges 
 class Achievement(models.Model):
     MAX_NAME_LENGTH = 128
 
@@ -21,6 +23,7 @@ class Achievement(models.Model):
     def __str__(self):
         return self.name
 
+# Book details 
 class Book(models.Model):
     MAX_TITLE_LENGTH = 128
     MAX_AUTHOR_LENGTH = 128
@@ -33,7 +36,7 @@ class Book(models.Model):
     cover_image = models.ImageField(null=True, blank=True)
     cover_url = models.URLField(null=True, blank=True)
     wishlisted_by = models.ManyToManyField(User, related_name='wishlisted_by')
-    read_by = models.ManyToManyField(User, through='ReadRecord', related_name='read_by')     # so we can see other users on home page
+    read_by = models.ManyToManyField(User, through='ReadRecord', related_name='read_by')     # so users can see other users on home page
     currently_reading = models.ManyToManyField(User, related_name='currently_reading')
 
     def save(self, *args,**kwargs):
@@ -43,6 +46,7 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+# Tracking book progress of reading
 class ProgressRecord(models.Model):
     MAX_NAME_LENGTH = 128
 
@@ -54,7 +58,8 @@ class ProgressRecord(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+# Tracking user records for goals and lists
 class ReadRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -63,6 +68,7 @@ class ReadRecord(models.Model):
     date_read = models.DateTimeField(null=True, blank=True)
     rating = models.IntegerField(null=True, blank=True)
 
+# Storing a review for a book
 class Review(models.Model):
     text = models.TextField()
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -70,6 +76,7 @@ class Review(models.Model):
     def __str__(self):
         return f"Review of book {self.book}"
 
+# Storing a goal
 class Goal(models.Model):
 
     title_goal = models.CharField(max_length=200, default=0)

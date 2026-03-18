@@ -1,3 +1,5 @@
+//  Cookies functionality
+ 
  (function () {
             function getCookie(name) {
                 const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));

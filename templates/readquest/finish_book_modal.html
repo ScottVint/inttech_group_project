@@ -1,4 +1,6 @@
-<div class="modal fade" id="finishBookModal{{ book.id }}" tabindex="-1" aria-hidden="true">
+
+<!-- Reviews model -->
+<section class="modal fade" id="finishBookModal{{ book.id }}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content base_cards border-0">
             <div class="modal-header border-0 pb-0">
@@ -6,8 +8,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center pt-2">
-                <p class="mb-3" style="color:#4b1319;">How would you rate this book?</p>
+                <p class="mb-3">How would you rate this book?</p>
 
+                <!-- Add star rating -->
                 <div class="star-rating mb-4" id="starRating{{ book.id }}">
                     <i class="bi bi-star star-icon" data-value="1" onclick="selectStar(this, '{{ book.id }}')"></i>
                     <i class="bi bi-star star-icon" data-value="2" onclick="selectStar(this, '{{ book.id }}')"></i>
@@ -27,19 +30,4 @@
             </div>
         </div>
     </div>
-</div>
-
-{% if forloop.first %}
-<script>
-function selectStar(star, bookId) {
-    var val = parseInt(star.getAttribute('data-value'));
-    var container = star.parentElement;
-    container.querySelectorAll('.star-icon').forEach(function(s) {
-        var sv = parseInt(s.getAttribute('data-value'));
-        s.classList.toggle('bi-star-fill', sv <= val);
-        s.classList.toggle('bi-star', sv > val);
-    });
-    document.getElementById('ratingInput' + bookId).value = val;
-}
-</script>
-{% endif %}
+</section>

@@ -1,3 +1,6 @@
+
+// Button interactivty on the catalogue page
+
 $(document).ready(function () {
     $(".dropdown-menu").on("submit", ".add-to-reading, .add-to-wishlist", function(e) {
         e.preventDefault();

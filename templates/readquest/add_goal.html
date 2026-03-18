@@ -6,9 +6,9 @@
                 <h3 class="modal-title" id="addGoalModalLabel">Add a new goal</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
+
             <div class="modal-body">
-
-
 
                 <!-- GoalForm -->
                 <div class="tab-pane fade show active" id="manualTab" role="tabpanel">
@@ -17,10 +17,12 @@
                         <!-- makes the user stay on the same page after clicking submit -->
                         <input type="hidden" name="next" value="{{ request.path }}">
 
+                        <!-- Form for adding a goal -->
                         <div class="row g-3">
                             <div class="col-12">
                                 <label class="form-label">Title of goal <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="title_goal" required maxlength="128" placeholder="Title of goal">
+                                <input type="text" class="form-control" name="title_goal" required maxlength="128"
+                                    placeholder="Title of goal">
                             </div>
                             <div class="col-6">
                                 <label class="form-label">Amount of books <span class="text-danger">*</span></label>
@@ -28,15 +30,16 @@
                             </div>
                             <input type="hidden" name="blurb" value="This is a user has submitted a new goal.">
                         </div>
+
+                        <!-- submit button to add new goal -->
                         <div class="d-flex justify-content-end gap-2 mt-3">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             <button type="submit" class="button btn">Add as new goal</button>
                         </div>
                     </form>
                 </div>
-
-
             </div>
+            
         </div>
 
     </div>

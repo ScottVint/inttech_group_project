@@ -16,14 +16,12 @@
                 <!-- Tabs -->
                 <ul class="nav nav-tabs mb-3" id="addBookTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="manual-tab" data-bs-toggle="tab" data-bs-target="#manualTab"
-                            type="button" role="tab">
+                        <button class="nav-link active" id="manual-tab" data-bs-toggle="tab" data-bs-target="#manualTab" type="button" role="tab">
                             Manual upload
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link book_modal_tab" id="search-tab" data-bs-toggle="tab"
-                            data-bs-target="#searchTab" type="button" role="tab">
+                        <button class="nav-link book_modal_tab" id="search-tab" data-bs-toggle="tab" data-bs-target="#searchTab" type="button" role="tab">
                             Search
                         </button>
                     </li>
@@ -39,6 +37,7 @@
                             <!-- makes the user stay on the same page after clicking submit -->
                             <input type="hidden" name="next" value="{{ request.path }}">
 
+                            <!-- Adding book manually form -->
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label class="form-label">Title <span class="text-danger">*</span></label>
@@ -73,7 +72,7 @@
                         </form>
                     </div>
 
-                    <!-- Search Tab -->
+                    <!-- Search Tab for book API search-->
                     <div class="tab-pane fade" id="searchTab" role="tabpanel">
                         <form action="{% url 'readquest:catalogue_book-search' %}" method="get">
                             <label for="modalBookSearch" class="form-label">Book title</label>

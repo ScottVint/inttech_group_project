@@ -21,26 +21,33 @@ Home
                 </div>
 
                 <div>
+                    <!-- Loading in all the other users activity -->
                     {% for activity in user_activity %}
                     <div class="dark_card p-3 mb-3 row d-flex">
 
+                        <!-- book cover -->
                         <div class="col-md-3 col-5">
                             {% if activity.book.cover_url %}
-                            <img src="{{ activity.book.cover_url }}" alt="{{ activity.book.title }}" loading="lazy" class="me-3 book_cover_home mb-0">
+                            <img src="{{ activity.book.cover_url }}" alt="{{ activity.book.title }}" loading="lazy"
+                                class="me-3 book_cover_home mb-0">
                             {% else %}
                             <div class="me-3 book_cover_home"></div>
                             {% endif %}
                         </div>
+
+                        <!-- text elements -->
                         <div class="col-md-4 col-5">
                             <p class="mb-0"><strong>{{ activity.user.username }}</strong> finished <br></p>
-                                <h3 class="mt-1">{{ activity.book.title }}</strong></h3>
-                            
+                            <h3 class="mt-1">{{ activity.book.title }}</strong></h3>
+
                             <small class="text-muted">{{ activity.date_read|timesince }} ago</small>
                         </div>
 
+                        <!-- like button -->
                         <div class="col like_button_box">
                             <i class="bi bi-hand-thumbs-up like_button"></i>
                         </div>
+
                     </div>
                     {% empty %}
                     <p class="text-muted">No activity from other users yet.</p>
@@ -63,6 +70,7 @@ Home
                         <!-- Inner Darker Card -->
                         <div class="dark_card p-4 d-flex align-items-top mb-3">
 
+                            <!-- book covers -->
                             <div class="home_current_read me-3 col-md-4 col-6 overflow-hidden">
                                 {% if book.cover_url %}
                                 <img src="{{ book.cover_url }}" alt="Book cover for {{ book.title }}"
@@ -73,6 +81,7 @@ Home
                                 {% endif %}
                             </div>
 
+                            <!-- text book details -->
                             <div class="flex-grow-1">
                                 <h3 class="mb-1">{{ book.title }}</h3>
                                 <p class="mb-3">{{ book.author }} &nbsp;·&nbsp; <br> {{ book.pages|default:'?' }} pages
@@ -93,8 +102,6 @@ Home
                                 {% endif %}
                                 {% endfor %}
 
-
-
                             </div>
 
                         </div>
@@ -102,9 +109,6 @@ Home
                         <p class="text-muted">No books added yet. Go to your profile and add new book to get started.
                         </p>
                         {% endfor %}
-
-
-
 
                     </div>
 
@@ -126,15 +130,18 @@ Home
                     <div class="dark_card p-4 d-flex align-items-end mt-3 g-3">
                         <div class="col-12">
                             <h3 class="mb-1">{{ goal.title_goal }}</h3>
-                            <p class="mb-3">{{ goal.books }} books to read</p>
+                            <p class="mb-3 text-muted">{{ goal.books }} books to read</p>
 
                             <!-- Progress bar -->
-                            <div class="progress mb-3" style="height: 28px;">
+                            <div class="progress mb-3">
                                 <div class="progress-bar" role="progressbar" style="width: {{ goal.progress }}%;"
-                                    aria-valuenow="{{ goal.progress}}" aria-valuemin="0" aria-valuemax="100">
-                                    {{ goal.books_read }} / {{ goal.books }}
+                                    aria-valuenow="{{ goal.progress }}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ goal.progress|floatformat:0 }}%
                                 </div>
                             </div>
+                              <p class="mb-0 orange_text">
+                                Started {{ goal.created_at|date:"d M Y" }}
+                            </p>
                         </div>
                     </div>
                     {% empty %}
