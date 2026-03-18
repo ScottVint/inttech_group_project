@@ -19,8 +19,6 @@ $(document).ready(function () {
                 $("#response").text(response.message);
                 button.prop("disabled", true);
                 button.html('Reading')
-                button.removeAttr('data-bs-toggle')
-                button.removeAttr('aria-expanded')
                 button.addClass("added")
 
             } else {
@@ -47,11 +45,8 @@ $(document).ready(function () {
         {
             if (response.success) {
                 $("#response").text(response.message);
-                button.prop("disabled", true);
                 button.html('Wishlisted')
-                button.removeAttr('data-bs-toggle')
-                button.removeAttr('aria-expanded')
-                button.addClass("added")
+                button.addClass("wishlisted")
 
             } else {
                 console.log(response.errors);

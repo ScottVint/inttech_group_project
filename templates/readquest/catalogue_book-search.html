@@ -46,11 +46,10 @@ Search
                     <div class="dropdown">
                         {% if book.is_in_reading %}
                         <button class="btn button_two added" disabled>Reading</button>
-                        {% elif book.is_in_wishlist%}
-                        <button class="btn button_two added" disabled>Wishlisted</button>
                         {% else %}
-                        <button class="btn button_two" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Add
+                        <button class="btn button_two {% if book.is_in_wishlist %}wishlisted{% endif%}" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% if book.is_in_wishlist %}Wishlisted 
+                            {% else %}Add{% endif %}
                         </button>
                         {% endif %}
 
@@ -67,6 +66,7 @@ Search
                                     <button class="dropdown-item" type="submit">Add to current read</button>
                                 </form>
                             </li>
+                            {% if not book.is_in_wishlist %}
                             <li>
                                 <form method="post" action="{% url 'readquest:add-to-wishlist' %}"
                                     class="add-to-wishlist">
@@ -79,6 +79,7 @@ Search
                                     <button class="dropdown-item" type="submit">Add to wishlist</button>
                                 </form>
                             </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>

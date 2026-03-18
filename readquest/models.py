@@ -26,6 +26,7 @@ class Book(models.Model):
     MAX_AUTHOR_LENGTH = 128
 
     isbn = models.IntegerField(unique=True, null=True, blank=True)
+    ol_key = models.CharField(max_length=64, unique=True, null=True, blank=True)
     title = models.CharField(max_length=MAX_TITLE_LENGTH)
     author = models.CharField(max_length=MAX_AUTHOR_LENGTH)
     pages = models.IntegerField(default=0)

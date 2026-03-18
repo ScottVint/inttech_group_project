@@ -49,10 +49,17 @@
     transform: none !important;
 }
 
-.button_two:disabled {
+.button_two.added {
     background-color: #4b1319;
     color: white;
 }
+
+.button_two.wishlisted {
+    background-color: #66171f;
+    color: white;
+}
+
+
 
 h1 {
     font-family: "Fraunces", sans-serif;
