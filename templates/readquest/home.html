@@ -30,6 +30,9 @@ Home
                             {% if activity.book.cover_url %}
                             <img src="{{ activity.book.cover_url }}" alt="{{ activity.book.title }}" loading="lazy"
                                 class="me-3 book_cover_home mb-0">
+                            {% elif activity.book.cover_image %}
+                            <img src="{{ activity.book.cover_image.url }}" loading="lazy"
+                                alt="Book cover of {{ record.book.title }}" class="me-3 book_cover_home mb-0">
                             {% else %}
                             <div class="me-3 book_cover_home"></div>
                             {% endif %}
@@ -41,16 +44,22 @@ Home
                             <h3 class="mt-1">{{ activity.book.title }}</strong></h3>
 
                             <small class="text-muted">{{ activity.date_read|timesince }} ago</small>
-                              {% if activity.rating %}
-                        <div class="orange_text">
-                            {% for i in "12345" %}
-                                {% if forloop.counter <= rating %}<i class="bi bi-star-fill"></i>{% else %}<i class="bi bi-star"></i>{% endif %}
-                            {% endfor %}
+
+                            <!-- The rating that book got from the user -->
+                            {% if activity.rating %}
+                            <div class="orange_text">
+                                {% for i in "12345" %}
+                                {% if forloop.counter <= activity.rating %} <i class="bi bi-star-fill"></i>
+                                    {% else %}
+                                    <i class="bi bi-star"></i>
+                                    {% endif %}
+                                    {% endfor %}
+                            </div>
+                            {% endif %}
+
                         </div>
-                        {% endif %}
-                        </div>
-                        
-                      
+
+
 
                         <!-- like button -->
                         <div class="col like_button_box">
@@ -148,7 +157,7 @@ Home
                                     {{ goal.progress|floatformat:0 }}%
                                 </div>
                             </div>
-                              <p class="mb-0 orange_text">
+                            <p class="mb-0 orange_text">
                                 Started {{ goal.created_at|date:"d M Y" }}
                             </p>
                         </div>
