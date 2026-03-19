@@ -41,7 +41,16 @@ Home
                             <h3 class="mt-1">{{ activity.book.title }}</strong></h3>
 
                             <small class="text-muted">{{ activity.date_read|timesince }} ago</small>
+                              {% if activity.rating %}
+                        <div class="orange_text">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= rating %}<i class="bi bi-star-fill"></i>{% else %}<i class="bi bi-star"></i>{% endif %}
+                            {% endfor %}
                         </div>
+                        {% endif %}
+                        </div>
+                        
+                      
 
                         <!-- like button -->
                         <div class="col like_button_box">
