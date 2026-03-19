@@ -15,8 +15,13 @@ class Achievement(models.Model):
     MAX_NAME_LENGTH = 128
 
     name = models.CharField(max_length=MAX_NAME_LENGTH, unique=True)
-    icon = models.ImageField() # TODO Set upload_to= directionary
+    icon = models.ImageField(blank=True) # TODO Set upload_to= directionary
     earners = models.ManyToManyField(User)
+
+    def save(self, *args, **kwargs):
+        self.full_clean(exclude=['earners'])
+        super(Achievement, self).save(*args, **kwargs) 
+        
 
     def __str__(self):
         return self.name
@@ -37,7 +42,8 @@ class Book(models.Model):
     currently_reading = models.ManyToManyField(User, related_name='currently_reading')
 
     def save(self, *args,**kwargs):
-            self.validate_unique()
+            self.full_clean(exclude=['cover_image', 'cover_url'])
+            self.validate_unique(exclude=['wishlisted_by', 'read_by', 'currently_reading'])
             super(Book ,self).save(*args, **kwargs) 
     
     def __str__(self):
@@ -51,6 +57,10 @@ class ProgressRecord(models.Model):
     stage_final = models.IntegerField()
     stage_current = models.IntegerField()
     book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(ProgressRecord, self).save(*args, **kwargs) 
 
     def __str__(self):
         return self.name
@@ -80,5 +90,9 @@ class Goal(models.Model):
     # Track time on goals
     created_at = models.DateTimeField(default=timezone.now)
     completed_at = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.full_clean(exclude=['current_goals', 'completed_by'])
+        super(Goal, self).save(*args, **kwargs) 
 
 
