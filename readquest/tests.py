@@ -6,7 +6,6 @@ from datetime import datetime
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from .models import *
-import re
 
 class ModelTests(TestCase):
 
@@ -109,23 +108,23 @@ class ModelTests(TestCase):
 class LogoutViewTests(TestCase):
     def setUp(self):
         self.user = User.objects.create(username='bobert', password='coolestpassword')
-        self.book1 = Book.objects.create(title="Cooking 301", author="Oranje Djuss")
-        self.book2 = Book.objects.create(title="Harry Potter and the Great Pile of Ash", author="JK!")
-        self.book3 = Book.objects.create(title="Loreum Ipsum", author="Steve Jobs")
         self.client = Client()
 
     def test_home_forbidden(self):
         response = self.client.get(reverse('readquest:home'))
-        url = re.search('', response.text)
         self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/readquest/login/?next=/readquest/home/')
 
     def test_profile_forbidden(self):
         response = self.client.get(reverse('readquest:profile'))
         self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/readquest/login/?next=/readquest/profile/')
     
     def test_catalogue_forbidden(self):
         response = self.client.get(reverse('readquest:catalogue_book-search'))
         self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/readquest/login/?next=/readquest/catalogue/')
+        
     
     def test_login_not_forbidden(self):
         response = self.client.get(reverse('readquest:index'))
@@ -174,7 +173,46 @@ class LogoutViewTests(TestCase):
             'remember_me' : 'off',
         })
         self.assertEqual(response.status_code, 302)
-        # self.assertRedirects(response, reverse('readquest:home'))
-        self.assertTrue()
+        self.assertRedirects(response, '/readquest/login/?next=/readquest/home/')
+
+    def test_remember_me(self):
+        user = User.objects.create_user(
+            username='billybob',
+            password='stephaen'
+        )
+        response = self.client.post(reverse('readquest:home'), {
+            'username' : 'billybob',
+            'password' : 'stephaen',
+            'remember_me' : 'on',
+        })
+
+        self.assertEqual(self.client.session.get_expiry_age(), 1209600)
+
+class LoggedInTests(TestCase):
+    def setUp(self):
+        self.user = self.user = User.objects.create(username='bobert', password='coolestpassword')
+        self.client.force_login(self.user)
+        self.book1 = Book.objects.create(title="Cooking 301", author="Oranje Djuss")
+        self.book2 = Book.objects.create(title="Harry Potter and the Great Pile of Ash", author="JK!")
+        self.book3 = Book.objects.create(title="Loreum Ipsum", author="Steve Jobs")
+
+        ReadRecord.objects.create(user=self.user, book=self.book1)
+        self.book2.wishlisted_by.set([self.user])
+        self.book3.currently_reading.set([self.user])
+
+    def test_profile_dict(self):
+        response = self.client.get(reverse('readquest:profile'))
+        read_books = response.context['read_books']
+        wishlisted = response.context['wishlisted']
+        currently_reading = response.context['current_read']
+
+        self.assertTrue(read_books.filter(book=self.book1).exists())
+        self.assertIn(self.book2, response.context['wishlisted'])
+        self.assertIn(self.book3, response.context['current_read'])
+
+    
+
+
+    
         
 

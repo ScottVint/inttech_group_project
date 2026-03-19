@@ -51,6 +51,7 @@ def land_register(request):
     return render(request, 'readquest/register.html', {'user_form': user_form})
 
 def user_login(request):
+    EXPIRY_TIME = 1209600   # 2 weeks in seconds
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         username = request.POST['username']
@@ -62,7 +63,7 @@ def user_login(request):
             if user.is_active:
                 login(request, user)
                 if remember_me:
-                    request.session.set_expiry(1209600)  # 2 weeks in seconds
+                    request.session.set_expiry(EXPIRY_TIME)
                 else:
                     request.session.set_expiry(0)  # expires when browser closes
                 return redirect(reverse('readquest:home'))
